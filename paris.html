@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paris — City & Light</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#d2af5a;--gold-light:#e2bf6a;--gold-dim:rgba(210,175,90,0.2);--bg:#080808;--bg2:#0b0b09;--text:#f0e8d8;--text2:#ede5d5;--muted:#5a5040;--muted2:#3a3020;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text2);}
+a{text-decoration:none;color:inherit;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:rgba(8,8,8,0.96);border-bottom:0.5px solid var(--gold-dim);backdrop-filter:blur(10px);}
+.nav-brand{display:flex;flex-direction:column;gap:1px;}
+.nav-main{font-family:'Playfair Display',serif;font-size:16px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;}
+.nav-sub{font-size:7px;letter-spacing:3px;color:var(--muted2);text-transform:uppercase;}
+.nav-links{display:flex;gap:28px;}
+.nav-links a{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);transition:color .3s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-right{display:flex;gap:10px;}
+.btn-ghost{font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border:0.5px solid var(--gold-dim);color:var(--gold);background:transparent;cursor:pointer;font-family:'Montserrat',sans-serif;}
+.btn-gold{font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border:none;color:var(--bg);background:var(--gold);cursor:pointer;font-family:'Montserrat',sans-serif;}
+
+.page-header{padding:100px 40px 32px;border-bottom:0.5px solid rgba(210,175,90,0.1);}
+.breadcrumb{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:12px;}
+.breadcrumb a{color:var(--gold);}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,48px);color:var(--text);font-weight:400;}
+.page-title em{font-style:italic;color:var(--gold);}
+.page-sub{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;font-style:italic;color:var(--muted);margin-top:6px;}
+
+/* HERO STRIP */
+.hero-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:20px 40px;height:250px;}
+.h-photo{position:relative;overflow:hidden;border:0.5px solid rgba(210,175,90,0.1);cursor:pointer;transition:border-color .3s;}
+.h-photo:hover{border-color:rgba(210,175,90,0.45);}
+.h-photo:first-child{grid-column:span 2;}
+.h-photo img{width:100%;height:100%;object-fit:cover;transition:transform .6s;}
+.h-photo:hover img{transform:scale(1.04);}
+.h-photo-veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,0.85) 0%,transparent 60%);}
+.h-photo-label{position:absolute;bottom:0;left:0;right:0;padding:12px 14px;}
+.h-city{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:2px;}
+.h-name{font-family:'Playfair Display',serif;font-size:14px;color:var(--text);font-style:italic;}
+
+/* BOUTIQUES LIST */
+.boutiques-section{padding:36px 40px;}
+.sec-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;}
+.sec-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--text);}
+.sec-title em{font-style:italic;color:var(--gold);}
+.boutiques-list{display:flex;flex-direction:column;gap:20px;}
+
+.boutique{border:0.5px solid rgba(210,175,90,0.12);overflow:hidden;display:grid;grid-template-columns:1.4fr 1fr;transition:border-color .3s;}
+.boutique:hover{border-color:rgba(210,175,90,0.3);}
+.b-gallery{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:200px 100px;gap:3px;}
+.b-photo{background-size:cover;background-position:center;cursor:pointer;transition:opacity .3s;}
+.b-photo:hover{opacity:.88;}
+.b-photo.main{grid-column:1/-1;}
+.b-info{padding:24px;background:var(--bg2);display:flex;flex-direction:column;}
+.b-badge{font-size:7px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.b-name{font-family:'Playfair Display',serif;font-size:22px;color:var(--text);margin-bottom:3px;}
+.b-loc{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--muted);font-style:italic;margin-bottom:14px;}
+.b-desc{font-size:10px;color:var(--muted);line-height:1.7;margin-bottom:14px;flex:1;}
+.b-divider{height:0.5px;background:rgba(255,255,255,0.05);margin:10px 0;}
+.b-row{display:flex;gap:10px;padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,0.03);}
+.b-key{color:var(--muted2);min-width:75px;font-size:7px;letter-spacing:1.5px;text-transform:uppercase;padding-top:1px;}
+.b-val{color:#b8ac98;flex:1;font-size:10px;}
+.b-val a{color:var(--gold);}
+.b-btns{display:flex;gap:8px;margin-top:16px;}
+.b-btn-g{flex:1;padding:10px;background:var(--gold);border:none;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--bg);cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .2s;}
+.b-btn-g:hover{background:var(--gold-light);}
+.b-btn-o{flex:1;padding:10px;background:transparent;border:0.5px solid rgba(210,175,90,0.3);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);cursor:pointer;font-family:'Montserrat',sans-serif;}
+
+/* CTA */
+.cta-section{margin:0 40px 40px;padding:28px 32px;border:0.5px solid rgba(210,175,90,0.12);background:rgba(210,175,90,0.02);display:flex;justify-content:space-between;align-items:center;}
+.cta-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--text);}
+.cta-title em{font-style:italic;color:var(--gold);}
+.cta-sub{font-size:9px;color:var(--muted2);margin-top:4px;}
+.cta-btn{padding:12px 26px;background:var(--gold);border:none;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--bg);cursor:pointer;font-family:'Montserrat',sans-serif;white-space:nowrap;}
+
+footer{border-top:0.5px solid rgba(210,175,90,0.1);padding:24px 40px;display:flex;justify-content:space-between;align-items:center;}
+.footer-brand{font-family:'Playfair Display',serif;font-size:12px;letter-spacing:3px;color:var(--muted2);text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <div class="nav-main">City &amp; Light</div>
+    <div class="nav-sub">World Boutique Explorer</div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Accueil</a>
+    <a href="villes.html">Toutes les villes</a>
+    <a href="#">Catégories</a>
+    <a href="#">Iconiques</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-ghost">Se connecter</button>
+    <button class="btn-gold">Ma boutique</button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="breadcrumb"><a href="index.html">City & Light</a> › <a href="villes.html">Villes</a> › <span style="color:var(--gold)">Paris</span></div>
+  <h1 class="page-title"><em>Paris</em></h1>
+  <p class="page-sub">Avenue Montaigne · Place Vendôme · Saint-Germain · Marais · Champs-Élysées</p>
+</div>
+
+<div class="hero-strip">
+  <div class="h-photo"><img src="https://static.wixstatic.com/media/631e74_6212fb2a514d42c5b9222ee482cc1f5b~mv2.jpg" alt="Guerlain"><div class="h-photo-veil"></div><div class="h-photo-label"><div class="h-city">Champs-Élysées</div><div class="h-name">Guerlain</div></div></div>
+  <div class="h-photo"><img src="https://static.wixstatic.com/media/631e74_a0f529f3d56f4d108261bd78b2f214dd~mv2.jpg" alt="Louis Vuitton"><div class="h-photo-veil"></div><div class="h-photo-label"><div class="h-city">Paris</div><div class="h-name">Louis Vuitton</div></div></div>
+  <div class="h-photo"><img src="https://static.wixstatic.com/media/631e74_78f9d28f6f59492d84e0c98cc1b637a6~mv2.jpg" alt="Dior"><div class="h-photo-veil"></div><div class="h-photo-label"><div class="h-city">Avenue Montaigne</div><div class="h-name">Dior</div></div></div>
+  <div class="h-photo"><img src="https://static.wixstatic.com/media/631e74_7d7977d392c84345a03e634835c3d4cf~mv2.jpg" alt="A la mère de famille"><div class="h-photo-veil"></div><div class="h-photo-label"><div class="h-city">Paris</div><div class="h-name">À la mère de famille</div></div></div>
+</div>
+
+<div class="boutiques-section">
+  <div class="sec-header">
+    <h2 class="sec-title">7 boutiques à <em>Paris</em></h2>
+  </div>
+  <div class="boutiques-list" id="boutiquesList"></div>
+</div>
+
+<div class="cta-section">
+  <div>
+    <div class="cta-title">Vous avez une boutique à <em>Paris</em> ?</div>
+    <div class="cta-sub">Rejoignez la sélection City & Light — World Boutique Explorer</div>
+  </div>
+  <button class="cta-btn">Inscrire ma boutique</button>
+</div>
+
+<footer>
+  <div class="footer-brand">City & Light — World Boutique Explorer</div>
+  <a href="villes.html" style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);">← Toutes les villes</a>
+</footer>
+
+<script>
+const parisBoutiques = [
+  {
+    name:"Guerlain Paris Flagship Store",
+    badge:"Parfumerie · Cosmétiques · Paris 8e",
+    loc:"68 avenue des Champs-Élysées, 75008 Paris",
+    desc:"La maison Guerlain, fondée en 1828, incarne l'excellence de la parfumerie française depuis près de deux siècles. Son flagship des Champs-Élysées est un palais de la beauté à couper le souffle.",
+    address:"68 avenue des Champs-Élysées, 75008 Paris",
+    website:"https://www.guerlain.com",
+    category:"Parfumerie · Cosmétiques",
+    photos:[
+      "https://static.wixstatic.com/media/631e74_6212fb2a514d42c5b9222ee482cc1f5b~mv2.jpg",
+      "https://static.wixstatic.com/media/631e74_32a928b33ec54d69b974b527c112bf4f~mv2.jpg",
+      "https://static.wixstatic.com/media/631e74_fb37e4169ddd48beafb030891c4726cb~mv2.jpg",
+    ]
+  },
+  {
+    name:"Louis Vuitton Paris Flagship Store",
+    badge:"Maroquinerie · Mode · Paris",
+    loc:"101 avenue des Champs-Élysées, 75008 Paris",
+    desc:"Le flagship Louis Vuitton des Champs-Élysées est l'une des boutiques les plus visitées au monde. Maroquinerie d'exception, prêt-à-porter et accessoires de luxe dans un écrin architectural spectaculaire.",
+    address:"101 avenue des Champs-Élysées, 75008 Paris",
+    website:"https://www.louisvuitton.com",
+    category:"Maroquinerie · Mode · Luxe",
+    photos:[
+      "https://static.wixstatic.com/media/631e74_a0f529f3d56f4d108261bd78b2f214dd~mv2.jpg",
+      "https://static.wixstatic.com/media/631e74_8a980a3a4a8447b39def90866389fbf8~mv2.jpg",
+    ]
+  },
+  {
+    name:"Dior Paris Flagship Store",
+    badge:"Haute Couture · Paris 8e",
+    loc:"30 avenue Montaigne, 75008 Paris",
+    desc:"La maison Dior, fondée en 1946 par Christian Dior, a établi son adresse mythique au 30 avenue Montaigne. Flagship incontournable de la haute couture parisienne.",
+    address:"30 avenue Montaigne, 75008 Paris",
+    website:"https://www.dior.com",
+    category:"Haute Couture · Luxe",
+    photos:[
+      "https://static.wixstatic.com/media/631e74_78f9d28f6f59492d84e0c98cc1b637a6~mv2.jpg",
+      "https://static.wixstatic.com/media/631e74_08faadd3ff124c14971eb6a5a00c661a~mv2.jpg",
+    ]
+  },
+  {
+    name:"À la mère de famille",
+    badge:"Confiserie · Épicerie Fine · Paris",
+    loc:"35 rue du Faubourg-Montmartre, 75009 Paris",
+    desc:"Fondée en 1761, À la mère de famille est la plus ancienne confiserie de Paris. Sa façade colorée et son intérieur chaleureux en font l'une des boutiques les plus iconiques et originales de la capitale.",
+    address:"35 rue du Faubourg-Montmartre, 75009 Paris",
+    website:"https://www.lameredefamille.com",
+    category:"Confiserie · Épicerie Fine",
+    photos:[
+      "https://static.wixstatic.com/media/631e74_7d7977d392c84345a03e634835c3d4cf~mv2.jpg",
+      "https://static.wixstatic.com/media/631e74_9d0ddbb091aa48e79474f52a794f8db6~mv2.jpg",
+    ]
+  },
+  {
+    name:"Lancôme",
+    badge:"Beauté · Cosmétiques · Paris",
+    loc:"52 avenue des Champs-Élysées, 75008 Paris",
+    desc:"La maison Lancôme, fondée à Paris en 1935, célèbre la beauté française avec une gamme de parfums, soins et maquillage d'exception. Son flagship parisien est une adresse incontournable.",
+    address:"52 avenue des Champs-Élysées, 75008 Paris",
+    website:"https://www.lancome.fr",
+    category:"Beauté · Parfumerie",
+    photos:[
+      "https://static.wixstatic.com/media/631e74_44d2c5d19c1c4a02ab7f6f7e51cd8bdb~mv2.jpg",
+      "https://static.wixstatic.com/media/631e74_4980c0b1ab1c4877a0685c1a112836ad~mv2.jpg",
+    ]
+  },
+  {
+    name:"Maille",
+    badge:"Épicerie Fine · Paris 1er",
+    loc:"6 Place de la Madeleine, 75001 Paris",
+    desc:"Fondée en 1747, la maison Maille est l'une des plus anciennes épiceries fines de Paris. Sa boutique de la Place de la Madeleine, avec sa façade dorée et ses vitrines lumineuses, est une adresse incontournable.",
+    address:"6 Place de la Madeleine, 75001 Paris",
+    website:"https://www.maille.com",
+    category:"Épicerie Fine · Gastronomie",
+    photos:[
+      "https://static.wixstatic.com/media/631e74_f18b58ab4d8241949b1bed7c49047b27~mv2.jpg",
+      "https://static.wixstatic.com/media/631e74_0e12ec13f2bc429080740b70c71edb17~mv2.jpg",
+    ]
+  },
+  {
+    name:"Tsé Tsé",
+    badge:"Design · Art de la table · Paris",
+    loc:"Paris, France",
+    desc:"Tsé Tsé est une boutique parisienne de design et art de la table, connue pour ses créations originales et poétiques. Un espace unique où l'art rencontre le quotidien.",
+    address:"Paris, France",
+    website:"",
+    category:"Design · Art de la table",
+    photos:[
+      "https://static.wixstatic.com/media/631e74_f9c8279fec5e45e2aabb92a1370e89ba~mv2.jpg",
+      "https://static.wixstatic.com/media/631e74_f4267d1b8dc74b36b2f1f73085330147~mv2.webp",
+    ]
+  },
+];
+
+const list = document.getElementById('boutiquesList');
+parisBoutiques.forEach(b => {
+  const photos = b.photos;
+  list.innerHTML += `
+  <div class="boutique">
+    <div class="b-gallery">
+      <div class="b-photo main" style="background-image:url('${photos[0]}')"></div>
+      ${photos[1] ? `<div class="b-photo" style="background-image:url('${photos[1]}')"></div>` : '<div class="b-photo" style="background:#0f0f0d"></div>'}
+      ${photos[2] ? `<div class="b-photo" style="background-image:url('${photos[2]}')"></div>` : '<div class="b-photo" style="background:#0d0d0b"></div>'}
+    </div>
+    <div class="b-info">
+      <span class="b-badge">✦ ${b.badge}</span>
+      <div class="b-name">${b.name}</div>
+      <div class="b-loc">${b.loc}</div>
+      <p class="b-desc">${b.desc}</p>
+      <div class="b-divider"></div>
+      <div class="b-row"><span class="b-key">Adresse</span><span class="b-val">${b.address}</span></div>
+      <div class="b-row"><span class="b-key">Catégorie</span><span class="b-val">${b.category}</span></div>
+      ${b.website ? `<div class="b-row"><span class="b-key">Site web</span><span class="b-val"><a href="${b.website}" target="_blank">${b.website.replace('https://www.','').replace('https://','').split('/')[0]} →</a></span></div>` : ''}
+      <div class="b-btns">
+        <button class="b-btn-g" onclick="window.open('https://maps.google.com?q=${encodeURIComponent(b.address)}','_blank')">Itinéraire</button>
+        ${b.website ? `<button class="b-btn-o" onclick="window.open('${b.website}','_blank')">Site web</button>` : ''}
+      </div>
+    </div>
+  </div>`;
+});
+</script>
+</body>
+</html>
