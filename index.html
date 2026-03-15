@@ -24,6 +24,44 @@ html { scroll-behavior:smooth; }
 body { font-family:'Montserrat',sans-serif; background:var(--bg); color:var(--text2); }
 a { text-decoration:none; color:inherit; }
 
+/* ── SITE HEADER LOGO ── */
+.site-header {
+  position:fixed; top:0; left:0; right:0; z-index:101;
+  background:#000;
+  display:flex; justify-content:center; align-items:center;
+  padding:0;
+  border-bottom:0.5px solid rgba(210,175,90,0.15);
+}
+.site-logo {
+  width:100%; max-height:100px; object-fit:contain;
+  display:block;
+}
+
+/* ── LANG MENU ── */
+.lang-menu { position:relative; }
+.lang-current {
+  font-size:8px; letter-spacing:2px; text-transform:uppercase;
+  padding:7px 12px; border:0.5px solid var(--gold-dim);
+  color:var(--gold); background:transparent; cursor:pointer;
+  font-family:'Montserrat',sans-serif; transition:all .2s;
+}
+.lang-current:hover { background:rgba(210,175,90,0.08); }
+.lang-dropdown {
+  display:none; position:absolute; right:0; top:100%;
+  background:#0f0f0d; border:0.5px solid rgba(210,175,90,0.2);
+  min-width:160px; z-index:200; margin-top:4px;
+}
+.lang-dropdown.open { display:flex; flex-direction:column; }
+.lang-dropdown button {
+  padding:10px 16px; font-size:11px; color:var(--text2);
+  background:transparent; border:none; cursor:pointer;
+  text-align:left; font-family:'Montserrat',sans-serif;
+  border-bottom:0.5px solid rgba(210,175,90,0.08);
+  transition:background .2s;
+}
+.lang-dropdown button:hover { background:rgba(210,175,90,0.06); color:var(--gold); }
+.lang-dropdown button:last-child { border-bottom:none; }
+
 /* ── NAV ── */
 nav {
   position:fixed; top:0; left:0; right:0; z-index:100;
@@ -33,9 +71,7 @@ nav {
   border-bottom:0.5px solid var(--gold-dim);
   backdrop-filter:blur(10px);
 }
-.nav-brand { display:flex; flex-direction:column; gap:1px; }
-.nav-main { font-family:'Playfair Display',serif; font-size:16px; letter-spacing:4px; color:var(--gold); text-transform:uppercase; }
-.nav-sub { font-size:7px; letter-spacing:3px; color:var(--muted2); text-transform:uppercase; }
+.nav-brand { display:none; }
 .nav-links { display:flex; gap:28px; }
 .nav-links a { font-size:8px; letter-spacing:2.5px; text-transform:uppercase; color:var(--muted); transition:color .3s; }
 .nav-links a:hover { color:var(--gold); }
@@ -49,7 +85,7 @@ nav {
 .hero {
   min-height:100vh; display:flex; flex-direction:column;
   align-items:center; justify-content:center;
-  padding:120px 40px 80px; position:relative; overflow:hidden;
+  padding:160px 40px 80px; position:relative; overflow:hidden;
 }
 .hero-bg {
   position:absolute; inset:0;
@@ -286,10 +322,10 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-line-top"></div>
-  <p class="hero-eyebrow">Les vitrines du monde réel</p>
+  <p class="hero-eyebrow" data-i18n="hero.eyebrow">Les vitrines du monde réel</p>
   <h1 class="hero-title">Les plus belles boutiques<br>du <em>monde entier</em></h1>
-  <p class="hero-tagline">Les plus originales · Les plus tendances · Les plus iconiques</p>
-  <p class="hero-tagline2">Explorez les vitrines des plus belles villes — ou de nulle part</p>
+  <p class="hero-tagline" data-i18n="hero.tagline">Les plus originales · Les plus tendances · Les plus iconiques</p>
+  <p class="hero-tagline2" data-i18n="hero.tagline2">Explorez les vitrines des plus belles villes — ou de nulle part</p>
 
   <div class="hero-strip">
     <div class="hero-photo" style="width:200px">
@@ -531,6 +567,133 @@ document.querySelectorAll('.map-filter').forEach(f => {
     document.querySelectorAll('.map-filter').forEach(x=>x.classList.remove('on'));
     this.classList.add('on');
   });
+});
+</script>
+
+<script>
+// ── TRADUCTIONS ──
+const i18n = {
+  fr: {
+    'nav.discover':'Découvrir','nav.cities':'Par ville','nav.categories':'Catégories',
+    'nav.iconic':'Iconiques','nav.original':'Originales',
+    'nav.login':'Se connecter','nav.myboutique':'Ma boutique',
+    'hero.eyebrow':'Les vitrines du monde réel',
+    'hero.title':'Les plus belles boutiques du <em>monde entier</em>',
+    'hero.tagline':'Les plus originales · Les plus tendances · Les plus iconiques',
+    'hero.tagline2':'Explorez les vitrines des plus belles villes — ou de nulle part',
+    'search.country':'Pays','search.city':'Ville','search.category':'Catégorie',
+    'search.area':'Quartier','search.btn':'Explorer',
+    'stat.boutiques':'Boutiques','stat.cities':'Villes','stat.countries':'Pays','stat.continents':'Continents',
+  },
+  en: {
+    'nav.discover':'Discover','nav.cities':'By city','nav.categories':'Categories',
+    'nav.iconic':'Iconic','nav.original':'Original',
+    'nav.login':'Sign in','nav.myboutique':'My boutique',
+    'hero.eyebrow':'The world's finest boutiques',
+    'hero.title':'The most beautiful boutiques in the <em>world</em>',
+    'hero.tagline':'The most original · The most trendy · The most iconic',
+    'hero.tagline2':'Explore the windows of the world's finest cities — or from nowhere',
+    'search.country':'Country','search.city':'City','search.category':'Category',
+    'search.area':'District','search.btn':'Explore',
+    'stat.boutiques':'Boutiques','stat.cities':'Cities','stat.countries':'Countries','stat.continents':'Continents',
+  },
+  es: {
+    'nav.discover':'Descubrir','nav.cities':'Por ciudad','nav.categories':'Categorías',
+    'nav.iconic':'Icónicas','nav.original':'Originales',
+    'nav.login':'Iniciar sesión','nav.myboutique':'Mi boutique',
+    'hero.eyebrow':'Los escaparates del mundo real',
+    'hero.title':'Las boutiques más bellas del <em>mundo entero</em>',
+    'hero.tagline':'Las más originales · Las más tendencia · Las más icónicas',
+    'hero.tagline2':'Explora los escaparates de las ciudades más bellas',
+    'search.country':'País','search.city':'Ciudad','search.category':'Categoría',
+    'search.area':'Barrio','search.btn':'Explorar',
+    'stat.boutiques':'Boutiques','stat.cities':'Ciudades','stat.countries':'Países','stat.continents':'Continentes',
+  },
+  it: {
+    'nav.discover':'Scoprire','nav.cities':'Per città','nav.categories':'Categorie',
+    'nav.iconic':'Iconiche','nav.original':'Originali',
+    'nav.login':'Accedi','nav.myboutique':'La mia boutique',
+    'hero.eyebrow':'Le vetrine del mondo reale',
+    'hero.title':'Le boutique più belle del <em>mondo intero</em>',
+    'hero.tagline':'Le più originali · Le più trendy · Le più iconiche',
+    'hero.tagline2':'Esplora le vetrine delle città più belle del mondo',
+    'search.country':'Paese','search.city':'Città','search.category':'Categoria',
+    'search.area':'Quartiere','search.btn':'Esplora',
+    'stat.boutiques':'Boutique','stat.cities':'Città','stat.countries':'Paesi','stat.continents':'Continenti',
+  },
+  ja: {
+    'nav.discover':'発見する','nav.cities':'都市別','nav.categories':'カテゴリー',
+    'nav.iconic':'象徴的','nav.original':'オリジナル',
+    'nav.login':'ログイン','nav.myboutique':'マイブティック',
+    'hero.eyebrow':'世界のショーウィンドウ',
+    'hero.title':'<em>世界中</em>の最も美しいブティック',
+    'hero.tagline':'最もオリジナル · 最もトレンディ · 最もアイコニック',
+    'hero.tagline2':'世界の最も美しい街のショーウィンドウを探索',
+    'search.country':'国','search.city':'都市','search.category':'カテゴリー',
+    'search.area':'地区','search.btn':'探索',
+    'stat.boutiques':'ブティック','stat.cities':'都市','stat.countries':'国','stat.continents':'大陸',
+  },
+  ar: {
+    'nav.discover':'اكتشف','nav.cities':'حسب المدينة','nav.categories':'الفئات',
+    'nav.iconic':'أيقونية','nav.original':'أصيلة',
+    'nav.login':'تسجيل الدخول','nav.myboutique':'بوتيكي',
+    'hero.eyebrow':'واجهات المتاجر الحقيقية في العالم',
+    'hero.title':'أجمل المتاجر في <em>العالم</em>',
+    'hero.tagline':'الأكثر أصالة · الأكثر عصرية · الأكثر أيقونية',
+    'hero.tagline2':'استكشف واجهات أجمل المدن في العالم',
+    'search.country':'البلد','search.city':'المدينة','search.category':'الفئة',
+    'search.area':'الحي','search.btn':'استكشف',
+    'stat.boutiques':'متجر','stat.cities':'مدينة','stat.countries':'دولة','stat.continents':'قارة',
+  },
+  zh: {
+    'nav.discover':'探索','nav.cities':'按城市','nav.categories':'类别',
+    'nav.iconic':'标志性','nav.original':'原创',
+    'nav.login':'登录','nav.myboutique':'我的精品店',
+    'hero.eyebrow':'世界真实橱窗',
+    'hero.title':'全<em>世界</em>最美丽的精品店',
+    'hero.tagline':'最原创 · 最时尚 · 最标志性',
+    'hero.tagline2':'探索世界最美城市的橱窗',
+    'search.country':'国家','search.city':'城市','search.category':'类别',
+    'search.area':'街区','search.btn':'探索',
+    'stat.boutiques':'精品店','stat.cities':'城市','stat.countries':'国家','stat.continents':'大洲',
+  },
+};
+
+let currentLang = localStorage.getItem('cal_lang') || 'fr';
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('cal_lang', lang);
+  document.getElementById('currentLang').textContent = lang.toUpperCase();
+  document.getElementById('langDropdown').classList.remove('open');
+  applyTranslations();
+  // RTL pour l'arabe
+  document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
+}
+
+function applyTranslations() {
+  const t = i18n[currentLang] || i18n.fr;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) el.innerHTML = t[key];
+  });
+}
+
+function toggleLang() {
+  document.getElementById('langDropdown').classList.toggle('open');
+}
+
+// Fermer dropdown si clic ailleurs
+document.addEventListener('click', e => {
+  if (!e.target.closest('.lang-menu')) {
+    document.getElementById('langDropdown').classList.remove('open');
+  }
+});
+
+// Appliquer au chargement
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('currentLang').textContent = currentLang.toUpperCase();
+  applyTranslations();
 });
 </script>
 </body>
