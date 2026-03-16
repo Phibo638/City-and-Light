@@ -316,11 +316,12 @@ footer{border-top:0.5px solid rgba(210,175,90,0.1);padding:24px 40px;display:fle
 .leaflet-container { background:#1a1c1e; }
 .cal-popup .leaflet-popup-content-wrapper { background:#0f0f0d; border:0.5px solid rgba(210,175,90,0.3); border-radius:0; box-shadow:0 4px 20px rgba(0,0,0,0.5); padding:0; }
 .cal-popup .leaflet-popup-tip { background:#0f0f0d; }
-.cal-popup .leaflet-popup-content { margin:0; padding:0; }
-.cal-popup-inner { padding:12px 16px; }
-.cal-popup-city { font-size:7px; letter-spacing:2px; text-transform:uppercase; color:#d2af5a; margin-bottom:4px; }
-.cal-popup-name { font-family:'Playfair Display',serif; font-size:15px; color:#f0e8d8; font-style:italic; margin-bottom:2px; }
-.cal-popup-cat  { font-size:9px; color:#5a5040; margin-bottom:10px; }
+.cal-popup .leaflet-popup-content { margin:0; padding:0; width:200px !important; }
+.cal-popup-photo { width:100%; height:110px; object-fit:cover; display:block; }
+.cal-popup-inner { padding:10px 14px; }
+.cal-popup-city { font-size:7px; letter-spacing:2px; text-transform:uppercase; color:#d2af5a; margin-bottom:3px; }
+.cal-popup-name { font-family:'Playfair Display',serif; font-size:14px; color:#f0e8d8; font-style:italic; margin-bottom:2px; }
+.cal-popup-cat  { font-size:9px; color:#5a5040; margin-bottom:8px; }
 .cal-popup-btn  { display:block; width:100%; padding:8px; background:#d2af5a; border:none; cursor:pointer; font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#080808; font-family:'Montserrat',sans-serif; text-align:center; text-decoration:none; }
 .cal-popup-btn:hover { background:#e2bf6a; }
 .cal-marker-pin2 { width:12px; height:12px; border-radius:50%; background:#d2af5a; border:2px solid rgba(210,175,90,0.3); box-shadow:0 0 8px rgba(210,175,90,0.6); }
@@ -331,16 +332,19 @@ footer{border-top:0.5px solid rgba(210,175,90,0.1);padding:24px 40px;display:fle
 (function() {
   var map = L.map('cal-map2', { center:[30,15], zoom:2, minZoom:2, maxZoom:16 });
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution:'&copy; OpenStreetMap contributors',
-    className: 'dark-tiles', maxZoom:19
+    attribution:'&copy; OpenStreetMap contributors', maxZoom:19
   }).addTo(map);
   function makeIcon() {
-    return L.divIcon({ className:'', html:'<div class="cal-marker-pin2"></div>', iconSize:[12,12], iconAnchor:[6,6], popupAnchor:[0,-10] });
+    return L.divIcon({ className:'', html: '<div class="cal-pin-wrap"><div class="cal-pin-body"></div><div class="cal-pin-dot"></div><div class="cal-pin-shadow"></div></div>',
+      iconSize: [20, 32],
+      iconAnchor: [10, 32],
+      popupAnchor: [0, -34] });
   }
-  var boutiques = [{"name": "Guerlain", "category": "Parfumerie", "city": "Paris", "lat": 48.8698, "lon": 2.3078, "page": "paris.html"}, {"name": "Louis Vuitton", "category": "Maroquinerie", "city": "Paris", "lat": 48.8736, "lon": 2.3006, "page": "paris.html"}, {"name": "Dior", "category": "Haute Couture", "city": "Paris", "lat": 48.8656, "lon": 2.3017, "page": "paris.html"}, {"name": "À la mère de famille", "category": "Confiserie", "city": "Paris", "lat": 48.8756, "lon": 2.3467, "page": "paris.html"}, {"name": "Lancôme", "category": "Beauté", "city": "Paris", "lat": 48.8712, "lon": 2.3062, "page": "paris.html"}, {"name": "Maille", "category": "Épicerie Fine", "city": "Paris", "lat": 48.8701, "lon": 2.3248, "page": "paris.html"}, {"name": "Tsé Tsé", "category": "Design", "city": "Paris", "lat": 48.853, "lon": 2.3342, "page": "paris.html"}, {"name": "Paxton & Whitfield", "category": "Fromagerie", "city": "Londres", "lat": 51.5074, "lon": -0.1376, "page": "villes.html"}, {"name": "Floris 89", "category": "Parfumerie", "city": "Londres", "lat": 51.5068, "lon": -0.1386, "page": "villes.html"}, {"name": "Valextra", "category": "Maroquinerie", "city": "Milan", "lat": 45.4722, "lon": 9.1896, "page": "villes.html"}, {"name": "The Bridge", "category": "Maroquinerie", "city": "Milan", "lat": 45.47, "lon": 9.1847, "page": "villes.html"}, {"name": "Nuir Vintage", "category": "Mode Vintage", "city": "Tokyo", "lat": 35.6595, "lon": 139.7004, "page": "villes.html"}, {"name": "Mandarake", "category": "Culture", "city": "Tokyo", "lat": 35.6614, "lon": 139.6982, "page": "villes.html"}, {"name": "Un Cinq", "category": "Mode", "city": "Tokyo", "lat": 35.6328, "lon": 139.7156, "page": "villes.html"}, {"name": "Barovier & Toso", "category": "Art du Verre", "city": "Venise", "lat": 45.4408, "lon": 12.3155, "page": "villes.html"}, {"name": "The Merchant of Venice", "category": "Parfumerie", "city": "Venise", "lat": 45.438, "lon": 12.3358, "page": "villes.html"}, {"name": "33 rue Majorelle", "category": "Art & Design", "city": "Marrakech", "lat": 31.6372, "lon": -7.9904, "page": "villes.html"}, {"name": "Mustapha Blaoui", "category": "Artisanat", "city": "Marrakech", "lat": 31.632, "lon": -7.9892, "page": "villes.html"}, {"name": "Pop International Galleries", "category": "Art", "city": "New York", "lat": 40.7224, "lon": -74.003, "page": "villes.html"}, {"name": "Pippin Vintage Jewelry", "category": "Bijoux", "city": "New York", "lat": 40.7282, "lon": -73.9942, "page": "villes.html"}, {"name": "Casa Bloom", "category": "Mode Pre-Loved", "city": "Barcelone", "lat": 41.3973, "lon": 2.1606, "page": "villes.html"}, {"name": "La Basilica Galeria", "category": "Art", "city": "Barcelone", "lat": 41.3799, "lon": 2.1744, "page": "villes.html"}, {"name": "AAD Art Gallery", "category": "Art", "city": "Sydney", "lat": -33.8599, "lon": 151.209, "page": "villes.html"}, {"name": "Dinosaur Designs", "category": "Design", "city": "Sydney", "lat": -33.8897, "lon": 151.1994, "page": "villes.html"}, {"name": "Galerie Neel", "category": "Art", "city": "Cannes", "lat": 43.5516, "lon": 7.0174, "page": "villes.html"}, {"name": "Cédric Grolet", "category": "Pâtisserie", "city": "Saint-Tropez", "lat": 43.2727, "lon": 6.6407, "page": "villes.html"}, {"name": "U Rock Couture", "category": "Mode", "city": "Miami", "lat": 25.7907, "lon": -80.13, "page": "villes.html"}];
+  var boutiques = [{"name": "Guerlain", "category": "Parfumerie", "city": "Paris", "lat": 48.8698, "lon": 2.3078, "page": "paris.html#guerlain", "photo": "https://static.wixstatic.com/media/631e74_6212fb2a514d42c5b9222ee482cc1f5b~mv2.jpg"}, {"name": "Louis Vuitton", "category": "Maroquinerie", "city": "Paris", "lat": 48.8736, "lon": 2.3006, "page": "paris.html#louis-vuitton", "photo": "https://static.wixstatic.com/media/631e74_a0f529f3d56f4d108261bd78b2f214dd~mv2.jpg"}, {"name": "Dior", "category": "Haute Couture", "city": "Paris", "lat": 48.8656, "lon": 2.3017, "page": "paris.html#dior", "photo": "https://static.wixstatic.com/media/631e74_78f9d28f6f59492d84e0c98cc1b637a6~mv2.jpg"}, {"name": "À la mère de famille", "category": "Confiserie", "city": "Paris", "lat": 48.8756, "lon": 2.3467, "page": "paris.html#-la-m-re-de-famille", "photo": "https://static.wixstatic.com/media/631e74_7d7977d392c84345a03e634835c3d4cf~mv2.jpg"}, {"name": "Lancôme", "category": "Beauté", "city": "Paris", "lat": 48.8712, "lon": 2.3062, "page": "paris.html#lanc-me", "photo": "https://static.wixstatic.com/media/631e74_44d2c5d19c1c4a02ab7f6f7e51cd8bdb~mv2.jpg"}, {"name": "Maille", "category": "Épicerie Fine", "city": "Paris", "lat": 48.8701, "lon": 2.3248, "page": "paris.html#maille", "photo": "https://static.wixstatic.com/media/631e74_f18b58ab4d8241949b1bed7c49047b27~mv2.jpg"}, {"name": "Tsé Tsé", "category": "Design", "city": "Paris", "lat": 48.853, "lon": 2.3342, "page": "paris.html#ts--ts-", "photo": "https://static.wixstatic.com/media/631e74_f9c8279fec5e45e2aabb92a1370e89ba~mv2.jpg"}, {"name": "Paxton & Whitfield", "category": "Fromagerie", "city": "Londres", "lat": 51.5074, "lon": -0.1376, "page": "villes.html#paxton---whitfield", "photo": "https://static.wixstatic.com/media/631e74_1cd1d0d4339e499ca5170614889ff684~mv2.jpg"}, {"name": "Floris 89", "category": "Parfumerie", "city": "Londres", "lat": 51.5068, "lon": -0.1386, "page": "villes.html#floris-89", "photo": "https://static.wixstatic.com/media/631e74_3bd5447b449845dca7702622a119d194~mv2.jpg"}, {"name": "Valextra", "category": "Maroquinerie", "city": "Milan", "lat": 45.4722, "lon": 9.1896, "page": "villes.html#valextra", "photo": "https://static.wixstatic.com/media/631e74_7e9297adf6dc4fe6ba75c075831b0d35~mv2.jpg"}, {"name": "The Bridge", "category": "Maroquinerie", "city": "Milan", "lat": 45.47, "lon": 9.1847, "page": "villes.html#the-bridge", "photo": "https://static.wixstatic.com/media/631e74_dab68d8eee3e45dab86ccd3964ec2f53~mv2.jpg"}, {"name": "Nuir Vintage", "category": "Mode Vintage", "city": "Tokyo", "lat": 35.6595, "lon": 139.7004, "page": "villes.html#nuir-vintage", "photo": "https://static.wixstatic.com/media/631e74_a9b1f6a31d5749f8aeaf04e4dda68f17~mv2.jpg"}, {"name": "Mandarake", "category": "Culture", "city": "Tokyo", "lat": 35.6614, "lon": 139.6982, "page": "villes.html#mandarake", "photo": "https://static.wixstatic.com/media/631e74_63d05b4eb09c472189ab6e170b00a487~mv2.jpg"}, {"name": "Un Cinq", "category": "Mode", "city": "Tokyo", "lat": 35.6328, "lon": 139.7156, "page": "villes.html#un-cinq", "photo": "https://static.wixstatic.com/media/631e74_384088070a644cb6980c44950c207e47~mv2.jpg"}, {"name": "Barovier & Toso", "category": "Art du Verre", "city": "Venise", "lat": 45.4408, "lon": 12.3155, "page": "villes.html#barovier---toso", "photo": "https://static.wixstatic.com/media/631e74_f23e0cc9ee314da5b758bbe2e2fc7bd2~mv2.jpg"}, {"name": "The Merchant of Venice", "category": "Parfumerie", "city": "Venise", "lat": 45.438, "lon": 12.3358, "page": "villes.html#the-merchant-of-venice", "photo": "https://static.wixstatic.com/media/631e74_a94cb85ed1c04405b4dabf686a2ac447~mv2.jpg"}, {"name": "33 rue Majorelle", "category": "Art & Design", "city": "Marrakech", "lat": 31.6372, "lon": -7.9904, "page": "villes.html#33-rue-majorelle", "photo": "https://static.wixstatic.com/media/631e74_41840788dbe2482a933a2425de61b37a~mv2.jpg"}, {"name": "Mustapha Blaoui", "category": "Artisanat", "city": "Marrakech", "lat": 31.632, "lon": -7.9892, "page": "villes.html#mustapha-blaoui", "photo": "https://static.wixstatic.com/media/631e74_88041a8cdada461a94b0416a992fac31~mv2.jpg"}, {"name": "Pop International Galleries", "category": "Art", "city": "New York", "lat": 40.7224, "lon": -74.003, "page": "villes.html#pop-international-galleries", "photo": "https://static.wixstatic.com/media/631e74_6c85edd4da244dcf8096782504cdb023~mv2.jpg"}, {"name": "Pippin Vintage Jewelry", "category": "Bijoux", "city": "New York", "lat": 40.7282, "lon": -73.9942, "page": "villes.html#pippin-vintage-jewelry", "photo": "https://static.wixstatic.com/media/631e74_fb37e4169ddd48beafb030891c4726cb~mv2.jpg"}, {"name": "Casa Bloom", "category": "Mode Pre-Loved", "city": "Barcelone", "lat": 41.3973, "lon": 2.1606, "page": "villes.html#casa-bloom", "photo": "https://static.wixstatic.com/media/631e74_e7b3c56d6fc34d2ead175276b613ec9a~mv2.jpg"}, {"name": "La Basilica Galeria", "category": "Art", "city": "Barcelone", "lat": 41.3799, "lon": 2.1744, "page": "villes.html#la-basilica-galeria", "photo": "https://static.wixstatic.com/media/631e74_a6ada0ffe63f44daa3a2b952912cfcda~mv2.jpg"}, {"name": "AAD Art Gallery", "category": "Art", "city": "Sydney", "lat": -33.8599, "lon": 151.209, "page": "villes.html#aad-art-gallery", "photo": "https://static.wixstatic.com/media/631e74_fb37e4169ddd48beafb030891c4726cb~mv2.jpg"}, {"name": "Dinosaur Designs", "category": "Design", "city": "Sydney", "lat": -33.8897, "lon": 151.1994, "page": "villes.html#dinosaur-designs", "photo": "https://static.wixstatic.com/media/631e74_3406a67e3ce7421ca572b52ad13f2baf~mv2.jpg"}, {"name": "Galerie Neel", "category": "Art", "city": "Cannes", "lat": 43.5516, "lon": 7.0174, "page": "villes.html#galerie-neel", "photo": "https://static.wixstatic.com/media/631e74_f69fec4671d1491492b52b19d854f3e6~mv2.webp"}, {"name": "Cédric Grolet", "category": "Pâtisserie", "city": "Saint-Tropez", "lat": 43.2727, "lon": 6.6407, "page": "villes.html#cedric-grolet", "photo": "https://static.wixstatic.com/media/631e74_15b94620e8134b39a565e09fa0c6e54e~mv2.jpg"}, {"name": "U Rock Couture", "category": "Mode", "city": "Miami", "lat": 25.7907, "lon": -80.13, "page": "villes.html#u-rock-couture", "photo": "https://static.wixstatic.com/media/631e74_41b94f3d2f4045cc976ddab9e2cc4c46~mv2.jpg"}];
   boutiques.forEach(function(b) {
     L.marker([b.lat,b.lon],{icon:makeIcon()})
       .bindPopup(L.popup({className:'cal-popup',maxWidth:200}).setContent(
+        '<div class="cal-popup-photo-wrap"><img class="cal-popup-photo" src="'+b.photo+'" alt="'+b.name+'" onerror="this.style.display=\'none\'"></div>' +
         '<div class="cal-popup-inner"><div class="cal-popup-city">'+b.city+'</div><div class="cal-popup-name">'+b.name+'</div><div class="cal-popup-cat">'+b.category+'</div><a href="'+b.page+'" class="cal-popup-btn">Voir la fiche →</a></div>'
       )).addTo(map);
   });
@@ -419,6 +423,28 @@ document.querySelectorAll('.pin').forEach(pin => {
 document.addEventListener('DOMContentLoaded', function() {
   const c = document.querySelector('.carousel');
   if (c) { const h = c.innerHTML; c.innerHTML = h + h; }
+});
+</script>
+
+
+<script>
+// Créer ancres automatiques sur les fiches boutiques
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.boutique, .b-name').forEach(function(el) {
+    var nameEl = el.classList.contains('b-name') ? el : el.querySelector('.b-name');
+    if (nameEl) {
+      var slug = nameEl.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      var target = el.classList.contains('boutique') ? el : el.closest('.boutique');
+      if (target) target.id = slug;
+    }
+  });
+  // Scroll vers l'ancre si présente dans l'URL
+  if (window.location.hash) {
+    setTimeout(function() {
+      var el = document.querySelector(window.location.hash);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 300);
+  }
 });
 </script>
 
