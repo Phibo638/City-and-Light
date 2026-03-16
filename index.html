@@ -514,7 +514,7 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
   box-shadow:0 0 8px rgba(210,175,90,0.6);
 }
 
-.dark-tiles { }
+
 .leaflet-container { background: #0d0d0b !important; }
 .cal-pin-wrap { position:relative; width:20px; height:32px; cursor:pointer; }
 .cal-pin-body { width:20px; height:20px; border-radius:50% 50% 50% 0; background:linear-gradient(135deg,#e2bf6a,#b8952e); transform:rotate(-45deg); box-shadow:0 2px 10px rgba(210,175,90,0.5); border:1px solid rgba(255,255,255,0.1); transition:transform .2s; }
@@ -535,9 +535,9 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
   });
 
   // Tuiles sombres CartoDB
-  L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; Stadia Maps &copy; OpenStreetMap contributors',
-    className: 'dark-tiles',
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_matter/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; CartoDB &copy; OpenStreetMap contributors',
+    subdomains: 'abcd',
     maxZoom: 19
   }).addTo(map);
 
