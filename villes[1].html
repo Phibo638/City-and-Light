@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Villes du Monde — City & Light</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root { --gold:#d2af5a; --gold-light:#e2bf6a; --gold-dim:rgba(210,175,90,0.2); --bg:#080808; --bg2:#0b0b09; --text:#f0e8d8; --text2:#ede5d5; --muted:#5a5040; --muted2:#3a3020; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text2);}
+a{text-decoration:none;color:inherit;}
+
+
+
+/* ── LANG MENU ── */
+.lang-menu { position:relative; }
+.lang-current { font-size:8px; letter-spacing:2px; text-transform:uppercase; padding:7px 12px; border:0.5px solid rgba(210,175,90,0.2); color:#d2af5a; background:transparent; cursor:pointer; font-family:'Montserrat',sans-serif; }
+.lang-dropdown { display:none; position:absolute; right:0; top:100%; background:#0f0f0d; border:0.5px solid rgba(210,175,90,0.2); min-width:160px; z-index:200; margin-top:4px; }
+.lang-dropdown.open { display:flex; flex-direction:column; }
+.lang-dropdown button { padding:10px 16px; font-size:11px; color:#ede5d5; background:transparent; border:none; cursor:pointer; text-align:left; font-family:'Montserrat',sans-serif; border-bottom:0.5px solid rgba(210,175,90,0.08); transition:background .2s; }
+.lang-dropdown button:hover { background:rgba(210,175,90,0.06); color:#d2af5a; }
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:8px 40px;background:rgba(8,8,8,0.96);border-bottom:0.5px solid var(--gold-dim);backdrop-filter:blur(10px);}
+.nav-brand{display:flex;align-items:center;}
+
+
+.nav-links{display:flex;gap:28px;}
+.nav-links a{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c8bca8;transition:color .3s;font-weight:300;}
+.nav-links a:hover{color:#e2bf6a;letter-spacing:2.5px;}
+.nav-right{display:flex;gap:10px;}
+.btn-ghost{font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border:0.5px solid var(--gold-dim);color:var(--gold);background:transparent;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;}
+.btn-gold{font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border:none;color:var(--bg);background:var(--gold);cursor:pointer;font-family:'Montserrat',sans-serif;}
+
+/* INTRO */
+.intro{padding:70px 40px 40px;text-align:center;border-bottom:0.5px solid rgba(210,175,90,0.1);}
+.eyebrow{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:14px;}
+.eyebrow::before,.eyebrow::after{content:'';display:block;width:40px;height:0.5px;background:rgba(210,175,90,0.35);}
+.intro-title{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,44px);font-weight:400;color:var(--text);margin-bottom:10px;line-height:1.2;}
+.intro-title em{font-style:italic;color:var(--gold);}
+.intro-sub{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;font-style:italic;color:var(--muted);margin-bottom:30px;}
+.stats-row{display:flex;justify-content:center;gap:44px;flex-wrap:wrap;}
+.stat-n{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold);display:block;line-height:1;}
+.stat-l{font-size:7px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted2);margin-top:4px;}
+
+/* SECTION */
+.section{padding:36px 40px;}
+.sec-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+.sec-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--text);}
+.sec-title em{font-style:italic;color:var(--gold);}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;}
+.tab{font-size:7px;letter-spacing:2px;text-transform:uppercase;padding:5px 13px;border:0.5px solid rgba(210,175,90,0.18);color:var(--muted);cursor:pointer;background:transparent;font-family:'Montserrat',sans-serif;transition:all .2s;}
+.tab.on,.tab:hover{border-color:var(--gold);color:var(--gold);}
+
+/* GRILLE VILLES */
+.cities-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.city-card{position:relative;overflow:hidden;cursor:pointer;border:0.5px solid rgba(210,175,90,0.1);transition:border-color .3s,transform .25s;display:flex;align-items:flex-end;}
+.city-card:hover{border-color:rgba(210,175,90,0.5);transform:scale(1.015);z-index:2;}
+.city-card.lg{grid-column:span 2;grid-row:span 2;min-height:300px;}
+.city-card.md{min-height:168px;}
+.city-card.wide{grid-column:span 2;min-height:148px;}
+.city-card.sm{min-height:130px;}
+.city-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s ease;}
+.city-card:hover .city-bg{transform:scale(1.04);}
+.city-veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,5,4,0.92) 0%,rgba(6,5,4,0.3) 55%,transparent 100%);}
+.city-body{position:relative;z-index:1;padding:14px 16px;width:100%;}
+.city-region{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:3px;}
+.city-name{font-family:'Playfair Display',serif;color:var(--text);line-height:1.1;}
+.city-card.lg .city-name{font-size:28px;}
+.city-card.md .city-name{font-size:17px;}
+.city-card.wide .city-name{font-size:18px;}
+.city-card.sm .city-name{font-size:14px;}
+.city-count{font-size:8px;color:var(--muted);margin-top:3px;}
+.city-tag{display:inline-block;font-size:7px;letter-spacing:1px;padding:2px 7px;border:0.5px solid rgba(210,175,90,0.28);color:#8a7a60;margin-top:5px;}
+.city-arrow{position:absolute;top:12px;right:12px;font-size:11px;color:var(--gold);opacity:0;transition:opacity .2s;}
+.city-card:hover .city-arrow{opacity:1;}
+
+/* CARTE */
+.map-section{padding:0 40px 40px;}
+.map-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--text);margin-bottom:4px;}
+.map-title em{font-style:italic;color:var(--gold);}
+.map-hint{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);margin-bottom:14px;}
+.globe{width:100%;height:260px;background:#060504;border:0.5px solid rgba(210,175,90,0.1);position:relative;overflow:hidden;}
+.globe-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(210,175,90,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(210,175,90,0.025) 1px,transparent 1px);background-size:32px 32px;}
+.globe-glow{position:absolute;inset:0;background:radial-gradient(ellipse 55% 35% at 40% 55%,rgba(210,175,90,0.05) 0%,transparent 65%),radial-gradient(ellipse 30% 20% at 72% 42%,rgba(210,175,90,0.03) 0%,transparent 55%);}
+.pin{position:absolute;cursor:pointer;display:flex;flex-direction:column;align-items:center;transform:translate(-50%,-100%);}
+.pin-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 2px rgba(210,175,90,0.18),0 0 12px rgba(210,175,90,0.45);animation:pulse 3s ease-in-out infinite;}
+.pin-dot.sm{width:5px;height:5px;background:rgba(210,175,90,0.6);box-shadow:0 0 7px rgba(210,175,90,0.3);}
+.pin-lbl{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(210,175,90,0.85);white-space:nowrap;margin-bottom:3px;background:rgba(6,5,4,0.85);padding:1px 6px;opacity:0;transition:opacity .2s;pointer-events:none;}
+.pin:hover .pin-lbl{opacity:1;}
+
+/* RÉGIONS */
+.reg-section{padding:0 40px 40px;}
+.reg-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--text);margin-bottom:16px;}
+.reg-title em{font-style:italic;color:var(--gold);}
+.reg-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+.reg-card{padding:18px 16px;border:0.5px solid rgba(210,175,90,0.12);cursor:pointer;transition:all .2s;}
+.reg-card:hover{border-color:rgba(210,175,90,0.4);background:rgba(210,175,90,0.025);}
+.reg-icon{font-size:16px;margin-bottom:8px;}
+.reg-name{font-family:'Playfair Display',serif;font-size:14px;color:var(--gold);font-style:italic;margin-bottom:6px;}
+.reg-cities{font-size:8px;color:var(--muted2);line-height:1.7;}
+.reg-count{font-size:7px;letter-spacing:1.5px;color:#2a2018;text-transform:uppercase;margin-top:6px;}
+
+footer{border-top:0.5px solid rgba(210,175,90,0.1);padding:24px 40px;display:flex;justify-content:space-between;align-items:center;}
+.footer-brand{font-family:'Playfair Display',serif;font-size:12px;letter-spacing:3px;color:var(--muted2);text-transform:uppercase;}
+.footer-links{display:flex;gap:20px;}
+.footer-links a{font-size:8px;letter-spacing:1.5px;color:var(--muted2);transition:color .2s;}
+.footer-links a:hover{color:var(--gold);}
+
+@keyframes pulse{0%,100%{box-shadow:0 0 0 2px rgba(210,175,90,.18),0 0 12px rgba(210,175,90,.45)}50%{box-shadow:0 0 0 4px rgba(210,175,90,.08),0 0 20px rgba(210,175,90,.65)}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand"><img src="data:image/jpeg;base64,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c1kZ0ttQsku1gumDSxZLKQSAAwJXIOBkEcVa0nx1d6B4Tj0/TLy8sL4agbppbd9iMnlqoU4PPK9CMVB438Q2fivUYtWiSeLUbiMfb45MGLzQAN0ZyTtIGdpHy9BkdElU9rrtd/l2/X5dR+7yedv1/wAuhY8E+FoPENjrNxJY6hqc1lHE8VnprhZJCz7T/wAs34A54HaqHinSRpMtun9h6rojOCSuqSbjJ05X91HgDnPX8Kn8Mavptpo+uadqUl1AmoRwqk1rAsxUpIH5VnTrjHWszVYNKhEf9m3t5dk53i6tEg2+mNsr57+lUub2rvt037fdv3I05dDQ8IaPYaodXm1FbmSCxsWuhHayrEzsHRcbmRgB857VY1PQ9Mn8ILrumx3lmEvfsb295Os2/KbwyMqJ05BGD1BzVfwh4nPhc6vLHLcwXV1YtbQTWrbWjcujZzkEDCnkc81c8QeM18W+GrKHVpbyfXNPJjgui29JoSckSZbIcH+IA7hwemamftPaXW11/Vv6tuXHk5dd9f8Agf112OTooorsMAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA//9k=" alt="City and Light" style="height:36px;width:auto;display:block;object-fit:contain;"></a>
+  <div class="nav-links">
+    <a href="index.html">Accueil</a>
+    <a href="villes.html">Par ville</a>
+    <a href="#">Catégories</a>
+    <a href="#">Iconiques</a>
+    <a href="#">Originales</a>
+  </div>
+  <div class="nav-right">
+        <div class="lang-menu">
+      <button class="lang-current" onclick="this.nextElementSibling.classList.toggle('open')">
+        <span id="currentLang">FR</span> ▾
+      </button>
+      <div class="lang-dropdown">
+        <button onclick="setLang('fr')">🇫🇷 Français</button>
+        <button onclick="setLang('en')">🇬🇧 English</button>
+        <button onclick="setLang('es')">🇪🇸 Español</button>
+        <button onclick="setLang('it')">🇮🇹 Italiano</button>
+        <button onclick="setLang('ja')">🇯🇵 日本語</button>
+        <button onclick="setLang('ar')">🇸🇦 العربية</button>
+        <button onclick="setLang('zh')">🇨🇳 中文</button>
+      </div>
+    </div>
+    <button class="btn-ghost">Se connecter</button>
+    <button class="btn-gold">Ma boutique</button>
+  </div>
+</nav>
+
+<!-- INTRO -->
+<div class="intro">
+  <p class="eyebrow">Dimension mondiale</p>
+  <h1 class="intro-title">Des vitrines sur <em>tous les continents</em></h1>
+  <p class="intro-sub">Les plus originales · Les plus tendances · Les plus iconiques</p>
+  <div class="stats-row">
+    <div class="stat"><span class="stat-n">48 000</span><span class="stat-l">Boutiques</span></div>
+    <div class="stat"><span class="stat-n">127</span><span class="stat-l">Villes</span></div>
+    <div class="stat"><span class="stat-n">38</span><span class="stat-l">Pays</span></div>
+    <div class="stat"><span class="stat-n">6</span><span class="stat-l">Continents</span></div>
+  </div>
+</div>
+
+<!-- GRILLE VILLES -->
+<div class="section">
+  <div class="sec-header">
+    <h2 class="sec-title">Explorer <em>par ville</em></h2>
+    <div class="tabs">
+      <button class="tab on" data-filter="all">Toutes</button>
+      <button class="tab" data-filter="europe">Europe</button>
+      <button class="tab" data-filter="ameriques">Amériques</button>
+      <button class="tab" data-filter="asie">Asie</button>
+      <button class="tab" data-filter="afrique">Afrique & M-O</button>
+      <button class="tab" data-filter="oceanie">Océanie</button>
+    </div>
+  </div>
+
+  <div class="cities-grid" id="citiesGrid">
+    <div class="city-card lg" data-region="europe" onclick="window.location.href='paris.html'">
+      <div class="city-bg" style="background-image:url('https://static.wixstatic.com/media/631e74_6212fb2a514d42c5b9222ee482cc1f5b~mv2.jpg')"></div>
+      <div class="city-veil"></div>
+      <div class="city-arrow">→</div>
+      <div class="city-body">
+        <div class="city-region">Europe · France</div>
+        <div class="city-name">Paris</div>
+        <div class="city-count">7 boutiques référencées</div>
+        <span class="city-tag">Mode · Beauté · Luxe · Art</span>
+      </div>
+    </div>
+
+    <div class="city-card md" data-region="europe" onclick="window.location.href='#'">
+      <div class="city-bg" style="background-image:url('https://static.wixstatic.com/media/631e74_1cd1d0d4339e499ca5170614889ff684~mv2.jpg')"></div>
+      <div class="city-veil"></div>
+      <div class="city-arrow">→</div>
+      <div class="city-body">
+        <div class="city-region">Europe · UK</div>
+        <div class="city-name">Londres</div>
+        <div class="city-count">6 boutiques</div>
+      </div>
+    </div>
+
+    <div class="city-card md" data-region="europe" onclick="window.location.href='#'">
+      <div class="city-bg" style="background-image:url('https://static.wixstatic.com/media/631e74_7e9297adf6dc4fe6ba75c075831b0d35~mv2.jpg')"></div>
+      <div class="city-veil"></div>
+      <div class="city-arrow">→</div>
+      <div class="city-body">
+        <div class="city-region">Europe · Italie</div>
+        <div class="city-name">Milan</div>
+        <div class="city-count">4 boutiques</div>
+      </div>
+    </div>
+
+    <div class="city-card wide" data-region="ameriques" onclick="window.location.href='#'">
+      <div class="city-bg" style="background-image:url('https://static.wixstatic.com/media/631e74_6c85edd4da244dcf8096782504cdb023~mv2.jpg')"></div>
+      <div class="city-veil"></div>
+      <div class="city-arrow">→</div>
+      <div class="city-body">
+        <div class="city-region">Amériques · USA</div>
+        <div class="city-name">New York</div>
+        <div class="city-count">5 boutiques · SoHo · Chelsea · Manhattan</div>
+      </div>
+    </div>
+
+    <div class="city-card lg" data-region="asie" onclick="window.location.href='#'">
+      <div class="city-bg" style="background-image:url('https://static.wixstatic.com/media/631e74_a9b1f6a31d5749f8aeaf04e4dda68f17~mv2.jpg')"></div>
+      <div class="city-veil"></div>
+      <div class="city-arrow">→</div>
+      <div class="city-body">
+        <div class="city-region">Asie · Japon</div>
+        <div class="city-name">Tokyo</div>
+        <div class="city-count">6 boutiques référencées</div>
+        <span class="city-tag">Shibuya · Ginza · Meguro</span>
+      </div>
+    </div>
+
+    <div class="city-card md" data-region="europe" onclick="window.location.href='#'">
+      <div class="city-bg" style="background-image:url('https://static.wixstatic.com/media/631e74_f23e0cc9ee314da5b758bbe2e2fc7bd2~mv2.jpg')"></div>
+      <div class="city-veil"></div>
+      <div class="city-arrow">→</div>
+      <div class="city-body">
+        <div class="city-region">Europe · Italie</div>
+        <div class="city-name">Venise</div>
+        <div class="city-count">5 boutiques</div>
+      </div>
+    </div>
+
+    <div class="city-card md" data-region="europe" onclick="window.location.href='#'">
+      <div class="city-bg" style="background-image:url('https://static.wixstatic.com/media/631e74_e7b3c56d6fc34d2ead175276b613ec9a~mv2.jpg')"></div>
+      <div class="city-veil"></div>
+      <div class="city-arrow">→</div>
+      <div class="city-body">
+        <div class="city-region">Europe · Espagne</div>
+        <div class="city-name">Barcelone</div>
+        <div class="city-count">6 boutiques</div>
+      </div>
+    </div>
+
+    <div class="city-card wide" data-region="afrique" onclick="window.location.href='#'">
+      <div class="city-bg" style="background-image:url('https://static.wixstatic.com/media/631e74_41840788dbe2482a933a2425de61b37a~mv2.jpg')"></div>
+      <div class="city-veil"></div>
+      <div class="city-arrow">→</div>
+      <div class="city-body">
+        <div class="city-region">Afrique · Maroc</div>
+        <div class="city-name">Marrakech</div>
+        <div class="city-count">5 boutiques · Médina · Guéliz · Mellah</div>
+      </div>
+    </div>
+
+    <div class="city-card sm" data-region="ameriques" onclick="window.location.href='#'">
+      <div class="city-bg" style="background-image:url('https://static.wixstatic.com/media/631e74_41b94f3d2f4045cc976ddab9e2cc4c46~mv2.jpg')"></div>
+      <div class="city-veil"></div>
+      <div class="city-arrow">→</div>
+      <div class="city-body">
+        <div class="city-region">Amériques · USA</div>
+        <div class="city-name">Miami</div>
+        <div class="city-count">1 boutique</div>
+      </div>
+    </div>
+
+    <div class="city-card sm" data-region="europe" onclick="window.location.href='#'">
+      <div class="city-bg" style="background-image:url('https://static.wixstatic.com/media/631e74_f69fec4671d1491492b52b19d854f3e6~mv2.webp')"></div>
+      <div class="city-veil"></div>
+      <div class="city-arrow">→</div>
+      <div class="city-body">
+        <div class="city-region">Europe · France</div>
+        <div class="city-name">Côte d'Azur</div>
+        <div class="city-count">Cannes · Saint-Tropez</div>
+      </div>
+    </div>
+
+    <div class="city-card wide" data-region="oceanie" onclick="window.location.href='#'">
+      <div class="city-bg" style="background-image:url('https://static.wixstatic.com/media/631e74_60c5e8bea16048b9b853d4eb9157c04f~mv2.jpg')"></div>
+      <div class="city-veil"></div>
+      <div class="city-arrow">→</div>
+      <div class="city-body">
+        <div class="city-region">Océanie · Australie</div>
+        <div class="city-name">Sydney</div>
+        <div class="city-count">4 boutiques · Paddington · The Rocks</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CARTE MONDE -->
+<div class="map-section">
+  <h2 class="map-title">Présence <em>mondiale</em></h2>
+  <p class="map-hint">Survolez les points pour découvrir chaque ville</p>
+  <div class="globe">
+    <div class="globe-grid"></div>
+    <div class="globe-glow"></div>
+    <div class="pin" style="left:42%;top:38%"><div class="pin-lbl">Paris — 7 boutiques</div><div class="pin-dot"></div></div>
+    <div class="pin" style="left:38%;top:32%"><div class="pin-lbl">Londres</div><div class="pin-dot sm"></div></div>
+    <div class="pin" style="left:47%;top:40%"><div class="pin-lbl">Milan</div><div class="pin-dot sm"></div></div>
+    <div class="pin" style="left:46%;top:42%"><div class="pin-lbl">Venise</div><div class="pin-dot sm"></div></div>
+    <div class="pin" style="left:38%;top:44%"><div class="pin-lbl">Barcelone</div><div class="pin-dot sm"></div></div>
+    <div class="pin" style="left:45%;top:47%"><div class="pin-lbl">Côte d'Azur</div><div class="pin-dot sm"></div></div>
+    <div class="pin" style="left:39%;top:55%"><div class="pin-lbl">Marrakech</div><div class="pin-dot"></div></div>
+    <div class="pin" style="left:19%;top:36%"><div class="pin-lbl">New York</div><div class="pin-dot"></div></div>
+    <div class="pin" style="left:20%;top:44%"><div class="pin-lbl">Miami</div><div class="pin-dot sm"></div></div>
+    <div class="pin" style="left:76%;top:39%"><div class="pin-lbl">Tokyo</div><div class="pin-dot"></div></div>
+    <div class="pin" style="left:64%;top:43%"><div class="pin-lbl">Dubaï</div><div class="pin-dot sm"></div></div>
+    <div class="pin" style="left:82%;top:66%"><div class="pin-lbl">Sydney</div><div class="pin-dot"></div></div>
+  </div>
+</div>
+
+<!-- RÉGIONS -->
+<div class="reg-section">
+  <h2 class="reg-title">Explorer <em>par région</em></h2>
+  <div class="reg-grid">
+    <div class="reg-card"><div class="reg-icon">✦</div><div class="reg-name">Europe</div><div class="reg-cities">Paris · Londres · Milan<br>Venise · Barcelone<br>Côte d'Azur · Amsterdam</div><div class="reg-count">18 villes · 2 400+ boutiques</div></div>
+    <div class="reg-card"><div class="reg-icon">✦</div><div class="reg-name">Amériques</div><div class="reg-cities">New York · Miami<br>Los Angeles · Chicago<br>Buenos Aires</div><div class="reg-count">12 villes · 1 200+ boutiques</div></div>
+    <div class="reg-card"><div class="reg-icon">✦</div><div class="reg-name">Asie</div><div class="reg-cities">Tokyo · Shanghai<br>Hong Kong · Séoul<br>Singapour · Bangkok</div><div class="reg-count">14 villes · 1 800+ boutiques</div></div>
+    <div class="reg-card"><div class="reg-icon">✦</div><div class="reg-name">M-Orient & Afrique</div><div class="reg-cities">Marrakech · Dubaï<br>Le Caire · Casablanca<br>Cape Town</div><div class="reg-count">8 villes · 600+ boutiques</div></div>
+    <div class="reg-card"><div class="reg-icon">✦</div><div class="reg-name">Océanie</div><div class="reg-cities">Sydney · Melbourne<br>Auckland · Brisbane<br>Byron Bay</div><div class="reg-count">6 villes · 400+ boutiques</div></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">City & Light — World Boutique Explorer</div>
+  <div class="footer-links">
+    <a href="index.html">Accueil</a>
+    <a href="#">Inscrire ma boutique</a>
+    <a href="#">À propos</a>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+    this.classList.add('on');
+    const filter = this.dataset.filter;
+    document.querySelectorAll('.city-card').forEach(card => {
+      if (filter === 'all' || card.dataset.region === filter) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+});
+</script>
+
+<script>
+let currentLang = localStorage.getItem('cal_lang') || 'fr';
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('cal_lang', lang);
+  document.getElementById('currentLang').textContent = lang.toUpperCase();
+  document.querySelectorAll('.lang-dropdown').forEach(d => d.classList.remove('open'));
+  document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
+}
+document.addEventListener('DOMContentLoaded', () => {
+  if(document.getElementById('currentLang'))
+    document.getElementById('currentLang').textContent = currentLang.toUpperCase();
+  document.body.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest('.lang-menu'))
+    document.querySelectorAll('.lang-dropdown').forEach(d => d.classList.remove('open'));
+});
+</script>
+</body>
+</html>
