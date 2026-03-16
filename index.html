@@ -33,7 +33,7 @@ a { text-decoration:none; color:inherit; }
   border-bottom:0.5px solid rgba(210,175,90,0.15);
 }
 .site-logo {
-  width:100%; max-height:120px; object-fit:contain;
+  width:100%; max-height:80px; object-fit:contain;
   display:block;
 }
 
@@ -83,9 +83,9 @@ nav {
 
 /* ── HERO ── */
 .hero {
-  min-height:100vh; display:flex; flex-direction:column;
+  min-height:auto; display:flex; flex-direction:column;
   align-items:center; justify-content:center;
-  padding:160px 40px 80px; position:relative; overflow:hidden;
+  padding:100px 40px 60px; position:relative; overflow:hidden;
 }
 .hero-bg {
   position:absolute; inset:0;
@@ -98,8 +98,8 @@ nav {
   background:linear-gradient(to bottom, transparent, var(--gold));
 }
 .hero-eyebrow {
-  position:relative; font-size:8px; letter-spacing:6px; text-transform:uppercase;
-  color:var(--gold); margin-bottom:20px;
+  position:relative; font-size:10px; letter-spacing:4px; text-transform:uppercase;
+  color:var(--gold); margin-bottom:10px;
   display:flex; align-items:center; gap:14px;
   animation:fadeUp .8s .1s both;
 }
@@ -107,14 +107,15 @@ nav {
 .hero-title {
   position:relative; font-family:'Playfair Display',serif;
   font-size:clamp(32px,5vw,62px); font-weight:400; text-align:center;
-  line-height:1.15; color:var(--text); margin-bottom:12px;
+  line-height:1.15; color:var(--text); margin-bottom:6px;
   animation:fadeUp .8s .25s both;
 }
 .hero-title em { font-style:italic; color:var(--gold); }
 .hero-tagline {
-  position:relative; font-family:'Cormorant Garamond',serif;
-  font-size:17px; font-weight:300; font-style:italic;
-  color:var(--muted); text-align:center; margin-bottom:8px; letter-spacing:1px;
+  position:relative; font-family:'Montserrat',sans-serif;
+  font-size:10px; font-weight:300; letter-spacing:3px;
+  color:var(--gold); text-align:center;
+  text-transform:uppercase; margin-bottom:24px; margin-top:0;
   animation:fadeUp .8s .4s both;
 }
 .hero-tagline2 {
@@ -124,9 +125,24 @@ nav {
 }
 
 /* STRIP PHOTOS HERO */
+.hero-strip-wrapper {
+  position:relative; overflow:hidden; width:100%; max-width:1000px;
+  margin-bottom:44px; animation:fadeUp .8s .6s both;
+}
+.hero-strip-wrapper::before,.hero-strip-wrapper::after {
+  content:''; position:absolute; top:0; bottom:0; width:60px; z-index:2; pointer-events:none;
+}
+.hero-strip-wrapper::before { left:0; background:linear-gradient(to right,#080808,transparent); }
+.hero-strip-wrapper::after  { right:0; background:linear-gradient(to left,#080808,transparent); }
 .hero-strip {
-  position:relative; display:flex; gap:8px; margin-bottom:44px; max-width:900px; width:100%;
-  animation:fadeUp .8s .6s both;
+  position:relative; display:flex; gap:8px;
+  width:max-content;
+  animation:fadeUp .8s .6s both, scrollStrip 30s linear 1s infinite;
+}
+.hero-strip:hover { animation-play-state:paused; }
+@keyframes scrollStrip {
+  0%   { transform:translateX(0); }
+  100% { transform:translateX(-50%); }
 }
 .hero-photo {
   flex-shrink:0; height:150px; border:0.5px solid rgba(210,175,90,0.12);
@@ -212,9 +228,10 @@ nav {
 .map-filters { display:flex; gap:8px; margin-bottom:14px; }
 .map-filter { font-size:7px; letter-spacing:1.5px; text-transform:uppercase; padding:5px 12px; border:0.5px solid rgba(210,175,90,0.18); color:var(--muted); cursor:pointer; transition:all .2s; background:transparent; font-family:'Montserrat',sans-serif; }
 .map-filter.on,.map-filter:hover { border-color:var(--gold); color:var(--gold); }
-.world-map { width:100%; height:280px; background:#060504; border:0.5px solid rgba(210,175,90,0.1); position:relative; overflow:hidden; }
-.map-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(210,175,90,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(210,175,90,0.025) 1px,transparent 1px); background-size:34px 34px; }
-.map-glow { position:absolute; inset:0; background:radial-gradient(ellipse 55% 35% at 40% 55%,rgba(210,175,90,0.05) 0%,transparent 65%),radial-gradient(ellipse 30% 20% at 72% 42%,rgba(210,175,90,0.03) 0%,transparent 55%); }
+.world-map { width:100%; height:280px; background:#1a1c1e; border:0.5px solid rgba(210,175,90,0.1); position:relative; overflow:hidden; }
+.map-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(210,175,90,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(210,175,90,0.015) 1px,transparent 1px); background-size:34px 34px; }
+.map-glow { position:absolute; inset:0; background:radial-gradient(ellipse 55% 35% at 40% 55%,rgba(210,175,90,0.04) 0%,transparent 65%); }
+.map-continents { position:absolute; inset:0; }
 .pin { position:absolute; cursor:pointer; display:flex; flex-direction:column; align-items:center; transform:translate(-50%,-100%); }
 .pin-dot { width:7px; height:7px; border-radius:50%; background:var(--gold); box-shadow:0 0 0 2px rgba(210,175,90,0.18),0 0 12px rgba(210,175,90,0.45); animation:pulse 3s ease-in-out infinite; }
 .pin-dot.sm { width:5px; height:5px; background:rgba(210,175,90,0.6); box-shadow:0 0 7px rgba(210,175,90,0.3); }
@@ -292,6 +309,43 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
 .footer-domain { font-size:8px; letter-spacing:1px; color:var(--muted2); }
 .footer-domain span { color:#3a3020; }
 
+
+/* ── CARROUSEL AUTO-SCROLL ── */
+.carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+.carousel {
+  display: flex;
+  gap: 14px;
+  padding-bottom: 4px;
+  width: max-content;
+  animation: scrollCarousel 40s linear infinite;
+}
+.carousel:hover { animation-play-state: paused; }
+.carousel-wrapper::before,
+.carousel-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+.carousel-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, #080808, transparent);
+}
+.carousel-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, #080808, transparent);
+}
+@keyframes scrollCarousel {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 /* ANIMATIONS */
 @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
 @keyframes pulse { 0%,100%{box-shadow:0 0 0 2px rgba(210,175,90,.18),0 0 12px rgba(210,175,90,.45)} 50%{box-shadow:0 0 0 4px rgba(210,175,90,.08),0 0 20px rgba(210,175,90,.65)} }
@@ -324,12 +378,12 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-line-top"></div>
-  <p class="hero-eyebrow" data-i18n="hero.eyebrow">Les vitrines du monde réel</p>
-  <h1 class="hero-title">Les plus belles boutiques<br>du <em>monde entier</em></h1>
-  <p class="hero-tagline" data-i18n="hero.tagline">Les plus originales · Les plus tendances · Les plus iconiques</p>
-  <p class="hero-tagline2" data-i18n="hero.tagline2">Explorez les vitrines des plus belles villes — ou de nulle part</p>
+  <p class="hero-eyebrow" data-i18n="hero.eyebrow">L'exploreur des boutiques du Monde</p>
+  <h1 class="hero-title">Les plus belles boutiques</h1>
+  <p class="hero-tagline" data-i18n="hero.tagline">Les plus originales &nbsp;—&nbsp; Les plus tendances &nbsp;—&nbsp; Les plus iconiques</p>
+  
 
-  <div class="hero-strip">
+  <div class="hero-strip-wrapper"><div class="hero-strip">
     <div class="hero-photo" style="width:200px">
       <img src="https://static.wixstatic.com/media/631e74_6212fb2a514d42c5b9222ee482cc1f5b~mv2.jpg" alt="Guerlain Paris">
       <div class="hero-photo-overlay"></div>
@@ -355,7 +409,7 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
       <div class="hero-photo-overlay"></div>
       <div class="hero-photo-label"><div class="hero-photo-city">Marrakech</div><div class="hero-photo-name">33 rue Majorelle</div></div>
     </div>
-  </div>
+  </div></div>
 
   <div class="hero-search">
     <div class="search-seg"><div class="search-label">Pays</div><div class="search-val">France</div></div>
@@ -383,7 +437,7 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
   </div>
   <div class="entry" onclick="window.location.href='villes.html'">
     <div class="entry-label">world-boutique-explorer.com</div>
-    <div class="entry-title">L'explorateur de boutiques</div>
+    <div class="entry-title">L'exploreur des boutiques du Monde</div>
     <div class="entry-desc">Cherchez, filtrez et découvrez par carte interactive. Pays, villes, catégories — accédez à toutes les boutiques référencées dans le monde.</div>
     <div class="entry-arrow">Explorer →</div>
   </div>
@@ -408,28 +462,111 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
     <a href="villes.html" class="section-link">Voir toutes les villes →</a>
   </div>
   <div class="map-filters">
-    <button class="map-filter on">Toutes</button>
-    <button class="map-filter">Mode</button>
-    <button class="map-filter">Bijoux</button>
-    <button class="map-filter">Art</button>
-    <button class="map-filter">Gastronomie</button>
+    <button class="map-filter on" onclick="filterMap('all',this)">Toutes</button>
+    <button class="map-filter" onclick="filterMap('Mode',this)">Mode</button>
+    <button class="map-filter" onclick="filterMap('Bijoux',this)">Bijoux</button>
+    <button class="map-filter" onclick="filterMap('Art',this)">Art</button>
+    <button class="map-filter" onclick="filterMap('Gastronomie',this)">Gastronomie</button>
   </div>
-  <div class="world-map">
-    <div class="map-grid"></div>
-    <div class="map-glow"></div>
-    <div class="pin" style="left:42%;top:38%"><div class="pin-lbl">Paris — 7 boutiques</div><div class="pin-dot"></div></div>
-    <div class="pin" style="left:38%;top:32%"><div class="pin-lbl">Londres</div><div class="pin-dot sm"></div></div>
-    <div class="pin" style="left:47%;top:40%"><div class="pin-lbl">Milan</div><div class="pin-dot sm"></div></div>
-    <div class="pin" style="left:46%;top:42%"><div class="pin-lbl">Venise</div><div class="pin-dot sm"></div></div>
-    <div class="pin" style="left:38%;top:44%"><div class="pin-lbl">Barcelone</div><div class="pin-dot sm"></div></div>
-    <div class="pin" style="left:45%;top:47%"><div class="pin-lbl">Côte d'Azur</div><div class="pin-dot sm"></div></div>
-    <div class="pin" style="left:39%;top:55%"><div class="pin-lbl">Marrakech</div><div class="pin-dot"></div></div>
-    <div class="pin" style="left:19%;top:36%"><div class="pin-lbl">New York</div><div class="pin-dot"></div></div>
-    <div class="pin" style="left:20%;top:44%"><div class="pin-lbl">Miami</div><div class="pin-dot sm"></div></div>
-    <div class="pin" style="left:76%;top:39%"><div class="pin-lbl">Tokyo</div><div class="pin-dot"></div></div>
-    <div class="pin" style="left:64%;top:43%"><div class="pin-lbl">Dubaï</div><div class="pin-dot sm"></div></div>
-    <div class="pin" style="left:82%;top:66%"><div class="pin-lbl">Sydney</div><div class="pin-dot"></div></div>
-  </div>
+
+<!-- CARTE LEAFLET -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+#cal-map {
+  width:100%; height:480px;
+  border:0.5px solid rgba(210,175,90,0.15);
+  z-index:1;
+}
+.leaflet-container { background:#1a1c1e; }
+.cal-popup {
+  font-family:'Montserrat',sans-serif;
+  background:#0f0f0d;
+  border:0.5px solid rgba(210,175,90,0.3);
+  border-radius:0;
+  color:#ede5d5;
+  min-width:160px;
+}
+.cal-popup .leaflet-popup-content-wrapper {
+  background:#0f0f0d;
+  border:0.5px solid rgba(210,175,90,0.3);
+  border-radius:0;
+  box-shadow:0 4px 20px rgba(0,0,0,0.5);
+  padding:0;
+}
+.cal-popup .leaflet-popup-tip { background:#0f0f0d; }
+.cal-popup .leaflet-popup-content { margin:0; padding:0; }
+.cal-popup-inner { padding:12px 16px; }
+.cal-popup-city { font-size:7px; letter-spacing:2px; text-transform:uppercase; color:#d2af5a; margin-bottom:4px; }
+.cal-popup-name { font-family:'Playfair Display',serif; font-size:15px; color:#f0e8d8; font-style:italic; margin-bottom:2px; }
+.cal-popup-cat  { font-size:9px; color:#5a5040; margin-bottom:10px; }
+.cal-popup-btn  {
+  display:block; width:100%; padding:8px;
+  background:#d2af5a; border:none; cursor:pointer;
+  font-size:8px; letter-spacing:2px; text-transform:uppercase;
+  color:#080808; font-family:'Montserrat',sans-serif;
+  text-align:center; text-decoration:none;
+}
+.cal-popup-btn:hover { background:#e2bf6a; }
+.cal-marker-pin {
+  width:12px; height:12px; border-radius:50%;
+  background:#d2af5a;
+  border:2px solid rgba(210,175,90,0.3);
+  box-shadow:0 0 8px rgba(210,175,90,0.6);
+}
+</style>
+<div id="cal-map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function() {
+  var map = L.map('cal-map', {
+    center: [30, 15],
+    zoom: 2,
+    minZoom: 2,
+    maxZoom: 16,
+    zoomControl: true,
+  });
+
+  // Tuiles sombres CartoDB
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors',
+    className: 'dark-tiles',
+    maxZoom: 19
+  }).addTo(map);
+
+  // Icône personnalisée dorée
+  function makeIcon() {
+    return L.divIcon({
+      className: '',
+      html: '<div class="cal-marker-pin"></div>',
+      iconSize: [12, 12],
+      iconAnchor: [6, 6],
+      popupAnchor: [0, -10]
+    });
+  }
+
+  // Boutiques
+  var boutiques = [{"name": "Guerlain", "category": "Parfumerie", "city": "Paris", "lat": 48.8698, "lon": 2.3078, "page": "paris.html"}, {"name": "Louis Vuitton", "category": "Maroquinerie", "city": "Paris", "lat": 48.8736, "lon": 2.3006, "page": "paris.html"}, {"name": "Dior", "category": "Haute Couture", "city": "Paris", "lat": 48.8656, "lon": 2.3017, "page": "paris.html"}, {"name": "À la mère de famille", "category": "Confiserie", "city": "Paris", "lat": 48.8756, "lon": 2.3467, "page": "paris.html"}, {"name": "Lancôme", "category": "Beauté", "city": "Paris", "lat": 48.8712, "lon": 2.3062, "page": "paris.html"}, {"name": "Maille", "category": "Épicerie Fine", "city": "Paris", "lat": 48.8701, "lon": 2.3248, "page": "paris.html"}, {"name": "Tsé Tsé", "category": "Design", "city": "Paris", "lat": 48.853, "lon": 2.3342, "page": "paris.html"}, {"name": "Paxton & Whitfield", "category": "Fromagerie", "city": "Londres", "lat": 51.5074, "lon": -0.1376, "page": "villes.html"}, {"name": "Floris 89", "category": "Parfumerie", "city": "Londres", "lat": 51.5068, "lon": -0.1386, "page": "villes.html"}, {"name": "Valextra", "category": "Maroquinerie", "city": "Milan", "lat": 45.4722, "lon": 9.1896, "page": "villes.html"}, {"name": "The Bridge", "category": "Maroquinerie", "city": "Milan", "lat": 45.47, "lon": 9.1847, "page": "villes.html"}, {"name": "Nuir Vintage", "category": "Mode Vintage", "city": "Tokyo", "lat": 35.6595, "lon": 139.7004, "page": "villes.html"}, {"name": "Mandarake", "category": "Culture", "city": "Tokyo", "lat": 35.6614, "lon": 139.6982, "page": "villes.html"}, {"name": "Un Cinq", "category": "Mode", "city": "Tokyo", "lat": 35.6328, "lon": 139.7156, "page": "villes.html"}, {"name": "Barovier & Toso", "category": "Art du Verre", "city": "Venise", "lat": 45.4408, "lon": 12.3155, "page": "villes.html"}, {"name": "The Merchant of Venice", "category": "Parfumerie", "city": "Venise", "lat": 45.438, "lon": 12.3358, "page": "villes.html"}, {"name": "33 rue Majorelle", "category": "Art & Design", "city": "Marrakech", "lat": 31.6372, "lon": -7.9904, "page": "villes.html"}, {"name": "Mustapha Blaoui", "category": "Artisanat", "city": "Marrakech", "lat": 31.632, "lon": -7.9892, "page": "villes.html"}, {"name": "Pop International Galleries", "category": "Art", "city": "New York", "lat": 40.7224, "lon": -74.003, "page": "villes.html"}, {"name": "Pippin Vintage Jewelry", "category": "Bijoux", "city": "New York", "lat": 40.7282, "lon": -73.9942, "page": "villes.html"}, {"name": "Casa Bloom", "category": "Mode Pre-Loved", "city": "Barcelone", "lat": 41.3973, "lon": 2.1606, "page": "villes.html"}, {"name": "La Basilica Galeria", "category": "Art", "city": "Barcelone", "lat": 41.3799, "lon": 2.1744, "page": "villes.html"}, {"name": "AAD Art Gallery", "category": "Art", "city": "Sydney", "lat": -33.8599, "lon": 151.209, "page": "villes.html"}, {"name": "Dinosaur Designs", "category": "Design", "city": "Sydney", "lat": -33.8897, "lon": 151.1994, "page": "villes.html"}, {"name": "Galerie Neel", "category": "Art", "city": "Cannes", "lat": 43.5516, "lon": 7.0174, "page": "villes.html"}, {"name": "Cédric Grolet", "category": "Pâtisserie", "city": "Saint-Tropez", "lat": 43.2727, "lon": 6.6407, "page": "villes.html"}, {"name": "U Rock Couture", "category": "Mode", "city": "Miami", "lat": 25.7907, "lon": -80.13, "page": "villes.html"}];
+
+  boutiques.forEach(function(b) {
+    var marker = L.marker([b.lat, b.lon], { icon: makeIcon() });
+    var popup = L.popup({ className: 'cal-popup', maxWidth: 200 })
+      .setContent(
+        '<div class="cal-popup-inner">' +
+        '<div class="cal-popup-city">' + b.city + '</div>' +
+        '<div class="cal-popup-name">' + b.name + '</div>' +
+        '<div class="cal-popup-cat">' + b.category + '</div>' +
+        '<a href="' + b.page + '" class="cal-popup-btn">Voir la fiche →</a>' +
+        '</div>'
+      );
+    marker.bindPopup(popup);
+    marker.addTo(map);
+  });
+
+  // Responsive
+  setTimeout(function(){ map.invalidateSize(); }, 200);
+})();
+</script>
+
 </div>
 
 <!-- CARROUSEL BOUTIQUES -->
@@ -438,8 +575,8 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
     <h2 class="section-title">Sélection <em>du moment</em></h2>
     <a href="villes.html" class="section-link">Voir tout →</a>
   </div>
-  <div class="carousel" id="carousel"></div>
-</div>
+  <div class="carousel-wrapper"><div class="carousel" id="carousel"></div>
+</div></div>
 
 <!-- FICHE BOUTIQUE -->
 <div class="fiche-section">
@@ -579,8 +716,8 @@ const i18n = {
     'nav.discover':'Découvrir','nav.cities':'Par ville','nav.categories':'Catégories',
     'nav.iconic':'Iconiques','nav.original':'Originales',
     'nav.login':'Se connecter','nav.myboutique':'Ma boutique',
-    'hero.eyebrow':'Les vitrines du monde réel',
-    'hero.title':'Les plus belles boutiques du <em>monde entier</em>',
+    'hero.eyebrow':'L\'exploreur des boutiques du Monde',
+    'hero.title':'Les plus belles boutiques du <em>Monde !</em>',
     'hero.tagline':'Les plus originales · Les plus tendances · Les plus iconiques',
     'hero.tagline2':'Explorez les vitrines des plus belles villes — ou de nulle part',
     'search.country':'Pays','search.city':'Ville','search.category':'Catégorie',
@@ -603,7 +740,7 @@ const i18n = {
     'nav.discover':'Descubrir','nav.cities':'Por ciudad','nav.categories':'Categorías',
     'nav.iconic':'Icónicas','nav.original':'Originales',
     'nav.login':'Iniciar sesión','nav.myboutique':'Mi boutique',
-    'hero.eyebrow':'Los escaparates del mundo real',
+    'hero.eyebrow':'El explorador de boutiques del Mundo',
     'hero.title':'Las boutiques más bellas del <em>mundo entero</em>',
     'hero.tagline':'Las más originales · Las más tendencia · Las más icónicas',
     'hero.tagline2':'Explora los escaparates de las ciudades más bellas',
@@ -615,7 +752,7 @@ const i18n = {
     'nav.discover':'Scoprire','nav.cities':'Per città','nav.categories':'Categorie',
     'nav.iconic':'Iconiche','nav.original':'Originali',
     'nav.login':'Accedi','nav.myboutique':'La mia boutique',
-    'hero.eyebrow':'Le vetrine del mondo reale',
+    'hero.eyebrow':'L\'esploratore delle boutique del Mondo',
     'hero.title':'Le boutique più belle del <em>mondo intero</em>',
     'hero.tagline':'Le più originali · Le più trendy · Le più iconiche',
     'hero.tagline2':'Esplora le vetrine delle città più belle del mondo',
@@ -627,7 +764,7 @@ const i18n = {
     'nav.discover':'発見する','nav.cities':'都市別','nav.categories':'カテゴリー',
     'nav.iconic':'象徴的','nav.original':'オリジナル',
     'nav.login':'ログイン','nav.myboutique':'マイブティック',
-    'hero.eyebrow':'世界のショーウィンドウ',
+    'hero.eyebrow':'世界のブティック・エクスプローラー',
     'hero.title':'<em>世界中</em>の最も美しいブティック',
     'hero.tagline':'最もオリジナル · 最もトレンディ · 最もアイコニック',
     'hero.tagline2':'世界の最も美しい街のショーウィンドウを探索',
@@ -639,7 +776,7 @@ const i18n = {
     'nav.discover':'اكتشف','nav.cities':'حسب المدينة','nav.categories':'الفئات',
     'nav.iconic':'أيقونية','nav.original':'أصيلة',
     'nav.login':'تسجيل الدخول','nav.myboutique':'بوتيكي',
-    'hero.eyebrow':'واجهات المتاجر الحقيقية في العالم',
+    'hero.eyebrow':'مستكشف بوتيكات العالم',
     'hero.title':'أجمل المتاجر في <em>العالم</em>',
     'hero.tagline':'الأكثر أصالة · الأكثر عصرية · الأكثر أيقونية',
     'hero.tagline2':'استكشف واجهات أجمل المدن في العالم',
@@ -651,7 +788,7 @@ const i18n = {
     'nav.discover':'探索','nav.cities':'按城市','nav.categories':'类别',
     'nav.iconic':'标志性','nav.original':'原创',
     'nav.login':'登录','nav.myboutique':'我的精品店',
-    'hero.eyebrow':'世界真实橱窗',
+    'hero.eyebrow':'世界精品店探索者',
     'hero.title':'全<em>世界</em>最美丽的精品店',
     'hero.tagline':'最原创 · 最时尚 · 最标志性',
     'hero.tagline2':'探索世界最美城市的橱窗',
@@ -698,5 +835,50 @@ document.addEventListener('DOMContentLoaded', () => {
   applyTranslations();
 });
 </script>
+
+<script>
+// ── CARTE : tooltips interactifs ──
+document.querySelectorAll('.pin').forEach(pin => {
+  pin.addEventListener('mouseenter', function(e) {
+    const tt = document.getElementById('mapTooltip');
+    document.getElementById('ttCity').textContent = this.dataset.city || '';
+    document.getElementById('ttCountry').textContent = this.dataset.country || '';
+    document.getElementById('ttCount').textContent = this.dataset.count ? this.dataset.count + ' boutiques référencées' : '';
+    const map = document.getElementById('worldMap');
+    const rect = map.getBoundingClientRect();
+    const pinRect = this.getBoundingClientRect();
+    let left = pinRect.left - rect.left + 10;
+    let top  = pinRect.top  - rect.top  - 70;
+    if (left + 160 > rect.width) left = left - 160;
+    if (top < 0) top = pinRect.bottom - rect.top + 5;
+    tt.style.left = left + 'px';
+    tt.style.top  = top  + 'px';
+    tt.style.display = 'block';
+  });
+  pin.addEventListener('mouseleave', function() {
+    document.getElementById('mapTooltip').style.display = 'none';
+  });
+  pin.style.cursor = 'pointer';
+  pin.addEventListener('click', function() {
+    window.location.href = 'villes.html';
+  });
+});
+
+// ── HERO STRIP : dupliquer pour scroll infini ──
+document.addEventListener('DOMContentLoaded', function() {
+  const strip = document.querySelector('.hero-strip');
+  if (strip) { strip.innerHTML = strip.innerHTML + strip.innerHTML; }
+});
+
+// ── CARROUSEL : dupliquer les cartes pour scroll infini ──
+document.addEventListener('DOMContentLoaded', function() {
+  const carousel = document.getElementById('carousel');
+  if (carousel) {
+    const items = carousel.innerHTML;
+    carousel.innerHTML = items + items; // dupliquer pour scroll infini
+  }
+});
+</script>
+
 </body>
 </html>
