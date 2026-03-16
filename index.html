@@ -681,7 +681,7 @@ const boutiques = [
 const carousel = document.getElementById('carousel');
 boutiques.forEach(b => {
   carousel.innerHTML += `
-  <div class="card" style="cursor:pointer" onclick="window.location.href=''+(b.page||'villes.html')">
+  <div class="card" style="cursor:pointer" onclick="window.location.href=(b.page||'villes.html')">
     <div class="card-visual">
       <img class="card-img" src="${b.photo}" alt="${b.name}" loading="lazy">
       <div class="card-veil"></div>
