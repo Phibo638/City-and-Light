@@ -254,7 +254,7 @@ const list = document.getElementById('boutiquesList');
 parisBoutiques.forEach(b => {
   const photos = b.photos;
   list.innerHTML += `
-  <div class="boutique" id="${b.name.toLowerCase().replace(/[^a-z0-9]/g,'-')}">
+  <div class="boutique" id="${b.name.toLowerCase().replace(/[^a-z0-9]/g,'-')}" style="cursor:pointer" onclick="window.location.href='boutique.html?id='+b.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')">
     <div class="b-gallery">
       <div class="b-photo main" style="background-image:url('${photos[0]}')"></div>
       ${photos[1] ? `<div class="b-photo" style="background-image:url('${photos[1]}')"></div>` : '<div class="b-photo" style="background:#0f0f0d"></div>'}
@@ -298,23 +298,27 @@ document.addEventListener('click', e => {
 });
 </script>
 
+
 <script>
-// Créer ancres automatiques sur les fiches boutiques
 document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.boutique, .b-name').forEach(function(el) {
-    var nameEl = el.classList.contains('b-name') ? el : el.querySelector('.b-name');
-    if (nameEl) {
-      var slug = nameEl.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-      var target = el.classList.contains('boutique') ? el : el.closest('.boutique');
-      if (target) target.id = slug;
+  // Créer ancres sur chaque fiche boutique
+  document.querySelectorAll('.boutique').forEach(function(el) {
+    var nameEl = el.querySelector('.b-name');
+    if (nameEl && nameEl.textContent) {
+      var slug = nameEl.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g,'');
+      el.setAttribute('id', slug);
     }
   });
-  // Scroll vers l'ancre si présente dans l'URL
+  // Scroll vers ancre si hash dans URL
   if (window.location.hash) {
     setTimeout(function() {
-      var el = document.querySelector(window.location.hash);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 300);
+      var target = document.querySelector(window.location.hash);
+      if (target) {
+        var offset = 120; // hauteur nav
+        var top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }
+    }, 400);
   }
 });
 </script>
