@@ -666,22 +666,22 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
 <script>
 // Données boutiques (extrait)
 const boutiques = [
-  { name:"Guerlain Paris Flagship Store", city:"Paris", category:"Parfumerie", photo:"https://static.wixstatic.com/media/631e74_6212fb2a514d42c5b9222ee482cc1f5b~mv2.jpg", tags:["Iconique","Luxe"] },
-  { name:"Louis Vuitton Paris", city:"Paris", category:"Mode", photo:"https://static.wixstatic.com/media/631e74_a0f529f3d56f4d108261bd78b2f214dd~mv2.jpg", tags:["Iconique","Flagship"] },
-  { name:"Valextra Milan", city:"Milan", category:"Maroquinerie", photo:"https://static.wixstatic.com/media/631e74_7e9297adf6dc4fe6ba75c075831b0d35~mv2.jpg", tags:["Luxe","Design"] },
-  { name:"Nuir Vintage", city:"Tokyo", category:"Mode Vintage", photo:"https://static.wixstatic.com/media/631e74_a9b1f6a31d5749f8aeaf04e4dda68f17~mv2.jpg", tags:["Originale","Vintage"] },
-  { name:"Paxton & Whitfield", city:"Londres", category:"Fromagerie", photo:"https://static.wixstatic.com/media/631e74_1cd1d0d4339e499ca5170614889ff684~mv2.jpg", tags:["Iconique","Gastronomie"] },
-  { name:"33 rue Majorelle", city:"Marrakech", category:"Art & Design", photo:"https://static.wixstatic.com/media/631e74_41840788dbe2482a933a2425de61b37a~mv2.jpg", tags:["Originale","Art"] },
-  { name:"Barovier & Toso", city:"Venise", category:"Art du verre", photo:"https://static.wixstatic.com/media/631e74_f23e0cc9ee314da5b758bbe2e2fc7bd2~mv2.jpg", tags:["Iconique","Artisanat"] },
-  { name:"Casa Bloom", city:"Barcelone", category:"Mode Pre-Loved", photo:"https://static.wixstatic.com/media/631e74_e7b3c56d6fc34d2ead175276b613ec9a~mv2.jpg", tags:["Originale","Tendance"] },
-  { name:"Pop International Galleries", city:"New York", category:"Art", photo:"https://static.wixstatic.com/media/631e74_6c85edd4da244dcf8096782504cdb023~mv2.jpg", tags:["Art","Iconique"] },
-  { name:"AAD Art Gallery", city:"Sydney", category:"Art", photo:"https://static.wixstatic.com/media/631e74_fb37e4169ddd48beafb030891c4726cb~mv2.jpg", tags:["Art","Originale"] },
+  { name:"Guerlain Paris Flagship Store", city:"Paris", category:"Parfumerie", page:"paris.html#guerlain-paris-flagship-store", photo:"https://static.wixstatic.com/media/631e74_6212fb2a514d42c5b9222ee482cc1f5b~mv2.jpg", tags:["Iconique","Luxe"] },
+  { name:"Louis Vuitton Paris", city:"Paris", category:"Mode", page:"paris.html#louis-vuitton-paris", photo:"https://static.wixstatic.com/media/631e74_a0f529f3d56f4d108261bd78b2f214dd~mv2.jpg", tags:["Iconique","Flagship"] },
+  { name:"Valextra Milan", city:"Milan", category:"Maroquinerie", page:"villes.html#valextra-milan", photo:"https://static.wixstatic.com/media/631e74_7e9297adf6dc4fe6ba75c075831b0d35~mv2.jpg", tags:["Luxe","Design"] },
+  { name:"Nuir Vintage", city:"Tokyo", category:"Mode Vintage", page:"villes.html#nuir-vintage", photo:"https://static.wixstatic.com/media/631e74_a9b1f6a31d5749f8aeaf04e4dda68f17~mv2.jpg", tags:["Originale","Vintage"] },
+  { name:"Paxton & Whitfield", city:"Londres", category:"Fromagerie", page:"villes.html#paxton-whitfield", photo:"https://static.wixstatic.com/media/631e74_1cd1d0d4339e499ca5170614889ff684~mv2.jpg", tags:["Iconique","Gastronomie"] },
+  { name:"33 rue Majorelle", city:"Marrakech", category:"Art & Design", page:"villes.html#33-rue-majorelle", photo:"https://static.wixstatic.com/media/631e74_41840788dbe2482a933a2425de61b37a~mv2.jpg", tags:["Originale","Art"] },
+  { name:"Barovier & Toso", city:"Venise", category:"Art du verre", page:"villes.html#barovier-toso", photo:"https://static.wixstatic.com/media/631e74_f23e0cc9ee314da5b758bbe2e2fc7bd2~mv2.jpg", tags:["Iconique","Artisanat"] },
+  { name:"Casa Bloom", city:"Barcelone", category:"Mode Pre-Loved", page:"villes.html#casa-bloom-barcelona", photo:"https://static.wixstatic.com/media/631e74_e7b3c56d6fc34d2ead175276b613ec9a~mv2.jpg", tags:["Originale","Tendance"] },
+  { name:"Pop International Galleries", city:"New York", category:"Art", page:"villes.html#pop-international-galleries", photo:"https://static.wixstatic.com/media/631e74_6c85edd4da244dcf8096782504cdb023~mv2.jpg", tags:["Art","Iconique"] },
+  { name:"AAD Art Gallery", city:"Sydney", category:"Art", page:"villes.html#aad-art-gallery-", photo:"https://static.wixstatic.com/media/631e74_fb37e4169ddd48beafb030891c4726cb~mv2.jpg", tags:["Art","Originale"] },
 ];
 
 const carousel = document.getElementById('carousel');
 boutiques.forEach(b => {
   carousel.innerHTML += `
-  <div class="card" style="cursor:pointer" onclick="window.location.href='${b.page || 'villes.html'}'">
+  <div class="card" style="cursor:pointer" onclick="window.location.href=''+(b.page||'villes.html')">
     <div class="card-visual">
       <img class="card-img" src="${b.photo}" alt="${b.name}" loading="lazy">
       <div class="card-veil"></div>
