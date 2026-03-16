@@ -513,6 +513,14 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
   border:2px solid rgba(210,175,90,0.3);
   box-shadow:0 0 8px rgba(210,175,90,0.6);
 }
+
+.dark-tiles { }
+.leaflet-container { background: #0d0d0b !important; }
+.cal-pin-wrap { position:relative; width:20px; height:32px; cursor:pointer; }
+.cal-pin-body { width:20px; height:20px; border-radius:50% 50% 50% 0; background:linear-gradient(135deg,#e2bf6a,#b8952e); transform:rotate(-45deg); box-shadow:0 2px 10px rgba(210,175,90,0.5); border:1px solid rgba(255,255,255,0.1); transition:transform .2s; }
+.cal-pin-wrap:hover .cal-pin-body { transform:rotate(-45deg) scale(1.2); }
+.cal-pin-dot { position:absolute; top:5px; left:5px; width:10px; height:10px; border-radius:50%; background:#0a0a08; z-index:1; }
+.cal-pin-shadow { position:absolute; bottom:-2px; left:50%; transform:translateX(-50%); width:8px; height:4px; background:rgba(0,0,0,0.35); border-radius:50%; }
 </style>
 <div id="cal-map"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -527,8 +535,8 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
   });
 
   // Tuiles sombres CartoDB
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors',
+  L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; Stadia Maps &copy; OpenStreetMap contributors',
     className: 'dark-tiles',
     maxZoom: 19
   }).addTo(map);
@@ -537,10 +545,10 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
   function makeIcon() {
     return L.divIcon({
       className: '',
-      html: '<div class="cal-marker-pin"></div>',
-      iconSize: [12, 12],
-      iconAnchor: [6, 6],
-      popupAnchor: [0, -10]
+      html: '<div class="cal-pin-wrap"><div class="cal-pin-body"></div><div class="cal-pin-dot"></div><div class="cal-pin-shadow"></div></div>',
+      iconSize: [20, 32],
+      iconAnchor: [10, 32],
+      popupAnchor: [0, -34]
     });
   }
 
