@@ -32,68 +32,92 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .lang-dropdown button{padding:10px 16px;font-size:11px;color:var(--text2);background:transparent;border:none;cursor:pointer;text-align:left;font-family:'Montserrat',sans-serif;border-bottom:0.5px solid rgba(210,175,90,0.08);transition:background .2s;}
 .lang-dropdown button:hover{background:rgba(210,175,90,0.06);color:var(--gold);}
 
-/* HERO PHOTO */
-.b-hero{margin-top:80px;position:relative;height:420px;overflow:hidden;}
-.b-hero-main{width:100%;height:100%;object-fit:cover;display:block;}
-.b-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,0.9) 0%,transparent 50%);}
-.b-hero-info{position:absolute;bottom:0;left:0;right:0;padding:32px 40px;}
-.b-badge{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block;}
-.b-name{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,52px);color:var(--text);margin-bottom:6px;}
-.b-city{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--muted);}
-.b-tags{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
-.b-tag{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border:0.5px solid rgba(210,175,90,0.3);color:#8a7a60;}
 
-/* GALERIE */
-.b-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:4px;padding:4px 0;}
-.b-gallery-thumb{height:140px;object-fit:cover;cursor:pointer;transition:opacity .3s;display:block;width:100%;}
-.b-gallery-thumb:hover{opacity:.85;}
+/* HERO solo */
+.b-hero { margin-top:80px; position:relative; height:500px; overflow:hidden; background:#0a0a08; }
+.b-hero-main { width:100%; height:100%; object-fit:cover; display:block; transition:opacity .3s; }
+.hero-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); border:0.5px solid rgba(210,175,90,0.3); color:#d2af5a; font-size:28px; padding:8px 14px; cursor:pointer; z-index:2; transition:all .2s; }
+.hero-nav:hover { background:rgba(210,175,90,0.2); }
+.hero-prev { left:16px; }
+.hero-next { right:16px; }
+.hero-counter { position:absolute; bottom:12px; right:16px; font-size:9px; letter-spacing:2px; color:rgba(255,255,255,0.6); background:rgba(0,0,0,0.5); padding:3px 8px; }
+
+/* GALERIE THUMBNAILS */
+.b-thumbs-wrap { background:#080808; padding:8px 40px; border-bottom:0.5px solid rgba(210,175,90,0.1); overflow:hidden; }
+.b-thumbs { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; scroll-behavior:smooth; }
+.b-thumbs::-webkit-scrollbar { display:none; }
+.gal-thumb { flex-shrink:0; width:80px; height:60px; cursor:pointer; border:2px solid transparent; transition:border-color .2s, opacity .2s; opacity:.55; }
+.gal-thumb.active { border-color:#d2af5a; opacity:1; }
+.gal-thumb:hover { opacity:.85; }
+.gal-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+
+/* HEADER INFO sous image */
+.b-header-info { display:flex; justify-content:space-between; align-items:flex-start; padding:28px 40px; border-bottom:0.5px solid rgba(210,175,90,0.1); background:#0a0a08; flex-wrap:wrap; gap:16px; }
+.b-header-left { display:flex; flex-direction:column; gap:6px; }
+.b-badge { font-size:8px; letter-spacing:2.5px; text-transform:uppercase; color:#d2af5a; }
+.b-name { font-family:'Playfair Display',serif; font-size:clamp(24px,3.5vw,42px); color:#f0e8d8; }
+.b-location { font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:#5a5040; }
+.b-tags { display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
+.b-tag { font-size:7px; letter-spacing:1.5px; text-transform:uppercase; padding:3px 10px; border:0.5px solid rgba(210,175,90,0.3); color:#8a7a60; }
+.b-header-right { display:flex; flex-direction:column; align-items:flex-end; gap:10px; }
+.b-hours { display:flex; flex-direction:column; align-items:flex-end; gap:2px; }
+.b-hours-label { font-size:7px; letter-spacing:2px; text-transform:uppercase; color:#3a3020; }
+.b-hours-val { font-size:11px; color:#8a8070; }
+.b-btns-top { display:flex; gap:8px; }
 
 /* CONTENU */
-.b-content{display:grid;grid-template-columns:1.5fr 1fr;gap:0;}
-.b-main{padding:36px 40px;}
-.b-section-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--text);margin-bottom:16px;}
-.b-section-title em{font-style:italic;color:var(--gold);}
-.b-desc{font-size:11px;color:#8a8070;line-height:1.8;margin-bottom:24px;}
-.b-sidebar{padding:36px 28px;background:var(--bg2);border-left:0.5px solid rgba(210,175,90,0.1);}
-.b-info-block{margin-bottom:24px;}
-.b-info-title{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
-.b-row{display:flex;gap:10px;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.04);}
-.b-key{color:var(--muted2);min-width:80px;font-size:7px;letter-spacing:1.5px;text-transform:uppercase;padding-top:2px;}
-.b-val{color:#b8ac98;flex:1;font-size:10px;}
-.b-val a{color:var(--gold);}
-.b-btns{display:flex;flex-direction:column;gap:8px;margin-top:20px;}
-.b-btn-g{padding:12px;background:var(--gold);border:none;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--bg);cursor:pointer;font-family:'Montserrat',sans-serif;text-align:center;transition:background .2s;}
-.b-btn-g:hover{background:var(--gold-light);}
-.b-btn-o{padding:12px;background:transparent;border:0.5px solid rgba(210,175,90,0.3);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);cursor:pointer;font-family:'Montserrat',sans-serif;text-align:center;}
-.b-btn-o:hover{background:rgba(210,175,90,0.06);}
+.b-content { display:grid; grid-template-columns:1.6fr 1fr; gap:0; }
+.b-main { padding:36px 40px; }
+.b-section-title { font-family:'Playfair Display',serif; font-size:18px; color:#f0e8d8; margin-bottom:16px; }
+.b-section-title em { font-style:italic; color:#d2af5a; }
+.b-desc { font-size:11px; color:#8a8070; line-height:1.8; margin-bottom:28px; }
 
-/* MINI CARTE */
-#b-map{width:100%;height:200px;margin-top:16px;border:0.5px solid rgba(210,175,90,0.15);}
+/* COMMENTAIRE IA */
+.b-ai-section { background:#0d0d0b; border:0.5px solid rgba(210,175,90,0.15); padding:24px; }
+.b-ai-header { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.b-ai-icon { color:#d2af5a; font-size:12px; }
+.b-ai-title { font-family:'Playfair Display',serif; font-size:15px; color:#f0e8d8; font-style:italic; flex:1; }
+.b-ai-badge { font-size:7px; letter-spacing:2px; text-transform:uppercase; color:#3a3020; padding:3px 8px; border:0.5px solid rgba(210,175,90,0.15); }
+.b-ai-text { font-size:11px; color:#8a8070; line-height:1.8; font-style:italic; }
+.b-ai-loading { font-size:10px; color:#3a3020; letter-spacing:2px; text-transform:uppercase; animation:pulse 1.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
 
-/* BOUTIQUES SIMILAIRES */
-.similar-section{padding:36px 40px;border-top:0.5px solid rgba(210,175,90,0.1);}
-.similar-grid{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;margin-top:16px;}
-.similar-grid::-webkit-scrollbar{display:none;}
-.similar-card{flex-shrink:0;width:180px;border:0.5px solid rgba(210,175,90,0.1);cursor:pointer;transition:border-color .3s,transform .2s;}
-.similar-card:hover{border-color:rgba(210,175,90,0.4);transform:translateY(-2px);}
-.similar-photo{width:100%;height:120px;object-fit:cover;display:block;}
-.similar-info{padding:8px 10px;background:#0d0d0b;}
-.similar-cat{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:2px;}
-.similar-name{font-family:'Playfair Display',serif;font-size:12px;color:var(--text);font-style:italic;}
-.similar-city{font-size:8px;color:var(--muted);}
+/* SIDEBAR */
+.b-sidebar { padding:32px 28px; background:#0b0b09; border-left:0.5px solid rgba(210,175,90,0.1); }
+.b-info-block { margin-bottom:20px; }
+.b-info-title { font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#d2af5a; margin-bottom:10px; }
+.b-row { display:flex; gap:10px; padding:8px 0; border-bottom:0.5px solid rgba(255,255,255,0.04); }
+.b-key { color:#3a3020; min-width:80px; font-size:7px; letter-spacing:1.5px; text-transform:uppercase; padding-top:2px; }
+.b-val { color:#b8ac98; flex:1; font-size:10px; }
+.b-val a { color:#d2af5a; }
+#b-map { width:100%; height:180px; margin-top:16px; border:0.5px solid rgba(210,175,90,0.15); }
 
-/* ERREUR */
-.b-error{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px;}
-.b-error-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--text);}
-.b-error-sub{font-size:10px;color:var(--muted);letter-spacing:2px;}
+/* BTNS */
+.b-btn-g { flex:1; padding:10px 16px; background:#d2af5a; border:none; font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#080808; cursor:pointer; font-family:'Montserrat',sans-serif; text-align:center; text-decoration:none; transition:background .2s; display:block; }
+.b-btn-g:hover { background:#e2bf6a; }
+.b-btn-o { flex:1; padding:10px 16px; background:transparent; border:0.5px solid rgba(210,175,90,0.3); font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#d2af5a; cursor:pointer; font-family:'Montserrat',sans-serif; text-align:center; text-decoration:none; display:block; }
+.b-btn-o:hover { background:rgba(210,175,90,0.06); }
+.b-btns-top .b-btn-g, .b-btns-top .b-btn-o { padding:8px 14px; }
 
-/* FOOTER */
-footer{border-top:0.5px solid rgba(210,175,90,0.1);padding:20px 40px;display:flex;justify-content:space-between;align-items:center;}
-.footer-brand{font-family:'Playfair Display',serif;font-size:11px;letter-spacing:3px;color:var(--muted2);text-transform:uppercase;}
+/* SIMILAIRES */
+.similar-section { padding:36px 40px; border-top:0.5px solid rgba(210,175,90,0.1); }
+.similar-grid { display:flex; gap:14px; overflow-x:auto; scrollbar-width:none; margin-top:16px; }
+.similar-grid::-webkit-scrollbar { display:none; }
+.similar-card { flex-shrink:0; width:180px; border:0.5px solid rgba(210,175,90,0.1); cursor:pointer; transition:border-color .3s,transform .2s; }
+.similar-card:hover { border-color:rgba(210,175,90,0.4); transform:translateY(-2px); }
+.similar-photo { width:100%; height:120px; object-fit:cover; display:block; }
+.similar-info { padding:8px 10px; background:#0d0d0b; }
+.similar-cat { font-size:7px; letter-spacing:1.5px; text-transform:uppercase; color:#d2af5a; margin-bottom:2px; }
+.similar-name { font-family:'Playfair Display',serif; font-size:12px; color:#f0e8d8; font-style:italic; }
+.similar-city { font-size:8px; color:#5a5040; }
 
-/* LOADING */
-.b-loading{display:flex;align-items:center;justify-content:center;min-height:80vh;}
-.b-loading-text{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--muted);letter-spacing:2px;}
+/* ERREUR / LOADING */
+.b-error { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; gap:16px; }
+.b-error-title { font-family:'Playfair Display',serif; font-size:24px; color:#f0e8d8; }
+.b-error-sub { font-size:10px; color:#5a5040; letter-spacing:2px; }
+.b-loading { display:flex; align-items:center; justify-content:center; min-height:80vh; }
+.b-loading-text { font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; color:#5a5040; letter-spacing:2px; }
+
 </style>
 </head>
 <body>
@@ -176,23 +200,25 @@ document.addEventListener('click', e => {
     document.querySelectorAll('.lang-dropdown').forEach(d => d.classList.remove('open'));
 });
 
-// ── RENDU DE LA FICHE ──
+
 function renderBoutique(b) {
   const photos = b.photos || [];
   const p1 = photos[0] || '';
-  const galleryHtml = photos.slice(1).map(p =>
-    `<img class="b-gallery-thumb" src="${p}" alt="${b.name}" loading="lazy">`
-  ).join('');
+  
+  // Galerie thumbnails
+  const thumbsHtml = photos.map((p, i) => `
+    <div class="gal-thumb ${i===0?'active':''}" data-index="${i}" onclick="selectPhoto(${i})">
+      <img src="${p}" alt="${b.name} ${i+1}" loading="lazy">
+    </div>
+  `).join('');
 
   const tagsHtml = (b.tags || []).map(t => `<span class="b-tag">${t}</span>`).join('');
 
-  const similarBoutiques = BOUTIQUES
-    .filter(x => x.id !== b.id && (x.city === b.city || x.category === b.category))
-    .slice(0, 6);
-
-  const similarHtml = similarBoutiques.map(s => `
+  // Boutiques similaires
+  const similar = BOUTIQUES.filter(x => x.id !== b.id && (x.city === b.city || x.category === b.category)).slice(0, 6);
+  const similarHtml = similar.map(s => `
     <div class="similar-card" onclick="window.location.href='boutique.html?id=${s.id}'">
-      <img class="similar-photo" src="${s.photos[0] || ''}" alt="${s.name}" loading="lazy">
+      <img class="similar-photo" src="${s.photos[0]||''}" alt="${s.name}" loading="lazy">
       <div class="similar-info">
         <div class="similar-cat">${s.category}</div>
         <div class="similar-name">${s.name}</div>
@@ -202,42 +228,77 @@ function renderBoutique(b) {
   `).join('');
 
   document.getElementById('pageContent').innerHTML = `
-    <!-- HERO -->
+
+    <!-- HERO PHOTO GRANDE -->
     <div class="b-hero">
-      <img class="b-hero-main" src="${p1}" alt="${b.name}">
-      <div class="b-hero-overlay"></div>
-      <div class="b-hero-info">
+      <img class="b-hero-main" id="heroPhoto" src="${p1}" alt="${b.name}">
+      <!-- Flèches navigation -->
+      ${photos.length > 1 ? `
+        <button class="hero-nav hero-prev" onclick="navigatePhoto(-1)">&#8249;</button>
+        <button class="hero-nav hero-next" onclick="navigatePhoto(1)">&#8250;</button>
+        <div class="hero-counter"><span id="photoCounter">1</span> / ${photos.length}</div>
+      ` : ''}
+    </div>
+
+    <!-- GALERIE THUMBNAILS -->
+    ${photos.length > 1 ? `
+    <div class="b-thumbs-wrap">
+      <div class="b-thumbs" id="thumbsContainer">
+        ${thumbsHtml}
+      </div>
+    </div>` : ''}
+
+    <!-- INFOS BOUTIQUE (sous l'image) -->
+    <div class="b-header-info">
+      <div class="b-header-left">
         <span class="b-badge">✦ ${b.badge}</span>
-        <div class="b-name">${b.name}</div>
-        <div class="b-city">${b.city}, ${b.country}</div>
+        <h1 class="b-name">${b.name}</h1>
+        <div class="b-location">${b.city}, ${b.country}</div>
         <div class="b-tags">${tagsHtml}</div>
+      </div>
+      <div class="b-header-right">
+        ${b.hours ? `<div class="b-hours"><span class="b-hours-label">Horaires</span><span class="b-hours-val">${b.hours}</span></div>` : ''}
+        <div class="b-btns-top">
+          ${b.address ? `<a href="https://maps.google.com?q=${encodeURIComponent(b.name+' '+b.address)}" target="_blank" class="b-btn-g">Itinéraire</a>` : ''}
+          ${b.website ? `<a href="${b.website}" target="_blank" class="b-btn-o">Site web</a>` : ''}
+        </div>
       </div>
     </div>
 
-    <!-- GALERIE -->
-    ${galleryHtml ? `<div class="b-gallery">${galleryHtml}</div>` : ''}
-
-    <!-- CONTENU + SIDEBAR -->
+    <!-- CONTENU PRINCIPAL -->
     <div class="b-content">
+
+      <!-- COLONNE PRINCIPALE -->
       <div class="b-main">
         <h2 class="b-section-title">À propos de <em>${b.name}</em></h2>
         <p class="b-desc">${b.desc}</p>
+
+        <!-- COMMENTAIRE IA SUR LES PRODUITS -->
+        <div class="b-ai-section">
+          <div class="b-ai-header">
+            <span class="b-ai-icon">✦</span>
+            <span class="b-ai-title">Ce que vous trouverez ici</span>
+            <span class="b-ai-badge">Analyse City & Light</span>
+          </div>
+          <div class="b-ai-content" id="aiContent">
+            <div class="b-ai-loading">Analyse en cours...</div>
+          </div>
+        </div>
       </div>
+
+      <!-- SIDEBAR -->
       <div class="b-sidebar">
         <div class="b-info-block">
-          <div class="b-info-title">Informations</div>
+          <div class="b-info-title">Informations pratiques</div>
           ${b.address ? `<div class="b-row"><span class="b-key">Adresse</span><span class="b-val">${b.address}</span></div>` : ''}
           ${b.hours ? `<div class="b-row"><span class="b-key">Horaires</span><span class="b-val">${b.hours}</span></div>` : ''}
           ${b.phone ? `<div class="b-row"><span class="b-key">Téléphone</span><span class="b-val">${b.phone}</span></div>` : ''}
           ${b.website ? `<div class="b-row"><span class="b-key">Site web</span><span class="b-val"><a href="${b.website}" target="_blank">${b.website.replace('https://www.','').replace('https://','').split('/')[0]} →</a></span></div>` : ''}
           <div class="b-row"><span class="b-key">Catégorie</span><span class="b-val">${b.category}</span></div>
-        </div>
-        <div class="b-btns">
-          ${b.address ? `<a href="https://maps.google.com?q=${encodeURIComponent(b.name + ' ' + b.address)}" target="_blank" class="b-btn-g">Itinéraire Google Maps</a>` : ''}
-          ${b.website ? `<a href="${b.website}" target="_blank" class="b-btn-o">Visiter le site web</a>` : ''}
-          <button class="b-btn-o" onclick="goBack()">← Retour à la liste</button>
+          <div class="b-row"><span class="b-key">Ville</span><span class="b-val">${b.city}, ${b.country}</span></div>
         </div>
         <div id="b-map"></div>
+        <button class="b-btn-o" style="width:100%;margin-top:12px;" onclick="goBack()">← Retour à la liste</button>
       </div>
     </div>
 
@@ -249,32 +310,85 @@ function renderBoutique(b) {
     </div>` : ''}
   `;
 
-  // Initialiser la mini carte
+  // ── Mini carte ──
   if (b.lat && b.lon) {
     setTimeout(() => {
-      const map = L.map('b-map', {
-        center: [b.lat, b.lon],
-        zoom: 15,
-        zoomControl: true,
-        scrollWheelZoom: false
-      });
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap'
-      }).addTo(map);
-      const icon = L.divIcon({
-        className: '',
-        html: '<div style="width:20px;height:20px;border-radius:50% 50% 50% 0;background:linear-gradient(135deg,#e2bf6a,#b8952e);transform:rotate(-45deg);box-shadow:0 2px 10px rgba(210,175,90,0.5);border:1px solid rgba(255,255,255,0.1);"><div style="position:absolute;top:5px;left:5px;width:10px;height:10px;border-radius:50%;background:#080808;"></div></div>',
-        iconSize: [20, 20],
-        iconAnchor: [10, 20],
-      });
-      L.marker([b.lat, b.lon], {icon}).addTo(map).bindPopup(b.name).openPopup();
+      const map = L.map('b-map', { center:[b.lat,b.lon], zoom:15, zoomControl:true, scrollWheelZoom:false });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution:'&copy; OpenStreetMap' }).addTo(map);
+      const icon = L.divIcon({ className:'', html:'<div style="width:20px;height:20px;border-radius:50% 50% 50% 0;background:linear-gradient(135deg,#e2bf6a,#b8952e);transform:rotate(-45deg);box-shadow:0 2px 10px rgba(210,175,90,0.5);"><div style="position:absolute;top:5px;left:5px;width:10px;height:10px;border-radius:50%;background:#080808;"></div></div>', iconSize:[20,20], iconAnchor:[10,20] });
+      L.marker([b.lat,b.lon],{icon}).addTo(map).bindPopup(b.name).openPopup();
       map.invalidateSize();
     }, 300);
   }
 
-  // Mettre à jour le titre de la page
+  // ── Galerie : index courant ──
+  window._currentPhotoIndex = 0;
+  window._photos = photos;
+
+  // ── Commentaire IA ──
+  generateAIComment(b);
+
   document.title = b.name + ' — City & Light';
 }
+
+// ── SÉLECTION PHOTO ──
+function selectPhoto(index) {
+  const photos = window._photos;
+  if (!photos || index < 0 || index >= photos.length) return;
+  window._currentPhotoIndex = index;
+  document.getElementById('heroPhoto').src = photos[index];
+  document.getElementById('heroPhoto').style.opacity = '0';
+  setTimeout(() => { document.getElementById('heroPhoto').style.opacity = '1'; }, 50);
+  document.querySelectorAll('.gal-thumb').forEach((t,i) => t.classList.toggle('active', i === index));
+  if (document.getElementById('photoCounter')) document.getElementById('photoCounter').textContent = index + 1;
+  // Scroll thumbnail visible
+  const thumb = document.querySelectorAll('.gal-thumb')[index];
+  if (thumb) thumb.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+}
+
+// ── NAVIGATION FLÈCHES ──
+function navigatePhoto(dir) {
+  const photos = window._photos;
+  if (!photos) return;
+  let idx = (window._currentPhotoIndex + dir + photos.length) % photos.length;
+  selectPhoto(idx);
+}
+
+// ── COMMENTAIRE IA ──
+async function generateAIComment(b) {
+  const el = document.getElementById('aiContent');
+  if (!el) return;
+  try {
+    const prompt = `Tu es un expert en boutiques de luxe et commerce de détail haut de gamme pour le site City and Light - World Boutique Explorer.
+Rédige un court commentaire éditorial (150-200 mots maximum) sur les produits que l'on peut trouver dans la boutique suivante :
+- Nom : ${b.name}
+- Catégorie : ${b.category}
+- Ville : ${b.city}, ${b.country}
+- Description : ${b.desc}
+
+Le ton doit être élégant, inspirant et précis. Parle des produits phares, des spécialités, du style et de l'expérience d'achat unique. Commence directement par le contenu, sans titre ni introduction. Écris en français.`;
+
+    const resp = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 400,
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content?.[0]?.text || '';
+    if (text) {
+      el.innerHTML = `<p class="b-ai-text">${text}</p>`;
+    } else {
+      el.innerHTML = `<p class="b-ai-text">Une sélection exceptionnelle vous attend dans cette boutique unique, mêlant savoir-faire artisanal et élégance contemporaine.</p>`;
+    }
+  } catch(e) {
+    el.innerHTML = `<p class="b-ai-text">Une adresse incontournable pour les amateurs de belles choses, alliant qualité, originalité et passion du métier.</p>`;
+  }
+}
+
 
 // ── AFFICHER L'ERREUR ──
 function renderError(id) {
