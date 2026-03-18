@@ -151,10 +151,30 @@ function navPhoto(d){selectPhoto((_idx+d+_photos.length)%_photos.length);}
 async function genAI(b){
   const el=document.getElementById('aiTxt');
   if(!el)return;
+  const prompt=[
+    'Tu es un expert en boutiques de luxe pour City and Light.',
+    'Redige un commentaire editorial elegant de 120-150 mots sur les produits que lon trouve dans cette boutique.',
+    'Boutique: '+b.name+'. Categorie: '+b.category+'. Ville: '+b.city+'.',
+    b.desc,
+    'Commence directement. Francais.'
+  ].join(' ');
   try{
-    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:350,
-        messages:[{role:"user",content:"Tu es un expert en boutiques de luxe pour City and Light. Rédige un commentaire éditorial élégant de 120-150 mots sur les produits que l'on trouve dans cette boutique: "+b.name+", "+b.category+", "+b.city+". "+b.desc+" Commence directement. Français."}]})}
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:350,
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    const d=await r.json();
+    const txt=(d.content&&d.content[0]&&d.content[0].text)||'';
+    el.innerHTML=txt?('<p class="b-ai-txt">'+txt+'</p>'):'<p class="b-ai-txt">Une selection exceptionnelle vous attend dans cette boutique unique.</p>';
+  }catch(e){
+    el.innerHTML='<p class="b-ai-txt">Une adresse incontournable alliant qualite, originalite et passion du metier.</p>';
+  }
+}
     });
     const d=await r.json();
     const txt=d.content?.[0]?.text||'';
@@ -163,7 +183,7 @@ async function genAI(b){
 }
 
 
-function esc(s) { return (s||'').replace(/`/g,'\\`').replace(/\$/g,'\\$'); }
+function esc(s) { return (s||''); }
 
 function render(b){
   _photos=b.photos||[];_idx=0;
