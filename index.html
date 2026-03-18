@@ -205,12 +205,12 @@ nav {
 .entry-arrow { font-size:9px; color:var(--gold); letter-spacing:2px; margin-top:4px; }
 
 /* ── SEARCH SECTION ── */
-.search-section { background:var(--bg2); padding:32px 40px; border-bottom:0.5px solid rgba(210,175,90,0.08); }
+.search-section { background:var(--bg2); padding:32px 40px; border-bottom:0.5px solid rgba(210,175,90,0.08); position:relative; z-index:50; }
 .search-section-title { font-family:'Playfair Display',serif; font-size:14px; color:var(--gold); font-style:italic; margin-bottom:16px; }
 .search-bar-full {
   display:flex; border:0.5px solid rgba(210,175,90,0.22); background:rgba(255,255,255,0.02);
 }
-.sb-seg { flex:1; padding:13px 18px; border-right:0.5px solid rgba(210,175,90,0.1); cursor:pointer; }
+.sb-seg { flex:1; padding:13px 18px; border-right:0.5px solid rgba(210,175,90,0.1); cursor:pointer; position:relative; }
 .sb-seg:last-of-type { border-right:none; }
 .sb-seg:hover { background:rgba(210,175,90,0.03); }
 .sb-label { font-size:7px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:3px; }
@@ -430,74 +430,92 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
     </div>
   </div></div>
 
-  <p style="font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--muted);letter-spacing:1px;margin-bottom:12px;text-align:center;">World Boutique Explorer — <em style="color:var(--gold)">Recherche intuitive</em></p>
-  <div class="hero-search">
-    <div class="search-seg" id="seg-pays" onclick="toggleDrop('pays')">
-      <div class="search-label">Pays</div>
-      <div class="search-val" id="val-pays">Tous les pays</div>
-      <div class="search-drop" id="drop-pays">
-        <div class="search-drop-item" onclick="selectSearch('pays','')">Tous les pays</div>
-        <div class="search-drop-item" onclick="selectSearch('pays','Australie')">Australie</div>
-        <div class="search-drop-item" onclick="selectSearch('pays','Espagne')">Espagne</div>
-        <div class="search-drop-item" onclick="selectSearch('pays','France')">France</div>
-        <div class="search-drop-item" onclick="selectSearch('pays','Italie')">Italie</div>
-        <div class="search-drop-item" onclick="selectSearch('pays','Japon')">Japon</div>
-        <div class="search-drop-item" onclick="selectSearch('pays','Maroc')">Maroc</div>
-        <div class="search-drop-item" onclick="selectSearch('pays','UK')">UK</div>
-        <div class="search-drop-item" onclick="selectSearch('pays','USA')">USA</div>
-      </div>
-    </div>
-    <div class="search-seg" id="seg-ville" onclick="toggleDrop('ville')">
-      <div class="search-label">Ville</div>
-      <div class="search-val" id="val-ville">Toutes les villes</div>
-      <div class="search-drop" id="drop-ville">
-        <div class="search-drop-item" onclick="selectSearch('ville','')">Toutes les villes</div>
-        <div class="search-drop-item" onclick="selectSearch('ville','Barcelone')">Barcelone</div>
-        <div class="search-drop-item" onclick="selectSearch('ville','Cannes')">Cannes</div>
-        <div class="search-drop-item" onclick="selectSearch('ville','Londres')">Londres</div>
-        <div class="search-drop-item" onclick="selectSearch('ville','Marrakech')">Marrakech</div>
-        <div class="search-drop-item" onclick="selectSearch('ville','Miami')">Miami</div>
-        <div class="search-drop-item" onclick="selectSearch('ville','Milan')">Milan</div>
-        <div class="search-drop-item" onclick="selectSearch('ville','New York')">New York</div>
-        <div class="search-drop-item" onclick="selectSearch('ville','Paris')">Paris</div>
-        <div class="search-drop-item" onclick="selectSearch('ville','Saint-Tropez')">Saint-Tropez</div>
-        <div class="search-drop-item" onclick="selectSearch('ville','Sydney')">Sydney</div>
-        <div class="search-drop-item" onclick="selectSearch('ville','Tokyo')">Tokyo</div>
-        <div class="search-drop-item" onclick="selectSearch('ville','Venise')">Venise</div>
-      </div>
-    </div>
-    <div class="search-seg" id="seg-cat" onclick="toggleDrop('cat')">
-      <div class="search-label">Catégorie</div>
-      <div class="search-val" id="val-cat">Toutes catégories</div>
-      <div class="search-drop" id="drop-cat">
-        <div class="search-drop-item" onclick="selectSearch('cat','')">Toutes catégories</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Art & Design')">Art & Design</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Art du Verre')">Art du Verre</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Artisanat')">Artisanat</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Beauté')">Beauté</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Bijoux Vintage')">Bijoux Vintage</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Confiserie Fine')">Confiserie Fine</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Culture & Manga')">Culture & Manga</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Design')">Design</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Design & Bijoux')">Design & Bijoux</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Fromagerie Fine')">Fromagerie Fine</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Galerie d'Art')">Galerie d'Art</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Haute Couture')">Haute Couture</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Maroquinerie')">Maroquinerie</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Mode')">Mode</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Mode Pre-Loved')">Mode Pre-Loved</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Mode Vintage')">Mode Vintage</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Parfumerie')">Parfumerie</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Pâtisserie')">Pâtisserie</div>
-        <div class="search-drop-item" onclick="selectSearch('cat','Épicerie Fine')">Épicerie Fine</div>
-      </div>
-    </div>
-    <button class="search-btn" onclick="doSearch()">Explorer</button>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-n">48 000</span><span class="stat-l">Boutiques</span></div>
+    <div class="stat"><span class="stat-n">127</span><span class="stat-l">Villes</span></div>
+    <div class="stat"><span class="stat-n">38</span><span class="stat-l">Pays</span></div>
+    <div class="stat"><span class="stat-n">6</span><span class="stat-l">Continents</span></div>
   </div>
+</section>
 
-  </section>
+<!-- DOUBLE ENTRÉE -->
+<div class="dual">
+  <div class="entry" onclick="window.location.href='villes.html'">
+    <div class="entry-label">cityandlight.com</div>
+    <div class="entry-title">L'expérience éditoriale</div>
+    <div class="entry-desc">Plongez dans l'univers des boutiques iconiques du monde entier. Une sélection curatée, des vitrines sublimées, une ambiance magazine de luxe.</div>
+    <div class="entry-arrow">Entrer →</div>
+  </div>
+  <div class="entry" onclick="window.location.href='villes.html'">
+    <div class="entry-label">world-boutique-explorer.com</div>
+    <div class="entry-title">L'exploreur des boutiques du Monde</div>
+    <div class="entry-desc">Cherchez, filtrez et découvrez par carte interactive. Pays, villes, catégories — accédez à toutes les boutiques référencées dans le monde.</div>
+    <div class="entry-arrow">Explorer →</div>
+  </div>
+</div>
 
-<!-- CARTE MONDIALE -->
+<!-- SEARCH BAR -->
+<div class="search-section">
+  <div class="search-section-title">World Boutique Explorer — Recherche intuitive</div>
+  <div class="search-bar-full">
+    <div class="sb-seg" onclick="toggleDrop2('pays2')">
+      <div class="sb-label">Pays</div>
+      <div class="sb-val" id="val2-pays">Tous les pays</div>
+      <div class="search-drop" id="drop-pays2">
+        <div class="search-drop-item" onclick="selectSearch2('pays','')">Tous les pays</div>
+        <div class="search-drop-item" onclick="selectSearch2('pays','Australie')">Australie</div>
+        <div class="search-drop-item" onclick="selectSearch2('pays','Espagne')">Espagne</div>
+        <div class="search-drop-item" onclick="selectSearch2('pays','France')">France</div>
+        <div class="search-drop-item" onclick="selectSearch2('pays','Italie')">Italie</div>
+        <div class="search-drop-item" onclick="selectSearch2('pays','Japon')">Japon</div>
+        <div class="search-drop-item" onclick="selectSearch2('pays','Maroc')">Maroc</div>
+        <div class="search-drop-item" onclick="selectSearch2('pays','UK')">UK</div>
+        <div class="search-drop-item" onclick="selectSearch2('pays','USA')">USA</div>
+      </div>
+    </div>
+    <div class="sb-seg" onclick="toggleDrop2('ville2')">
+      <div class="sb-label">Ville</div>
+      <div class="sb-val" id="val2-ville">Toutes les villes</div>
+      <div class="search-drop" id="drop-ville2">
+        <div class="search-drop-item" onclick="selectSearch2('ville','')">Toutes les villes</div>
+        <div class="search-drop-item" onclick="selectSearch2('ville','Barcelone')">Barcelone</div>
+        <div class="search-drop-item" onclick="selectSearch2('ville','Cannes')">Cannes</div>
+        <div class="search-drop-item" onclick="selectSearch2('ville','Londres')">Londres</div>
+        <div class="search-drop-item" onclick="selectSearch2('ville','Marrakech')">Marrakech</div>
+        <div class="search-drop-item" onclick="selectSearch2('ville','Miami')">Miami</div>
+        <div class="search-drop-item" onclick="selectSearch2('ville','Milan')">Milan</div>
+        <div class="search-drop-item" onclick="selectSearch2('ville','New York')">New York</div>
+        <div class="search-drop-item" onclick="selectSearch2('ville','Paris')">Paris</div>
+        <div class="search-drop-item" onclick="selectSearch2('ville','Saint-Tropez')">Saint-Tropez</div>
+        <div class="search-drop-item" onclick="selectSearch2('ville','Sydney')">Sydney</div>
+        <div class="search-drop-item" onclick="selectSearch2('ville','Tokyo')">Tokyo</div>
+        <div class="search-drop-item" onclick="selectSearch2('ville','Venise')">Venise</div>
+      </div>
+    </div>
+    <div class="sb-seg" onclick="toggleDrop2('cat2')">
+      <div class="sb-label">Catégorie</div>
+      <div class="sb-val" id="val2-cat">Toutes catégories</div>
+      <div class="search-drop" id="drop-cat2">
+        <div class="search-drop-item" onclick="selectSearch2('cat','')">Toutes catégories</div>
+        <div class="search-drop-item" onclick="selectSearch2('cat','Art & Design')">Art & Design</div>
+        <div class="search-drop-item" onclick="selectSearch2('cat','Beauté')">Beauté</div>
+        <div class="search-drop-item" onclick="selectSearch2('cat','Bijoux Vintage')">Bijoux Vintage</div>
+        <div class="search-drop-item" onclick="selectSearch2('cat','Design')">Design</div>
+        <div class="search-drop-item" onclick="selectSearch2('cat','Fromagerie Fine')">Fromagerie Fine</div>
+        <div class="search-drop-item" onclick="selectSearch2('cat','Galerie Art')">Galerie d Art</div>
+        <div class="search-drop-item" onclick="selectSearch2('cat','Haute Couture')">Haute Couture</div>
+        <div class="search-drop-item" onclick="selectSearch2('cat','Maroquinerie')">Maroquinerie</div>
+        <div class="search-drop-item" onclick="selectSearch2('cat','Mode')">Mode</div>
+        <div class="search-drop-item" onclick="selectSearch2('cat','Mode Vintage')">Mode Vintage</div>
+        <div class="search-drop-item" onclick="selectSearch2('cat','Parfumerie')">Parfumerie</div>
+        <div class="search-drop-item" onclick="selectSearch2('cat','Patisserie')">Pâtisserie</div>
+      </div>
+    </div>
+    <button class="sb-btn" onclick="doSearch2()">Explorer</button>
+  </div>
+</div>
+
+<!-- CARTE<!-- CARTE MONDIALE -->
 <div class="map-section">
   <div class="section-header">
     <h2 class="section-title">Carte <em>interactive mondiale</em></h2>
@@ -958,11 +976,63 @@ function doSearch() {
 
 // Fermer dropdowns si clic ailleurs
 document.addEventListener('click', e => {
-  if(!e.target.closest('.hero-search')) {
-    document.querySelectorAll('.search-drop').forEach(d => d.classList.remove('open'));
+  if(!e.target.closest('.hero-search') && !e.target.closest('.search-section')) {
+    ['drop-pays','drop-ville','drop-cat'].forEach(id => {
+      const d = document.getElementById(id);
+      if(d) d.classList.remove('open');
+    });
     document.querySelectorAll('.search-seg').forEach(s => s.classList.remove('active'));
   }
 });
 </script>
+
+
+<script>
+// ── SECOND BLOC RECHERCHE ──
+const SEARCH2 = {pays:'', ville:'', cat:''};
+const VILLES2 = {"Barcelone":"barcelone","Cannes":"cannes","Londres":"londres","Marrakech":"marrakech","Miami":"miami","Milan":"milan","New York":"new-york","Paris":"paris","Saint-Tropez":"saint-tropez","Sydney":"sydney","Tokyo":"tokyo","Venise":"venise"};
+
+function toggleDrop2(key) {
+  const dropId = 'drop-' + key;
+  const drop = document.getElementById(dropId);
+  if(!drop) return;
+  const isOpen = drop.classList.contains('open');
+  // Fermer tous les dropdowns de la section 2
+  ['drop-pays2','drop-ville2','drop-cat2'].forEach(id => {
+    const d = document.getElementById(id);
+    if(d) d.classList.remove('open');
+  });
+  if(!isOpen) drop.classList.add('open');
+}
+
+function selectSearch2(key, val) {
+  SEARCH2[key] = val;
+  const ids = {pays:'val2-pays', ville:'val2-ville', cat:'val2-cat'};
+  const defaults = {pays:'Tous les pays', ville:'Toutes les villes', cat:'Toutes catégories'};
+  const el = document.getElementById(ids[key]);
+  if(el) { el.textContent = val || defaults[key]; el.style.color = val ? 'var(--gold)' : ''; }
+  ['drop-pays2','drop-ville2','drop-cat2'].forEach(id => {
+    const d = document.getElementById(id);
+    if(d) d.classList.remove('open');
+  });
+  if(key === 'ville' && val && VILLES2[val]) setTimeout(doSearch2, 200);
+}
+
+function doSearch2() {
+  const {pays, ville, cat} = SEARCH2;
+  if(ville && VILLES2[ville]) { window.location.href = 'ville.html?id=' + VILLES2[ville]; return; }
+  window.location.href = 'villes.html';
+}
+
+document.addEventListener('click', e => {
+  if(!e.target.closest('.search-section')) {
+    ['drop-pays2','drop-ville2','drop-cat2'].forEach(id => {
+      const d = document.getElementById(id);
+      if(d) d.classList.remove('open');
+    });
+  }
+});
+</script>
+
 </body>
 </html>
