@@ -346,6 +346,25 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
   100% { transform: translateX(-50%); }
 }
 
+
+/* ── SEARCH DROPDOWNS ── */
+.search-seg { position:relative; }
+.search-drop {
+  display:none; position:absolute; top:100%; left:0; right:0;
+  background:#0f0f0d; border:0.5px solid rgba(210,175,90,0.3);
+  max-height:220px; overflow-y:auto; z-index:200;
+  scrollbar-width:thin; scrollbar-color:rgba(210,175,90,.3) transparent;
+}
+.search-drop.open { display:block; }
+.search-drop-item {
+  padding:9px 16px; font-size:10px; color:#b8ac98; cursor:pointer;
+  border-bottom:0.5px solid rgba(210,175,90,0.06); transition:background .15s;
+}
+.search-drop-item:hover { background:rgba(210,175,90,0.08); color:var(--gold); }
+.search-seg.active { background:rgba(210,175,90,0.05); }
+.search-val { transition:color .2s; }
+.search-val.selected { color:var(--gold); }
+
 /* ANIMATIONS */
 @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
 @keyframes pulse { 0%,100%{box-shadow:0 0 0 2px rgba(210,175,90,.18),0 0 12px rgba(210,175,90,.45)} 50%{box-shadow:0 0 0 4px rgba(210,175,90,.08),0 0 20px rgba(210,175,90,.65)} }
@@ -412,11 +431,67 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
   </div></div>
 
   <div class="hero-search">
-    <div class="search-seg"><div class="search-label">Pays</div><div class="search-val">France</div></div>
-    <div class="search-seg"><div class="search-label">Ville</div><div class="search-val">Paris</div></div>
-    <div class="search-seg"><div class="search-label">Catégorie</div><div class="search-val">Mode & Luxe</div></div>
-    <div class="search-seg"><div class="search-label">Quartier</div><div class="search-val">8e arrondissement</div></div>
-    <button class="search-btn" onclick="window.location.href='villes.html'">Explorer</button>
+    <div class="search-seg" id="seg-pays" onclick="toggleDrop('pays')">
+      <div class="search-label">Pays</div>
+      <div class="search-val" id="val-pays">Tous les pays</div>
+      <div class="search-drop" id="drop-pays">
+        <div class="search-drop-item" onclick="selectSearch('pays','')">Tous les pays</div>
+        <div class="search-drop-item" onclick="selectSearch('pays','Australie')">Australie</div>
+        <div class="search-drop-item" onclick="selectSearch('pays','Espagne')">Espagne</div>
+        <div class="search-drop-item" onclick="selectSearch('pays','France')">France</div>
+        <div class="search-drop-item" onclick="selectSearch('pays','Italie')">Italie</div>
+        <div class="search-drop-item" onclick="selectSearch('pays','Japon')">Japon</div>
+        <div class="search-drop-item" onclick="selectSearch('pays','Maroc')">Maroc</div>
+        <div class="search-drop-item" onclick="selectSearch('pays','UK')">UK</div>
+        <div class="search-drop-item" onclick="selectSearch('pays','USA')">USA</div>
+      </div>
+    </div>
+    <div class="search-seg" id="seg-ville" onclick="toggleDrop('ville')">
+      <div class="search-label">Ville</div>
+      <div class="search-val" id="val-ville">Toutes les villes</div>
+      <div class="search-drop" id="drop-ville">
+        <div class="search-drop-item" onclick="selectSearch('ville','')">Toutes les villes</div>
+        <div class="search-drop-item" onclick="selectSearch('ville','Barcelone')">Barcelone</div>
+        <div class="search-drop-item" onclick="selectSearch('ville','Cannes')">Cannes</div>
+        <div class="search-drop-item" onclick="selectSearch('ville','Londres')">Londres</div>
+        <div class="search-drop-item" onclick="selectSearch('ville','Marrakech')">Marrakech</div>
+        <div class="search-drop-item" onclick="selectSearch('ville','Miami')">Miami</div>
+        <div class="search-drop-item" onclick="selectSearch('ville','Milan')">Milan</div>
+        <div class="search-drop-item" onclick="selectSearch('ville','New York')">New York</div>
+        <div class="search-drop-item" onclick="selectSearch('ville','Paris')">Paris</div>
+        <div class="search-drop-item" onclick="selectSearch('ville','Saint-Tropez')">Saint-Tropez</div>
+        <div class="search-drop-item" onclick="selectSearch('ville','Sydney')">Sydney</div>
+        <div class="search-drop-item" onclick="selectSearch('ville','Tokyo')">Tokyo</div>
+        <div class="search-drop-item" onclick="selectSearch('ville','Venise')">Venise</div>
+      </div>
+    </div>
+    <div class="search-seg" id="seg-cat" onclick="toggleDrop('cat')">
+      <div class="search-label">Catégorie</div>
+      <div class="search-val" id="val-cat">Toutes catégories</div>
+      <div class="search-drop" id="drop-cat">
+        <div class="search-drop-item" onclick="selectSearch('cat','')">Toutes catégories</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Art & Design')">Art & Design</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Art du Verre')">Art du Verre</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Artisanat')">Artisanat</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Beauté')">Beauté</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Bijoux Vintage')">Bijoux Vintage</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Confiserie Fine')">Confiserie Fine</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Culture & Manga')">Culture & Manga</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Design')">Design</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Design & Bijoux')">Design & Bijoux</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Fromagerie Fine')">Fromagerie Fine</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Galerie d'Art')">Galerie d'Art</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Haute Couture')">Haute Couture</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Maroquinerie')">Maroquinerie</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Mode')">Mode</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Mode Pre-Loved')">Mode Pre-Loved</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Mode Vintage')">Mode Vintage</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Parfumerie')">Parfumerie</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Pâtisserie')">Pâtisserie</div>
+        <div class="search-drop-item" onclick="selectSearch('cat','Épicerie Fine')">Épicerie Fine</div>
+      </div>
+    </div>
+    <button class="search-btn" onclick="doSearch()">Explorer</button>
   </div>
 
   <div class="hero-stats">
@@ -867,5 +942,60 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<script>
+// ── RECHERCHE ──
+const SEARCH_STATE = { pays:'', ville:'', cat:'' };
+const VILLES_DATA = {"Paris": "paris", "Londres": "londres", "Milan": "milan", "Venise": "venise", "Barcelone": "barcelone", "Marrakech": "marrakech", "New York": "new-york", "Miami": "miami", "Tokyo": "tokyo", "Sydney": "sydney", "Cannes": "cannes", "Saint-Tropez": "saint-tropez"};
+
+function toggleDrop(key) {
+  const drop = document.getElementById('drop-'+key);
+  const isOpen = drop.classList.contains('open');
+  document.querySelectorAll('.search-drop').forEach(d => d.classList.remove('open'));
+  document.querySelectorAll('.search-seg').forEach(s => s.classList.remove('active'));
+  if(!isOpen) {
+    drop.classList.add('open');
+    document.getElementById('seg-'+key).classList.add('active');
+  }
+}
+
+function selectSearch(key, val) {
+  SEARCH_STATE[key] = val;
+  const labels = { pays:'val-pays', ville:'val-ville', cat:'val-cat' };
+  const defaults = { pays:'Tous les pays', ville:'Toutes les villes', cat:'Toutes catégories' };
+  const el = document.getElementById(labels[key]);
+  if(el) {
+    el.textContent = val || defaults[key];
+    el.classList.toggle('selected', !!val);
+  }
+  document.querySelectorAll('.search-drop').forEach(d => d.classList.remove('open'));
+  document.querySelectorAll('.search-seg').forEach(s => s.classList.remove('active'));
+  // Si ville sélectionnée, aller directement
+  if(key === 'ville' && val && VILLES_DATA[val]) {
+    setTimeout(() => doSearch(), 200);
+  }
+}
+
+function doSearch() {
+  const {pays, ville, cat} = SEARCH_STATE;
+  if(ville && VILLES_DATA[ville]) {
+    window.location.href = 'ville.html?id=' + VILLES_DATA[ville];
+    return;
+  }
+  let url = 'villes.html';
+  const params = [];
+  if(pays) params.push('pays='+encodeURIComponent(pays));
+  if(cat) params.push('cat='+encodeURIComponent(cat));
+  if(params.length) url += '?' + params.join('&');
+  window.location.href = url;
+}
+
+// Fermer dropdowns si clic ailleurs
+document.addEventListener('click', e => {
+  if(!e.target.closest('.hero-search')) {
+    document.querySelectorAll('.search-drop').forEach(d => d.classList.remove('open'));
+    document.querySelectorAll('.search-seg').forEach(s => s.classList.remove('active'));
+  }
+});
+</script>
 </body>
 </html>
