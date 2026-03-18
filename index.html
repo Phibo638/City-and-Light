@@ -416,7 +416,7 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
     <div class="search-seg"><div class="search-label">Ville</div><div class="search-val">Paris</div></div>
     <div class="search-seg"><div class="search-label">Catégorie</div><div class="search-val">Mode & Luxe</div></div>
     <div class="search-seg"><div class="search-label">Quartier</div><div class="search-val">8e arrondissement</div></div>
-    <button class="search-btn" onclick="window.location.href=b.page || 'villes.html'">Explorer</button>
+    <button class="search-btn" onclick="window.location.href='villes.html'">Explorer</button>
   </div>
 
   <div class="hero-stats">
@@ -429,13 +429,13 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
 
 <!-- DOUBLE ENTRÉE -->
 <div class="dual">
-  <div class="entry" onclick="window.location.href=b.page || 'villes.html'">
+  <div class="entry" onclick="window.location.href='villes.html'">
     <div class="entry-label">cityandlight.com</div>
     <div class="entry-title">L'expérience éditoriale</div>
     <div class="entry-desc">Plongez dans l'univers des boutiques iconiques du monde entier. Une sélection curatée, des vitrines sublimées, une ambiance magazine de luxe.</div>
     <div class="entry-arrow">Entrer →</div>
   </div>
-  <div class="entry" onclick="window.location.href=b.page || 'villes.html'">
+  <div class="entry" onclick="window.location.href='villes.html'">
     <div class="entry-label">world-boutique-explorer.com</div>
     <div class="entry-title">L'exploreur des boutiques du Monde</div>
     <div class="entry-desc">Cherchez, filtrez et découvrez par carte interactive. Pays, villes, catégories — accédez à toutes les boutiques référencées dans le monde.</div>
@@ -451,7 +451,7 @@ footer { border-top:0.5px solid rgba(210,175,90,0.1); padding:24px 40px; display
     <div class="sb-seg"><div class="sb-label">Ville</div><div class="sb-val">Paris</div></div>
     <div class="sb-seg"><div class="sb-label">Catégorie</div><div class="sb-val">Mode & Luxe</div></div>
     <div class="sb-seg"><div class="sb-label">Quartier</div><div class="sb-val">8e arrondissement</div></div>
-    <button class="sb-btn" onclick="window.location.href=b.page || 'villes.html'">Explorer</button>
+    <button class="sb-btn" onclick="window.location.href='villes.html'">Explorer</button>
   </div>
 </div>
 
@@ -699,88 +699,88 @@ document.querySelectorAll('.map-filter').forEach(f => {
 // ── TRADUCTIONS ──
 const i18n = {
   fr: {
-    'nav.discover':'Découvrir','nav.cities':'Par ville','nav.categories':'Catégories',
-    'nav.iconic':'Iconiques','nav.original':'Originales',
-    'nav.login':'Se connecter','nav.myboutique':'Ma boutique',
-    'hero.eyebrow':'L\'exploreur des boutiques du Monde',
-    'hero.title':'Les plus belles boutiques du <em>Monde !</em>',
-    'hero.tagline':'Les plus originales · Les plus tendances · Les plus iconiques',
-    'hero.tagline2':'Explorez les vitrines des plus belles villes — ou de nulle part',
-    'search.country':'Pays','search.city':'Ville','search.category':'Catégorie',
-    'search.area':'Quartier','search.btn':'Explorer',
-    'stat.boutiques':'Boutiques','stat.cities':'Villes','stat.countries':'Pays','stat.continents':'Continents',
+    "nav.discover":"Découvrir","nav.cities":"Par ville","nav.categories":"Catégories",
+    "nav.iconic":"Iconiques","nav.original":"Originales",
+    "nav.login":"Se connecter","nav.myboutique":"Ma boutique",
+    "hero.eyebrow":"L\'exploreur des boutiques du Monde",
+    "hero.title":"Les plus belles boutiques du <em>Monde !</em>",
+    "hero.tagline":"Les plus originales · Les plus tendances · Les plus iconiques",
+    "hero.tagline2":"Explorez les vitrines des plus belles villes — ou de nulle part",
+    "search.country":"Pays","search.city":"Ville","search.category":"Catégorie",
+    "search.area":"Quartier","search.btn":"Explorer",
+    "stat.boutiques":"Boutiques","stat.cities":"Villes","stat.countries":"Pays","stat.continents":"Continents",
   },
   en: {
-    'nav.discover':'Discover','nav.cities':'By city','nav.categories':'Categories',
-    'nav.iconic':'Iconic','nav.original':'Original',
-    'nav.login':'Sign in','nav.myboutique':'My boutique',
-    'hero.eyebrow':'The world's finest boutiques',
-    'hero.title':'The most beautiful boutiques in the <em>world</em>',
-    'hero.tagline':'The most original · The most trendy · The most iconic',
-    'hero.tagline2':'Explore the windows of the world's finest cities — or from nowhere',
-    'search.country':'Country','search.city':'City','search.category':'Category',
-    'search.area':'District','search.btn':'Explore',
-    'stat.boutiques':'Boutiques','stat.cities':'Cities','stat.countries':'Countries','stat.continents':'Continents',
+    "nav.discover":"Discover","nav.cities":"By city","nav.categories":"Categories",
+    "nav.iconic":"Iconic","nav.original":"Original",
+    "nav.login":"Sign in","nav.myboutique":"My boutique",
+    "hero.eyebrow":"The World Boutique Explorer",
+    "hero.title":"The most beautiful boutiques in the <em>world</em>",
+    "hero.tagline":"The most original · The most trendy · The most iconic",
+    "hero.tagline2":"Explore the windows of the world finest cities — or from nowhere",
+    "search.country":"Country","search.city":"City","search.category":"Category",
+    "search.area":"District","search.btn":"Explore",
+    "stat.boutiques":"Boutiques","stat.cities":"Cities","stat.countries":"Countries","stat.continents":"Continents",
   },
   es: {
-    'nav.discover':'Descubrir','nav.cities':'Por ciudad','nav.categories':'Categorías',
-    'nav.iconic':'Icónicas','nav.original':'Originales',
-    'nav.login':'Iniciar sesión','nav.myboutique':'Mi boutique',
-    'hero.eyebrow':'El explorador de boutiques del Mundo',
-    'hero.title':'Las boutiques más bellas del <em>mundo entero</em>',
-    'hero.tagline':'Las más originales · Las más tendencia · Las más icónicas',
-    'hero.tagline2':'Explora los escaparates de las ciudades más bellas',
-    'search.country':'País','search.city':'Ciudad','search.category':'Categoría',
-    'search.area':'Barrio','search.btn':'Explorar',
-    'stat.boutiques':'Boutiques','stat.cities':'Ciudades','stat.countries':'Países','stat.continents':'Continentes',
+    "nav.discover":"Descubrir","nav.cities":"Por ciudad","nav.categories":"Categorías",
+    "nav.iconic":"Icónicas","nav.original":"Originales",
+    "nav.login":"Iniciar sesión","nav.myboutique":"Mi boutique",
+    "hero.eyebrow":"El explorador de boutiques del Mundo",
+    "hero.title":"Las boutiques más bellas del <em>mundo entero</em>",
+    "hero.tagline":"Las más originales · Las más tendencia · Las más icónicas",
+    "hero.tagline2":"Explora los escaparates de las ciudades más bellas",
+    "search.country":"País","search.city":"Ciudad","search.category":"Categoría",
+    "search.area":"Barrio","search.btn":"Explorar",
+    "stat.boutiques":"Boutiques","stat.cities":"Ciudades","stat.countries":"Países","stat.continents":"Continentes",
   },
   it: {
-    'nav.discover':'Scoprire','nav.cities':'Per città','nav.categories':'Categorie',
-    'nav.iconic':'Iconiche','nav.original':'Originali',
-    'nav.login':'Accedi','nav.myboutique':'La mia boutique',
-    'hero.eyebrow':'L\'esploratore delle boutique del Mondo',
-    'hero.title':'Le boutique più belle del <em>mondo intero</em>',
-    'hero.tagline':'Le più originali · Le più trendy · Le più iconiche',
-    'hero.tagline2':'Esplora le vetrine delle città più belle del mondo',
-    'search.country':'Paese','search.city':'Città','search.category':'Categoria',
-    'search.area':'Quartiere','search.btn':'Esplora',
-    'stat.boutiques':'Boutique','stat.cities':'Città','stat.countries':'Paesi','stat.continents':'Continenti',
+    "nav.discover":"Scoprire","nav.cities":"Per città","nav.categories":"Categorie",
+    "nav.iconic":"Iconiche","nav.original":"Originali",
+    "nav.login":"Accedi","nav.myboutique":"La mia boutique",
+    "hero.eyebrow":"L\'esploratore delle boutique del Mondo",
+    "hero.title":"Le boutique più belle del <em>mondo intero</em>",
+    "hero.tagline":"Le più originali · Le più trendy · Le più iconiche",
+    "hero.tagline2":"Esplora le vetrine delle città più belle del mondo",
+    "search.country":"Paese","search.city":"Città","search.category":"Categoria",
+    "search.area":"Quartiere","search.btn":"Esplora",
+    "stat.boutiques":"Boutique","stat.cities":"Città","stat.countries":"Paesi","stat.continents":"Continenti",
   },
   ja: {
-    'nav.discover':'発見する','nav.cities':'都市別','nav.categories':'カテゴリー',
-    'nav.iconic':'象徴的','nav.original':'オリジナル',
-    'nav.login':'ログイン','nav.myboutique':'マイブティック',
-    'hero.eyebrow':'世界のブティック・エクスプローラー',
-    'hero.title':'<em>世界中</em>の最も美しいブティック',
-    'hero.tagline':'最もオリジナル · 最もトレンディ · 最もアイコニック',
-    'hero.tagline2':'世界の最も美しい街のショーウィンドウを探索',
-    'search.country':'国','search.city':'都市','search.category':'カテゴリー',
-    'search.area':'地区','search.btn':'探索',
-    'stat.boutiques':'ブティック','stat.cities':'都市','stat.countries':'国','stat.continents':'大陸',
+    "nav.discover":"発見する","nav.cities":"都市別","nav.categories":"カテゴリー",
+    "nav.iconic":"象徴的","nav.original":"オリジナル",
+    "nav.login":"ログイン","nav.myboutique":"マイブティック",
+    "hero.eyebrow":"世界のブティック・エクスプローラー",
+    "hero.title":"<em>世界中</em>の最も美しいブティック",
+    "hero.tagline":"最もオリジナル · 最もトレンディ · 最もアイコニック",
+    "hero.tagline2":"世界の最も美しい街のショーウィンドウを探索",
+    "search.country":"国","search.city":"都市","search.category":"カテゴリー",
+    "search.area":"地区","search.btn":"探索",
+    "stat.boutiques":"ブティック","stat.cities":"都市","stat.countries":"国","stat.continents":"大陸",
   },
   ar: {
-    'nav.discover':'اكتشف','nav.cities':'حسب المدينة','nav.categories':'الفئات',
-    'nav.iconic':'أيقونية','nav.original':'أصيلة',
-    'nav.login':'تسجيل الدخول','nav.myboutique':'بوتيكي',
-    'hero.eyebrow':'مستكشف بوتيكات العالم',
-    'hero.title':'أجمل المتاجر في <em>العالم</em>',
-    'hero.tagline':'الأكثر أصالة · الأكثر عصرية · الأكثر أيقونية',
-    'hero.tagline2':'استكشف واجهات أجمل المدن في العالم',
-    'search.country':'البلد','search.city':'المدينة','search.category':'الفئة',
-    'search.area':'الحي','search.btn':'استكشف',
-    'stat.boutiques':'متجر','stat.cities':'مدينة','stat.countries':'دولة','stat.continents':'قارة',
+    "nav.discover":"اكتشف","nav.cities":"حسب المدينة","nav.categories":"الفئات",
+    "nav.iconic":"أيقونية","nav.original":"أصيلة",
+    "nav.login":"تسجيل الدخول","nav.myboutique":"بوتيكي",
+    "hero.eyebrow":"مستكشف بوتيكات العالم",
+    "hero.title":"أجمل المتاجر في <em>العالم</em>",
+    "hero.tagline":"الأكثر أصالة · الأكثر عصرية · الأكثر أيقونية",
+    "hero.tagline2":"استكشف واجهات أجمل المدن في العالم",
+    "search.country":"البلد","search.city":"المدينة","search.category":"الفئة",
+    "search.area":"الحي","search.btn":"استكشف",
+    "stat.boutiques":"متجر","stat.cities":"مدينة","stat.countries":"دولة","stat.continents":"قارة",
   },
   zh: {
-    'nav.discover':'探索','nav.cities':'按城市','nav.categories':'类别',
-    'nav.iconic':'标志性','nav.original':'原创',
-    'nav.login':'登录','nav.myboutique':'我的精品店',
-    'hero.eyebrow':'世界精品店探索者',
-    'hero.title':'全<em>世界</em>最美丽的精品店',
-    'hero.tagline':'最原创 · 最时尚 · 最标志性',
-    'hero.tagline2':'探索世界最美城市的橱窗',
-    'search.country':'国家','search.city':'城市','search.category':'类别',
-    'search.area':'街区','search.btn':'探索',
-    'stat.boutiques':'精品店','stat.cities':'城市','stat.countries':'国家','stat.continents':'大洲',
+    "nav.discover":"探索","nav.cities":"按城市","nav.categories":"类别",
+    "nav.iconic":"标志性","nav.original":"原创",
+    "nav.login":"登录","nav.myboutique":"我的精品店",
+    "hero.eyebrow":"世界精品店探索者",
+    "hero.title":"全<em>世界</em>最美丽的精品店",
+    "hero.tagline":"最原创 · 最时尚 · 最标志性",
+    "hero.tagline2":"探索世界最美城市的橱窗",
+    "search.country":"国家","search.city":"城市","search.category":"类别",
+    "search.area":"街区","search.btn":"探索",
+    "stat.boutiques":"精品店","stat.cities":"城市","stat.countries":"国家","stat.continents":"大洲",
   },
 };
 
@@ -817,7 +817,8 @@ document.addEventListener('click', e => {
 
 // Appliquer au chargement
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('currentLang').textContent = currentLang.toUpperCase();
+  const el = document.getElementById('currentLang');
+  if (el) el.textContent = currentLang.toUpperCase();
   applyTranslations();
 });
 </script>
