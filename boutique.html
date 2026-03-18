@@ -175,12 +175,7 @@ async function genAI(b){
     el.innerHTML='<p class="b-ai-txt">Une adresse incontournable alliant qualite, originalite et passion du metier.</p>';
   }
 }
-    });
-    const d=await r.json();
-    const txt=d.content?.[0]?.text||'';
-    el.innerHTML=txt?`<p class="b-ai-txt">${txt}</p>`:'<p class="b-ai-txt">Une sélection exceptionnelle vous attend dans cette boutique unique.</p>';
-  }catch(e){el.innerHTML='<p class="b-ai-txt">Une adresse incontournable alliant qualité, originalité et passion du métier.</p>';}
-}
+
 
 
 function esc(s) { return (s||''); }
