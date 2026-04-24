@@ -89,6 +89,163 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 
 footer{border-top:0.5px solid rgba(210,175,90,0.1);padding:24px 40px;display:flex;justify-content:space-between;align-items:center;}
 .footer-brand{font-family:'Playfair Display',serif;font-size:12px;letter-spacing:3px;color:var(--muted2);text-transform:uppercase;}
+/* ============================================
+   RESPONSIVE — City & Light
+   Ajouté automatiquement — ne pas supprimer
+   ============================================ */
+
+/* ── TABLETTE (max 768px) ── */
+@media (max-width: 768px) {
+
+  /* NAV */
+  nav { padding: 8px 16px; }
+  .nav-links { display: none; }
+  .nav-right .btn-gold, .nav-right .btn-ghost { display: none; }
+
+  /* HERO */
+  .hero { padding: 80px 16px 40px; min-height: auto; }
+  .hero-title { font-size: 28px; }
+  .hero-sub { font-size: 13px; }
+  .hero-strip { gap: 6px; padding: 0 8px; }
+  .hero-photo { width: 120px !important; height: 160px !important; }
+  .hero-search { flex-direction: column; max-width: 100%; }
+  .search-seg { border-right: none !important; border-bottom: 0.5px solid rgba(210,175,90,0.15); }
+  .search-drop { position: fixed; left: 8px; right: 8px; top: auto; z-index: 300; max-height: 260px; }
+
+  /* SEARCH SECTION */
+  .search-section { padding: 20px 16px; }
+  .search-bar-full { flex-direction: column; }
+  .sb-seg { border-right: none !important; border-bottom: 0.5px solid rgba(210,175,90,0.15); }
+
+  /* CARTE */
+  .map-section { padding: 20px 16px; }
+  #world-map, #main-map { height: 280px; }
+
+  /* CARROUSEL */
+  .carousel-section { padding: 24px 16px; }
+  .section-header { padding: 0 0 12px 0; }
+
+  /* VILLES GRID */
+  .cities-section { padding: 20px 16px; }
+  .city-card.lg { grid-column: span 12 !important; }
+  .city-card.md { grid-column: span 6 !important; }
+  .city-card.sm { grid-column: span 6 !important; }
+  .filters-bar { padding: 14px 16px; flex-wrap: wrap; gap: 6px; }
+
+  /* PAGE VILLE */
+  .v-hero { height: 260px; }
+  .v-city-name { font-size: 32px; }
+  .v-content { grid-template-columns: 1fr !important; }
+  .v-sidebar { border-left: none; border-top: 0.5px solid rgba(210,175,90,0.1); }
+  .v-main { padding: 20px 16px; }
+  .v-boutiques-section { padding: 20px 16px; }
+  .v-boutiques-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .v-similar { padding: 20px 16px; }
+  #v-map { height: 160px; }
+
+  /* PAGE BOUTIQUE */
+  .b-hero { height: auto; }
+  .b-hero-img { max-height: 280px; }
+  .b-thumbs-section { padding: 8px 16px; }
+  .b-header { padding: 16px; flex-direction: column; }
+  .b-content { grid-template-columns: 1fr !important; }
+  .b-main { padding: 20px 16px; }
+  .b-sidebar { border-left: none; border-top: 0.5px solid rgba(210,175,90,0.1); padding: 20px 16px; }
+  #b-map { height: 160px; }
+  .similar-section { padding: 20px 16px; }
+
+  /* PAGE PARIS */
+  .p-hero { height: 260px; }
+  .p-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px; }
+  .p-content { grid-template-columns: 1fr !important; }
+  .p-sidebar { border-left: none; border-top: 0.5px solid rgba(210,175,90,0.1); }
+  .p-main, .p-sidebar { padding: 20px 16px; }
+
+  /* FOOTER */
+  footer { flex-direction: column; gap: 8px; padding: 16px; text-align: center; }
+
+  /* TEXTES */
+  .nav-links a, .tab, .b-badge, .b-key, .btn-g, .btn-o { font-size: 9px; }
+}
+
+/* ── MOBILE (max 480px) ── */
+@media (max-width: 480px) {
+
+  /* NAV HAMBURGER */
+  nav { padding: 6px 12px; }
+  .nav-logo img { height: 42px; }
+  .hamburger { display: flex !important; }
+
+  /* HERO */
+  .hero { padding: 70px 12px 32px; }
+  .hero-title { font-size: 22px; line-height: 1.2; }
+  .hero-eyebrow { font-size: 7px; letter-spacing: 3px; }
+  .hero-strip { gap: 4px; }
+  .hero-photo { width: 100px !important; height: 140px !important; }
+
+  /* GRILLE VILLES */
+  .city-card.md { grid-column: span 12 !important; }
+  .city-card.sm { grid-column: span 12 !important; }
+  .city-photo { height: 160px; }
+
+  /* BOUTIQUES GRID */
+  .v-boutiques-grid { grid-template-columns: 1fr; }
+  .p-grid { grid-template-columns: 1fr !important; }
+
+  /* CARROUSEL */
+  .card { min-width: 220px; }
+  .similar-grid .s-card { width: 140px; }
+  .v-similar-grid .v-sim-card { width: 160px; }
+
+  /* TEXTES */
+  .b-name, .v-city-name { font-size: 24px; }
+  .intro-title { font-size: 20px; }
+  .sec-title, .v-sec-title { font-size: 16px; }
+}
+
+/* ── MENU HAMBURGER ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  background: transparent;
+  border: none;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--gold);
+  transition: all 0.3s;
+}
+.nav-mobile {
+  display: none;
+  position: fixed;
+  top: 71px;
+  left: 0;
+  right: 0;
+  background: rgba(8,8,8,0.98);
+  border-bottom: 0.5px solid rgba(210,175,90,0.2);
+  padding: 16px 20px;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 99;
+  backdrop-filter: blur(10px);
+}
+.nav-mobile.open { display: flex; }
+.nav-mobile a {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #c8bca8;
+  text-decoration: none;
+  padding: 8px 0;
+  border-bottom: 0.5px solid rgba(210,175,90,0.08);
+}
+.nav-mobile a:hover { color: var(--gold); }
+
 </style>
 </head>
 <body>
@@ -117,9 +274,31 @@ footer{border-top:0.5px solid rgba(210,175,90,0.1);padding:24px 40px;display:fle
       </div>
     </div>
     <button class="btn-ghost">Se connecter</button>
-    <button class="btn-gold">Ma boutique</button>
+    <a href="inscription.html" class="btn-gold" style="text-decoration:none;display:inline-block;font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;border:none;color:#000;background:var(--gold);cursor:pointer;font-family:Montserrat,sans-serif;">Ma boutique</a>
   </div>
+
+  <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="nav-mobile" id="nav-mobile">
+    <a href="index.html">Accueil</a>
+    <a href="villes.html">Toutes les villes</a>
+    <a href="#">Catégories</a>
+    <a href="#">Iconiques</a>
+</div>
+
+<div class="nav-mobile" id="nav-mobile">
+    <a href="index.html">Accueil</a>
+    <a href="villes.html">Toutes les villes</a>
+    <a href="#">Catégories</a>
+    <a href="#">Iconiques</a>
+</div>
+
 
 <div class="page-header">
   <div class="breadcrumb"><a href="index.html">City & Light</a> › <a href="villes.html">Villes</a> › <span style="color:var(--gold)">Paris</span></div>
@@ -323,5 +502,30 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<script>
+// ── MENU HAMBURGER MOBILE ──
+function initHamburger() {
+  const btn = document.getElementById('hamburger-btn');
+  const menu = document.getElementById('nav-mobile');
+  if(!btn || !menu) return;
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('open');
+    const spans = btn.querySelectorAll('span');
+    if(menu.classList.contains('open')) {
+      spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+      spans[1].style.opacity = '0';
+      spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+    } else {
+      spans[0].style.transform = '';
+      spans[1].style.opacity = '1';
+      spans[2].style.transform = '';
+    }
+  });
+  document.addEventListener('click', e => {
+    if(!e.target.closest('nav')) menu.classList.remove('open');
+  });
+}
+document.addEventListener('DOMContentLoaded', initHamburger);
+</script>
 </body>
 </html>
