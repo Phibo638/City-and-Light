@@ -220,13 +220,22 @@ async function supaFetch(endpoint, params = {}) {
 
 // Normalise une boutique Supabase vers le format interne
 function normalise(b) {
+  // Construire le tableau photos depuis toutes les sources disponibles
+  let photos = [];
+  if (Array.isArray(b.photos) && b.photos.length > 0) photos = b.photos;
+  else if (b.main_photo) photos = [b.main_photo];
+
+  // S'assurer que main_photo est toujours défini
+  const main_photo = b.main_photo || photos[0] || '';
+
   return {
     ...b,
-    photos:     b.photos     || (b.main_photo ? [b.main_photo] : []),
+    main_photo,
+    photos,
     desc:       b.desc_fr    || b.desc_en || '',
     address:    b.address    || '',
-    lat:        b.lat        || b.latitude  || null,
-    lon:        b.lon        || b.longitude || null,
+    lat:        parseFloat(b.lat  || b.latitude  || 0) || null,
+    lon:        parseFloat(b.lon  || b.longitude || 0) || null,
     hours:      b.hours      || b.openingHours || '',
     icon:       getCatIcon(b.category),
     isListed:   b.status === 'listed',
