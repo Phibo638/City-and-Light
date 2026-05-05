@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — City & Light</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#d2af5a;--gold-dim:rgba(210,175,90,0.2);--bg:#080808;--bg2:#0b0b09;--bg3:#0f0f0d;--text:#f0e8d8;--text2:#ede5d5;--muted:#8a8070;--muted2:#5a5040;--green:#2ecc71;--red:#e74c3c;--blue:#3498db;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text2);min-height:100vh;}
+a{text-decoration:none;color:inherit;}
+
+/* HEADER */
+.admin-header{background:#0a0a08;border-bottom:0.5px solid var(--gold-dim);padding:16px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;}
+.admin-logo{font-family:'Playfair Display',serif;font-size:18px;color:var(--text);}
+.admin-logo em{font-style:italic;color:var(--gold);}
+.admin-logo span{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-top:2px;}
+.admin-nav{display:flex;gap:8px;}
+.admin-nav a{font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;border:0.5px solid var(--gold-dim);color:var(--muted);transition:all .2s;}
+.admin-nav a:hover,.admin-nav a.on{border-color:var(--gold);color:var(--gold);}
+
+/* LAYOUT */
+.admin-body{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 65px);}
+
+/* SIDEBAR */
+.admin-sidebar{background:var(--bg2);border-right:0.5px solid rgba(210,175,90,.08);padding:24px 0;}
+.sidebar-section{margin-bottom:8px;}
+.sidebar-title{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--muted2);padding:8px 20px;margin-bottom:4px;}
+.sidebar-btn{display:block;width:100%;padding:10px 20px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);background:transparent;border:none;cursor:pointer;text-align:left;font-family:'Montserrat',sans-serif;transition:all .2s;border-left:2px solid transparent;}
+.sidebar-btn:hover{color:var(--text2);background:rgba(210,175,90,.03);}
+.sidebar-btn.on{color:var(--gold);border-left-color:var(--gold);background:rgba(210,175,90,.04);}
+.sidebar-count{float:right;font-size:8px;color:var(--muted2);background:rgba(255,255,255,.04);padding:1px 6px;}
+
+/* CONTENU */
+.admin-main{padding:32px;}
+
+/* FILTRES ADMIN */
+.admin-filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center;}
+.admin-filters input,.admin-filters select{background:var(--bg2);border:0.5px solid rgba(210,175,90,.2);color:var(--text2);padding:8px 12px;font-size:10px;font-family:'Montserrat',sans-serif;outline:none;}
+.admin-filters input:focus,.admin-filters select:focus{border-color:var(--gold);}
+.admin-filters input{flex:1;min-width:200px;}
+.admin-btn{font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;border:0.5px solid var(--gold-dim);color:var(--gold);background:transparent;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;}
+.admin-btn:hover{background:rgba(210,175,90,.08);}
+.admin-btn.primary{background:var(--gold);color:#000;border-color:var(--gold);}
+.admin-btn.primary:hover{background:var(--gold-light);}
+.admin-btn.danger{border-color:var(--red);color:var(--red);}
+.admin-btn.danger:hover{background:rgba(231,76,60,.08);}
+
+/* STATS BAR */
+.admin-stats{display:flex;gap:16px;margin-bottom:20px;}
+.admin-stat{padding:12px 20px;background:var(--bg2);border:0.5px solid rgba(210,175,90,.08);}
+.admin-stat-n{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);}
+.admin-stat-l{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);margin-top:2px;}
+
+/* TABLE */
+.admin-table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:10px;}
+thead th{background:var(--bg2);padding:10px 12px;text-align:left;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);border-bottom:0.5px solid rgba(210,175,90,.1);white-space:nowrap;}
+tbody tr{border-bottom:0.5px solid rgba(255,255,255,.03);transition:background .15s;}
+tbody tr:hover{background:rgba(210,175,90,.025);}
+td{padding:10px 12px;vertical-align:middle;}
+td.name{font-family:'Playfair Display',serif;font-size:13px;color:var(--text);font-style:italic;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+td.addr{color:var(--muted);max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:9px;}
+td.cat{color:var(--muted);font-size:9px;max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* BADGES STATUS */
+.status-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;font-size:7px;letter-spacing:1.5px;text-transform:uppercase;}
+.status-published{border:0.5px solid var(--gold);color:var(--gold);background:rgba(210,175,90,.08);}
+.status-listed{border:0.5px solid var(--muted2);color:var(--muted2);}
+.status-pending{border:0.5px solid var(--blue);color:var(--blue);background:rgba(52,152,219,.08);}
+
+/* ACTIONS */
+.row-actions{display:flex;gap:6px;align-items:center;}
+.action-btn{font-size:8px;padding:4px 8px;border:0.5px solid;cursor:pointer;background:transparent;font-family:'Montserrat',sans-serif;transition:all .2s;white-space:nowrap;}
+.action-btn.publish{border-color:var(--gold);color:var(--gold);}
+.action-btn.publish:hover{background:rgba(210,175,90,.1);}
+.action-btn.unlist{border-color:var(--muted2);color:var(--muted2);}
+.action-btn.unlist:hover{background:rgba(255,255,255,.04);}
+.action-btn.edit{border-color:var(--blue);color:var(--blue);}
+.action-btn.edit:hover{background:rgba(52,152,219,.08);}
+.action-btn.del{border-color:var(--red);color:var(--red);}
+.action-btn.del:hover{background:rgba(231,76,60,.08);}
+
+/* PAGINATION */
+.pagination{display:flex;gap:6px;margin-top:20px;justify-content:center;}
+.page-btn{font-size:9px;padding:6px 12px;border:0.5px solid rgba(210,175,90,.2);color:var(--muted);background:transparent;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;}
+.page-btn.on,.page-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+/* MODAL ÉDITION */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--bg2);border:0.5px solid rgba(210,175,90,.2);padding:32px;max-width:600px;width:90%;max-height:90vh;overflow-y:auto;}
+.modal-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--text);margin-bottom:20px;}
+.modal-title em{font-style:italic;color:var(--gold);}
+.form-row{margin-bottom:14px;}
+.form-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);display:block;margin-bottom:6px;}
+.form-input{width:100%;background:var(--bg3);border:0.5px solid rgba(210,175,90,.15);color:var(--text2);padding:10px 12px;font-size:11px;font-family:'Montserrat',sans-serif;outline:none;}
+.form-input:focus{border-color:var(--gold);}
+textarea.form-input{min-height:80px;resize:vertical;}
+select.form-input option{background:var(--bg3);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.modal-actions{display:flex;gap:10px;margin-top:20px;justify-content:flex-end;}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:0.5px solid var(--gold);padding:12px 20px;font-size:10px;color:var(--text);z-index:300;transform:translateY(100px);opacity:0;transition:all .3s;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.error{border-color:var(--red);color:var(--red);}
+
+/* LOADING */
+.admin-loading{padding:40px;text-align:center;color:var(--muted);font-size:11px;font-style:italic;}
+</style>
+</head>
+<body>
+
+<div class="admin-header">
+  <div class="admin-logo">
+    City & <em>Light</em>
+    <span>Interface Administrateur</span>
+  </div>
+  <nav class="admin-nav">
+    <a href="index.html">← Site</a>
+    <a href="admin.html" class="on">Boutiques</a>
+  </nav>
+</div>
+
+<div class="admin-body">
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Statut</div>
+      <button class="sidebar-btn on" onclick="setFilter('status','all',this)">Toutes <span class="sidebar-count" id="cnt-all">—</span></button>
+      <button class="sidebar-btn" onclick="setFilter('status','published',this)">✦ City & Light <span class="sidebar-count" id="cnt-pub">—</span></button>
+      <button class="sidebar-btn" onclick="setFilter('status','listed',this)">Répertoriées <span class="sidebar-count" id="cnt-lst">—</span></button>
+      <button class="sidebar-btn" onclick="setFilter('status','pending',this)">En attente <span class="sidebar-count" id="cnt-pnd">—</span></button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Ville</div>
+      <button class="sidebar-btn on" onclick="setFilter('city','',this)">Toutes</button>
+      <button class="sidebar-btn" onclick="setFilter('city','Paris',this)">Paris</button>
+      <button class="sidebar-btn" onclick="setFilter('city','Londres',this)">Londres</button>
+      <button class="sidebar-btn" onclick="setFilter('city','Milan',this)">Milan</button>
+      <button class="sidebar-btn" onclick="setFilter('city','Tokyo',this)">Tokyo</button>
+      <button class="sidebar-btn" onclick="setFilter('city','New York',this)">New York</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="admin-main">
+    <!-- STATS -->
+    <div class="admin-stats">
+      <div class="admin-stat"><div class="admin-stat-n" id="stat-total">—</div><div class="admin-stat-l">Total boutiques</div></div>
+      <div class="admin-stat"><div class="admin-stat-n" id="stat-pub" style="color:var(--gold)">—</div><div class="admin-stat-l">✦ City & Light</div></div>
+      <div class="admin-stat"><div class="admin-stat-n" id="stat-lst">—</div><div class="admin-stat-l">Répertoriées</div></div>
+      <div class="admin-stat"><div class="admin-stat-n" id="stat-pnd" style="color:var(--blue)">—</div><div class="admin-stat-l">En attente</div></div>
+    </div>
+
+    <!-- FILTRES -->
+    <div class="admin-filters">
+      <input type="text" id="searchInput" placeholder="Rechercher une boutique..." oninput="handleSearch()">
+      <select id="catFilter" onchange="handleSearch()">
+        <option value="">Toutes catégories</option>
+        <option>Art & Galeries</option>
+        <option>Beauté / Parfumerie</option>
+        <option>Bijouterie</option>
+        <option>Concept Stores</option>
+        <option>Design</option>
+        <option>Mode</option>
+        <option>Gastronomie</option>
+        <option>Maroquinerie</option>
+        <option>Vintage</option>
+        <option>Grands Magasins</option>
+      </select>
+      <button class="admin-btn" onclick="loadData()">↻ Rafraîchir</button>
+    </div>
+
+    <!-- TABLE -->
+    <div class="admin-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Ville</th>
+            <th>Catégorie</th>
+            <th>Adresse</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="adminTableBody">
+          <tr><td colspan="6" class="admin-loading">Chargement...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="pagination" id="pagination"></div>
+  </main>
+</div>
+
+<!-- MODAL ÉDITION -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-title">Modifier <em id="modalBoutiqueName">—</em></div>
+    <input type="hidden" id="editId">
+    <div class="form-grid">
+      <div class="form-row">
+        <label class="form-label">Nom</label>
+        <input class="form-input" id="editName" type="text">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Catégorie</label>
+        <input class="form-input" id="editCat" type="text">
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label class="form-label">Ville</label>
+        <input class="form-input" id="editCity" type="text">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Statut</label>
+        <select class="form-input" id="editStatus">
+          <option value="listed">Répertoriée</option>
+          <option value="published">✦ City & Light (publié)</option>
+          <option value="pending">En attente</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Adresse</label>
+      <input class="form-input" id="editAddr" type="text">
+    </div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label class="form-label">Téléphone</label>
+        <input class="form-input" id="editPhone" type="text">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Site Web</label>
+        <input class="form-input" id="editWebsite" type="text">
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Horaires</label>
+      <input class="form-input" id="editHours" type="text">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Lien Google Maps</label>
+      <input class="form-input" id="editGmaps" type="text">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Description FR</label>
+      <textarea class="form-input" id="editDescFr"></textarea>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Description EN</label>
+      <textarea class="form-input" id="editDescEn"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="admin-btn" onclick="closeModal()">Annuler</button>
+      <button class="admin-btn primary" onclick="saveEdit()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="supabase.js"></script>
+<script>
+let CURRENT_PAGE  = 0;
+const PAGE_SIZE   = 50;
+let FILTERS       = { status: 'all', city: '', cat: '', search: '' };
+let ALL_DATA      = [];
+let FILTERED_DATA = [];
+
+// ── CHARGEMENT ──
+async function loadData() {
+  document.getElementById('adminTableBody').innerHTML = '<tr><td colspan="6" class="admin-loading">Chargement...</td></tr>';
+  try {
+    const filters = {};
+    if(FILTERS.status && FILTERS.status !== 'all') filters.status = FILTERS.status;
+    if(FILTERS.city)   filters.city   = FILTERS.city;
+    if(FILTERS.cat)    filters.cat    = FILTERS.cat;
+    ALL_DATA = await loadAllBoutiquesAdmin(0, 500, filters);
+    applySearch();
+    updateStats();
+  } catch(e) {
+    showToast('Erreur de chargement: ' + e.message, true);
+  }
+}
+
+function applySearch() {
+  const q = FILTERS.search.toLowerCase();
+  FILTERED_DATA = ALL_DATA.filter(b => {
+    if(!q) return true;
+    return (b.name||'').toLowerCase().includes(q) ||
+           (b.city||'').toLowerCase().includes(q) ||
+           (b.category||'').toLowerCase().includes(q);
+  });
+  CURRENT_PAGE = 0;
+  renderTable();
+  renderPagination();
+}
+
+function handleSearch() {
+  FILTERS.search = document.getElementById('searchInput').value;
+  FILTERS.cat    = document.getElementById('catFilter').value;
+  applySearch();
+}
+
+// ── FILTRES SIDEBAR ──
+function setFilter(key, val, el) {
+  FILTERS[key] = val;
+  // Mettre à jour les boutons actifs dans le groupe
+  const group = el.closest('.sidebar-section');
+  if(group) group.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+  loadData();
+}
+
+// ── STATS ──
+async function updateStats() {
+  try {
+    const all = await loadAllBoutiquesAdmin(0, 1000, {});
+    const pub = all.filter(b => b.status === 'published').length;
+    const lst = all.filter(b => b.status === 'listed').length;
+    const pnd = all.filter(b => b.status === 'pending').length;
+    document.getElementById('stat-total').textContent = all.length;
+    document.getElementById('stat-pub').textContent   = pub;
+    document.getElementById('stat-lst').textContent   = lst;
+    document.getElementById('stat-pnd').textContent   = pnd;
+    document.getElementById('cnt-all').textContent    = all.length;
+    document.getElementById('cnt-pub').textContent    = pub;
+    document.getElementById('cnt-lst').textContent    = lst;
+    document.getElementById('cnt-pnd').textContent    = pnd;
+  } catch(e) {}
+}
+
+// ── TABLE ──
+function renderTable() {
+  const tbody = document.getElementById('adminTableBody');
+  const start = CURRENT_PAGE * PAGE_SIZE;
+  const page  = FILTERED_DATA.slice(start, start + PAGE_SIZE);
+
+  if(page.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" class="admin-loading">Aucune boutique</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = page.map(b => {
+    const statusClass = b.status === 'published' ? 'status-published' :
+                        b.status === 'pending'   ? 'status-pending'   : 'status-listed';
+    const statusLabel = b.status === 'published' ? '✦ City & Light' :
+                        b.status === 'pending'   ? 'En attente'     : 'Répertoriée';
+    const addr = formatAddrShort(b.address);
+    const isPublished = b.status === 'published';
+
+    return `<tr>
+      <td class="name" title="${b.name}">${b.name}</td>
+      <td style="color:var(--muted);font-size:9px;">${b.city||'—'}</td>
+      <td class="cat" title="${b.category||''}">${b.category||'—'}</td>
+      <td class="addr" title="${addr}">${addr||'—'}</td>
+      <td><span class="status-badge ${statusClass}">${statusLabel}</span></td>
+      <td>
+        <div class="row-actions">
+          ${isPublished
+            ? `<button class="action-btn unlist" onclick="changeStatus('${b.id}','listed')">Dépublier</button>`
+            : `<button class="action-btn publish" onclick="changeStatus('${b.id}','published')">✦ Publier</button>`
+          }
+          <button class="action-btn edit" onclick="openModal(${JSON.stringify(b).replace(/"/g,'&quot;')})">Modifier</button>
+          <button class="action-btn del" onclick="deleteBout('${b.id}','${b.name.replace(/'/g,"\\'")}')">Suppr.</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function formatAddrShort(addr) {
+  if(!addr) return '';
+  try {
+    const obj = typeof addr === 'string' ? JSON.parse(addr) : addr;
+    return obj.formatted || addr;
+  } catch(e) { return addr; }
+}
+
+// ── PAGINATION ──
+function renderPagination() {
+  const total = Math.ceil(FILTERED_DATA.length / PAGE_SIZE);
+  const pag   = document.getElementById('pagination');
+  if(total <= 1) { pag.innerHTML = ''; return; }
+  let html = '';
+  if(CURRENT_PAGE > 0) html += `<button class="page-btn" onclick="goPage(${CURRENT_PAGE-1})">←</button>`;
+  for(let i = Math.max(0, CURRENT_PAGE-2); i <= Math.min(total-1, CURRENT_PAGE+2); i++) {
+    html += `<button class="page-btn ${i===CURRENT_PAGE?'on':''}" onclick="goPage(${i})">${i+1}</button>`;
+  }
+  if(CURRENT_PAGE < total-1) html += `<button class="page-btn" onclick="goPage(${CURRENT_PAGE+1})">→</button>`;
+  pag.innerHTML = html;
+}
+
+function goPage(p) {
+  CURRENT_PAGE = p;
+  renderTable();
+  renderPagination();
+  window.scrollTo(0, 0);
+}
+
+// ── ACTIONS ──
+async function changeStatus(id, newStatus) {
+  try {
+    await updateBoutique(id, { status: newStatus });
+    const b = ALL_DATA.find(x => x.id === id);
+    if(b) b.status = newStatus;
+    applySearch();
+    showToast(newStatus === 'published' ? '✦ Boutique publiée sur City & Light' : 'Boutique dépubliée');
+  } catch(e) {
+    showToast('Erreur: ' + e.message, true);
+  }
+}
+
+async function deleteBout(id, name) {
+  if(!confirm(`Supprimer "${name}" ? Cette action est irréversible.`)) return;
+  try {
+    await deleteBoutique(id);
+    ALL_DATA = ALL_DATA.filter(b => b.id !== id);
+    applySearch();
+    showToast('Boutique supprimée');
+  } catch(e) {
+    showToast('Erreur: ' + e.message, true);
+  }
+}
+
+// ── MODAL ──
+function openModal(b) {
+  document.getElementById('editId').value       = b.id;
+  document.getElementById('editName').value     = b.name || '';
+  document.getElementById('editCat').value      = b.category || '';
+  document.getElementById('editCity').value     = b.city || '';
+  document.getElementById('editStatus').value   = b.status || 'listed';
+  document.getElementById('editAddr').value     = formatAddrShort(b.address);
+  document.getElementById('editPhone').value    = b.phone || '';
+  document.getElementById('editWebsite').value  = b.website || '';
+  document.getElementById('editHours').value    = b.hours || b.openingHours || '';
+  document.getElementById('editGmaps').value    = b.googleMapsUrl || '';
+  document.getElementById('editDescFr').value   = b.desc_fr || '';
+  document.getElementById('editDescEn').value   = b.desc_en || '';
+  document.getElementById('modalBoutiqueName').textContent = b.name;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+async function saveEdit() {
+  const id = document.getElementById('editId').value;
+  const fields = {
+    name:          document.getElementById('editName').value,
+    category:      document.getElementById('editCat').value,
+    city:          document.getElementById('editCity').value,
+    status:        document.getElementById('editStatus').value,
+    phone:         document.getElementById('editPhone').value,
+    website:       document.getElementById('editWebsite').value,
+    hours:         document.getElementById('editHours').value,
+    googleMapsUrl: document.getElementById('editGmaps').value,
+    desc_fr:       document.getElementById('editDescFr').value,
+    desc_en:       document.getElementById('editDescEn').value,
+  };
+  try {
+    const updated = await updateBoutique(id, fields);
+    const idx = ALL_DATA.findIndex(b => b.id === id);
+    if(idx >= 0) ALL_DATA[idx] = { ...ALL_DATA[idx], ...fields };
+    applySearch();
+    closeModal();
+    showToast('✅ Boutique mise à jour');
+  } catch(e) {
+    showToast('Erreur: ' + e.message, true);
+  }
+}
+
+// ── TOAST ──
+function showToast(msg, error = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (error ? ' error' : '');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Fermer modal en cliquant dehors
+document.getElementById('modalOverlay').addEventListener('click', e => {
+  if(e.target === e.currentTarget) closeModal();
+});
+
+// Init
+document.addEventListener('DOMContentLoaded', loadData);
+</script>
+</body>
+</html>

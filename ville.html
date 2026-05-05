@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ville — City & Light</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+:root{--gold:#d2af5a;--gold-light:#e2bf6a;--gold-dim:rgba(210,175,90,0.2);--bg:#080808;--bg2:#0b0b09;--text:#f0e8d8;--text2:#ede5d5;--muted:#8a8070;--muted2:#5a5040;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text2);}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:8px 40px;background:rgba(8,8,8,0.97);border-bottom:0.5px solid var(--gold-dim);backdrop-filter:blur(10px);}
+.nav-logo img{height:55px;width:auto;display:block;}
+.nav-links{display:flex;gap:22px;}
+.nav-links a{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c8bca8;transition:color .3s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-right{display:flex;gap:8px;align-items:center;}
+.btn-ghost{font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;border:0.5px solid var(--gold-dim);color:var(--gold);background:transparent;cursor:pointer;font-family:'Montserrat',sans-serif;}
+.btn-gold{font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;border:none;color:#000;background:var(--gold);cursor:pointer;font-family:'Montserrat',sans-serif;}
+.lang-menu{position:relative;}
+.lang-btn{font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:7px 12px;border:0.5px solid rgba(210,175,90,0.2);color:var(--gold);background:transparent;cursor:pointer;font-family:'Montserrat',sans-serif;}
+.lang-drop{display:none;position:absolute;right:0;top:100%;background:#0f0f0d;border:0.5px solid rgba(210,175,90,0.2);min-width:150px;z-index:200;margin-top:4px;}
+.lang-drop.open{display:flex;flex-direction:column;}
+.lang-drop button{padding:9px 14px;font-size:11px;color:var(--text2);background:transparent;border:none;cursor:pointer;text-align:left;border-bottom:0.5px solid rgba(210,175,90,0.06);}
+.lang-drop button:hover{background:rgba(210,175,90,0.06);color:var(--gold);}
+
+/* HERO VILLE */
+.v-hero{margin-top:74px;position:relative;height:480px;overflow:hidden;}
+.v-hero-img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
+.v-hero:hover .v-hero-img{transform:scale(1.03);}
+.v-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,.85) 0%,rgba(8,8,8,.2) 50%,transparent 100%);}
+.v-hero-info{position:absolute;bottom:0;left:0;right:0;padding:32px 40px;}
+.v-breadcrumb{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(210,175,90,.6);margin-bottom:8px;}
+.v-breadcrumb a{color:rgba(210,175,90,.6);transition:color .2s;}
+.v-breadcrumb a:hover{color:var(--gold);}
+.v-city-name{font-family:'Playfair Display',serif;font-size:clamp(36px,6vw,72px);color:var(--text);line-height:1;margin-bottom:6px;}
+.v-city-country{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:rgba(240,232,216,.7);margin-bottom:14px;}
+.v-tags{display:flex;gap:8px;flex-wrap:wrap;}
+.v-tag{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border:0.5px solid rgba(210,175,90,.3);color:rgba(210,175,90,.7);}
+
+/* BANDEAU BOUTIQUES CITY & LIGHT */
+.v-boutiques-strip{background:#0a0a08;border-bottom:0.5px solid rgba(210,175,90,.1);padding:12px 0;overflow:hidden;}
+.v-strip-inner{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:0 40px;}
+.v-strip-inner::-webkit-scrollbar{display:none;}
+.v-strip-card{flex-shrink:0;width:120px;cursor:pointer;border:1px solid transparent;transition:all .2s;}
+.v-strip-card:hover{border-color:var(--gold);transform:translateY(-2px);}
+.v-strip-card img{width:120px;height:85px;object-fit:cover;display:block;}
+.v-strip-name{font-size:8px;color:var(--muted);padding:5px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#0d0d0b;}
+.v-strip-cat{font-size:7px;color:var(--muted2);padding:0 4px 5px;background:#0d0d0b;}
+
+/* FILTRES BOUTIQUES */
+.v-filters{padding:20px 40px;background:var(--bg2);border-bottom:0.5px solid rgba(210,175,90,.08);display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.v-filter-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);}
+
+/* Toggle City & Light */
+.cal-toggle{display:flex;align-items:center;gap:10px;cursor:pointer;padding:8px 16px;border:0.5px solid rgba(210,175,90,.3);transition:all .2s;}
+.cal-toggle:hover{border-color:var(--gold);background:rgba(210,175,90,.04);}
+.cal-toggle.active{border-color:var(--gold);background:rgba(210,175,90,.1);}
+.cal-toggle input{display:none;}
+.cal-toggle-box{width:16px;height:16px;border:1px solid rgba(210,175,90,.5);position:relative;flex-shrink:0;transition:background .2s;}
+.cal-toggle.active .cal-toggle-box{background:var(--gold);}
+.cal-toggle.active .cal-toggle-box::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#000;font-weight:bold;}
+.cal-toggle-star{font-size:12px;color:var(--gold);}
+.cal-toggle-text{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);}
+
+/* Filtre catégorie */
+.cat-filter{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:7px 14px;border:0.5px solid rgba(210,175,90,.2);color:var(--muted);background:transparent;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;}
+.cat-filter.on,.cat-filter:hover{border-color:var(--gold);color:var(--gold);}
+
+/* STATS */
+.v-stats{padding:10px 40px;background:var(--bg2);border-bottom:0.5px solid rgba(210,175,90,.06);display:flex;gap:24px;align-items:center;}
+.v-stat{font-size:9px;color:var(--muted);}
+.v-stat span{color:var(--gold);font-weight:500;}
+
+/* CONTENU VILLE */
+.v-content{display:grid;grid-template-columns:1.6fr 1fr;}
+.v-main{padding:36px 40px;}
+.v-sec-title{font-family:'Playfair Display',serif;font-size:19px;color:var(--text);margin-bottom:14px;}
+.v-sec-title em{font-style:italic;color:var(--gold);}
+.v-desc{font-size:11px;color:var(--muted);line-height:1.8;margin-bottom:24px;}
+.v-quartiers{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.v-quartier{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border:0.5px solid rgba(210,175,90,.2);color:var(--muted);}
+.v-sidebar{padding:32px 28px;background:var(--bg2);border-left:0.5px solid rgba(210,175,90,.08);}
+.v-info-ttl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.v-row{display:flex;gap:8px;padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,.04);}
+.v-key{color:var(--muted2);min-width:80px;font-size:7px;letter-spacing:1.5px;text-transform:uppercase;padding-top:2px;flex-shrink:0;}
+.v-val{color:#b8ac98;flex:1;font-size:10px;line-height:1.5;}
+#v-map{width:100%;height:180px;margin-top:14px;border:0.5px solid rgba(210,175,90,.12);}
+.v-btn-g{display:block;width:100%;padding:10px;background:var(--gold);border:none;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--bg);cursor:pointer;font-family:'Montserrat',sans-serif;text-align:center;text-decoration:none;margin-top:14px;}
+.v-btn-g:hover{background:var(--gold-light);}
+.v-btn-o{display:block;width:100%;padding:10px;background:transparent;border:0.5px solid rgba(210,175,90,.28);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);cursor:pointer;font-family:'Montserrat',sans-serif;text-align:center;margin-top:8px;}
+
+/* ══ GRILLE BOUTIQUES ══ */
+.v-boutiques-section{padding:36px 40px;border-top:0.5px solid rgba(210,175,90,.08);}
+.v-boutiques-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:20px;}
+
+/* ── NIVEAU 1 — City & Light (avec photos) ── */
+.v-bout-card{border:0.5px solid rgba(210,175,90,.2);cursor:pointer;transition:all .25s;position:relative;}
+.v-bout-card:hover{border-color:rgba(210,175,90,.6);transform:translateY(-2px);}
+.v-bout-card.level1{border-color:rgba(210,175,90,.25);}
+.v-bout-photo{width:100%;height:180px;object-fit:cover;display:block;}
+.v-bout-info{padding:12px;background:#0d0d0b;}
+.v-bout-cat{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.v-bout-name{font-family:'Playfair Display',serif;font-size:16px;color:var(--text);font-style:italic;margin-bottom:3px;}
+.v-bout-addr{font-size:9px;color:var(--muted2);}
+
+/* Badge City & Light */
+.badge-cal{position:absolute;top:10px;right:10px;background:rgba(8,8,8,.85);border:0.5px solid var(--gold);padding:3px 8px;font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:4px;}
+
+/* ── NIVEAU 2 — World Boutique Explorer (sans photos) ── */
+.v-bout-card.level2{border-color:rgba(255,255,255,.06);background:#0a0a08;}
+.v-bout-card.level2:hover{border-color:rgba(210,175,90,.2);}
+.v-bout-level2-inner{padding:16px;display:flex;gap:14px;align-items:flex-start;}
+.v-bout-icon{width:48px;height:48px;border:0.5px solid rgba(210,175,90,.15);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;background:#111;}
+.v-bout-level2-info{flex:1;min-width:0;}
+.v-bout-level2-name{font-family:'Playfair Display',serif;font-size:14px;color:var(--text);font-style:italic;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.v-bout-level2-cat{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.v-bout-level2-addr{font-size:9px;color:var(--muted2);margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.v-bout-level2-note{font-size:9px;color:var(--muted);}
+.v-bout-level2-note span{color:#d4a017;}
+.v-bout-level2-foot{padding:8px 16px;border-top:0.5px solid rgba(255,255,255,.04);display:flex;justify-content:space-between;align-items:center;}
+.v-bout-level2-badge{font-size:7px;letter-spacing:1px;text-transform:uppercase;color:var(--muted2);}
+.v-bout-gmaps{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);padding:5px 10px;border:0.5px solid rgba(210,175,90,.3);transition:all .2s;}
+.v-bout-gmaps:hover{background:rgba(210,175,90,.08);}
+
+/* Séparateur entre niveaux */
+.v-level-sep{grid-column:1/-1;padding:16px 0 8px;display:flex;align-items:center;gap:14px;}
+.v-level-sep-line{flex:1;height:0.5px;background:rgba(210,175,90,.1);}
+.v-level-sep-text{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);white-space:nowrap;}
+
+/* VILLES SIMILAIRES */
+.v-similar{padding:32px 40px;border-top:0.5px solid rgba(210,175,90,.08);}
+.v-similar-grid{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;margin-top:16px;}
+.v-similar-grid::-webkit-scrollbar{display:none;}
+.v-sim-card{flex-shrink:0;width:200px;cursor:pointer;border:0.5px solid rgba(210,175,90,.1);transition:all .25s;}
+.v-sim-card:hover{border-color:rgba(210,175,90,.4);transform:translateY(-2px);}
+.v-sim-photo{width:100%;height:130px;object-fit:cover;display:block;}
+.v-sim-info{padding:10px;background:#0d0d0b;}
+.v-sim-region{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:3px;}
+.v-sim-name{font-family:'Playfair Display',serif;font-size:15px;color:var(--text);font-style:italic;}
+
+/* LOADING / ERREUR */
+.v-loading,.v-error{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:70vh;gap:14px;margin-top:74px;}
+.v-loading p{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--muted);letter-spacing:2px;}
+
+footer{border-top:0.5px solid rgba(210,175,90,.1);padding:18px 40px;display:flex;justify-content:space-between;align-items:center;}
+.footer-brand{font-family:'Playfair Display',serif;font-size:11px;letter-spacing:3px;color:var(--muted2);text-transform:uppercase;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:8px 16px;}
+  .nav-links{display:none;}
+  .v-hero{height:260px;}
+  .v-city-name{font-size:32px;}
+  .v-content{grid-template-columns:1fr !important;}
+  .v-sidebar{border-left:none;border-top:0.5px solid rgba(210,175,90,.1);}
+  .v-main{padding:20px 16px;}
+  .v-boutiques-section{padding:20px 16px;}
+  .v-boutiques-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+  .v-filters{padding:14px 16px;}
+  .v-stats{padding:8px 16px;}
+  .v-similar{padding:20px 16px;}
+  #v-map{height:160px;}
+  footer{flex-direction:column;gap:8px;padding:16px;text-align:center;}
+}
+@media(max-width:480px){
+  .v-boutiques-grid{grid-template-columns:1fr;}
+  .v-city-name{font-size:24px;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo"><img src="logo.jpg" alt="City and Light" onerror="this.style.display='none'"></a>
+  <div class="nav-links">
+    <a href="index.html">Accueil</a>
+    <a href="villes.html">Toutes les villes</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-menu">
+      <button class="lang-btn" onclick="this.nextElementSibling.classList.toggle('open')"><span id="currentLang">FR</span> ▾</button>
+      <div class="lang-drop">
+        <button onclick="setLang('fr')">🇫🇷 Français</button>
+        <button onclick="setLang('en')">🇬🇧 English</button>
+        <button onclick="setLang('es')">🇪🇸 Español</button>
+        <button onclick="setLang('it')">🇮🇹 Italiano</button>
+        <button onclick="setLang('ja')">🇯🇵 日本語</button>
+        <button onclick="setLang('ar')">🇸🇦 العربية</button>
+        <button onclick="setLang('zh')">🇨🇳 中文</button>
+      </div>
+    </div>
+    <button class="btn-ghost">Se connecter</button>
+    <a href="inscription.html" class="btn-gold" style="text-decoration:none;display:inline-block;">Ma boutique</a>
+  </div>
+</nav>
+
+<div id="pageContent"><div class="v-loading"><p>Chargement...</p></div></div>
+
+<footer>
+  <div class="footer-brand">City & Light — World Boutique Explorer</div>
+  <a href="villes.html" style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);">← Toutes les villes</a>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="supabase.js"></script>
+<script>
+const VILLES = [
+  {"id":"paris","name":"Paris","country":"France","region":"europe","lat":48.8566,"lon":2.3522,"desc":"Capitale mondiale de la mode et du luxe, Paris abrite les maisons les plus prestigieuses et les boutiques les plus iconiques du monde.","photo":"https://static.wixstatic.com/media/631e74_6212fb2a514d42c5b9222ee482cc1f5b~mv2.jpg","extra_photos":[],"quartiers":["Champs-Élysées","Marais","Saint-Germain","Montmartre"]},
+  {"id":"londres","name":"Londres","country":"UK","region":"europe","lat":51.5074,"lon":-0.1278,"desc":"Londres est une métropole unique qui mêle tradition royale et avant-garde créative.","photo":"https://static.wixstatic.com/media/631e74_1cd1d0d4339e499ca5170614889ff684~mv2.jpg","extra_photos":[],"quartiers":["Jermyn Street","Mayfair","Covent Garden","Shoreditch"]},
+  {"id":"milan","name":"Milan","country":"Italie","region":"europe","lat":45.4642,"lon":9.19,"desc":"Milan est la capitale mondiale du design et de la mode italienne.","photo":"https://static.wixstatic.com/media/631e74_7e9297adf6dc4fe6ba75c075831b0d35~mv2.jpg","extra_photos":[],"quartiers":["Quadrilatero","Brera","Navigli","Porta Nuova"]},
+  {"id":"venise","name":"Venise","country":"Italie","region":"europe","lat":45.4408,"lon":12.3155,"desc":"Venise est une ville unique au monde où l'artisanat millénaire se perpétue.","photo":"https://static.wixstatic.com/media/631e74_f23e0cc9ee314da5b758bbe2e2fc7bd2~mv2.jpg","extra_photos":[],"quartiers":["San Marco","Dorsoduro","Murano","Cannaregio"]},
+  {"id":"barcelone","name":"Barcelone","country":"Espagne","region":"europe","lat":41.3851,"lon":2.1734,"desc":"Barcelone vibre au rythme de sa créativité catalane.","photo":"https://static.wixstatic.com/media/631e74_e7b3c56d6fc34d2ead175276b613ec9a~mv2.jpg","extra_photos":[],"quartiers":["Barri Gòtic","Eixample","Born","Gràcia"]},
+  {"id":"marrakech","name":"Marrakech","country":"Maroc","region":"afrique","lat":31.6295,"lon":-7.9811,"desc":"Marrakech est un labyrinthe de couleurs et d'artisanat.","photo":"https://static.wixstatic.com/media/631e74_41840788dbe2482a933a2425de61b37a~mv2.jpg","extra_photos":[],"quartiers":["Médina","Guéliz","Mellah","Palmeraie"]},
+  {"id":"new-york","name":"New York","country":"USA","region":"ameriques","lat":40.7128,"lon":-74.006,"desc":"New York est la ville qui ne dort jamais et qui ose tout.","photo":"https://static.wixstatic.com/media/631e74_6c85edd4da244dcf8096782504cdb023~mv2.jpg","extra_photos":[],"quartiers":["SoHo","Chelsea","5th Avenue","Brooklyn"]},
+  {"id":"miami","name":"Miami","country":"USA","region":"ameriques","lat":25.7617,"lon":-80.1918,"desc":"Miami brille sous le soleil de Floride avec son style flamboyant.","photo":"https://static.wixstatic.com/media/631e74_41b94f3d2f4045cc976ddab9e2cc4c46~mv2.jpg","extra_photos":[],"quartiers":["South Beach","Wynwood","Design District","Brickell"]},
+  {"id":"tokyo","name":"Tokyo","country":"Japon","region":"asie","lat":35.6762,"lon":139.6503,"desc":"Tokyo est la capitale mondiale de la mode underground et du vintage de luxe.","photo":"https://static.wixstatic.com/media/631e74_a9b1f6a31d5749f8aeaf04e4dda68f17~mv2.jpg","extra_photos":[],"quartiers":["Shibuya","Harajuku","Omotesando","Ginza","Meguro"]},
+  {"id":"sydney","name":"Sydney","country":"Australie","region":"oceanie","lat":-33.8688,"lon":151.2093,"desc":"Sydney est la porte d'entrée de la créativité australienne.","photo":"https://static.wixstatic.com/media/631e74_fb37e4169ddd48beafb030891c4726cb~mv2.jpg","extra_photos":[],"quartiers":["The Rocks","CBD","Surry Hills","Paddington"]},
+  {"id":"cannes","name":"Cannes","country":"France","region":"europe","lat":43.5516,"lon":7.0174,"desc":"Cannes, ville du cinéma et du glamour méditerranéen.","photo":"https://static.wixstatic.com/media/631e74_f69fec4671d1491492b52b19d854f3e6~mv2.webp","extra_photos":[],"quartiers":["La Croisette","Rue d'Antibes","Le Suquet","Palm Beach"]},
+  {"id":"saint-tropez","name":"Saint-Tropez","country":"France","region":"europe","lat":43.2727,"lon":6.6407,"desc":"Saint-Tropez incarne le luxe décontracté de la Côte d'Azur.","photo":"https://static.wixstatic.com/media/631e74_15b94620e8134b39a565e09fa0c6e54e~mv2.jpg","extra_photos":[],"quartiers":["Le Port","La Ponche","La Citadelle","Les Salins"]}
+];
+const VILLES_IDX = {};
+VILLES.forEach(v => VILLES_IDX[v.id] = v);
+
+// État du filtre
+let STATE = { calOnly: false, cat: 'all' };
+let ALL_BOUTS = [];
+let VILLE_CURRENT = null;
+
+function getId(){ return new URLSearchParams(window.location.search).get('id'); }
+
+let lang = localStorage.getItem('cal_lang') || 'fr';
+function setLang(l){ lang=l; localStorage.setItem('cal_lang',l); document.getElementById('currentLang').textContent=l.toUpperCase(); document.querySelectorAll('.lang-drop').forEach(d=>d.classList.remove('open')); }
+document.addEventListener('DOMContentLoaded', () => { const el=document.getElementById('currentLang'); if(el) el.textContent=lang.toUpperCase(); });
+document.addEventListener('click', e => { if(!e.target.closest('.lang-menu')) document.querySelectorAll('.lang-drop').forEach(d=>d.classList.remove('open')); });
+
+// ── TOGGLE CITY & LIGHT ──
+function toggleCAL() {
+  STATE.calOnly = !STATE.calOnly;
+  const toggle = document.getElementById('calToggle');
+  if(toggle) toggle.classList.toggle('active', STATE.calOnly);
+  renderBoutiquesGrid();
+}
+
+// ── FILTRE CATÉGORIE ──
+function filterCat(cat, el) {
+  STATE.cat = cat;
+  document.querySelectorAll('.cat-filter').forEach(b => b.classList.remove('on'));
+  if(el) el.classList.add('on');
+  renderBoutiquesGrid();
+}
+
+// ── RENDER GRILLE BOUTIQUES ──
+function renderBoutiquesGrid() {
+  const grid = document.getElementById('boutiquesGrid');
+  if(!grid) return;
+
+  // Filtrer
+  let bouts = ALL_BOUTS.filter(b => {
+    if(STATE.calOnly && !b.isPublished) return false;
+    if(STATE.cat !== 'all' && !b.category.toLowerCase().includes(STATE.cat.toLowerCase())) return false;
+    return true;
+  });
+
+  // Séparer niveaux
+  const level1 = bouts.filter(b => b.isPublished);
+  const level2 = bouts.filter(b => !b.isPublished);
+
+  // Stats
+  const statsEl = document.getElementById('boutiqueStats');
+  if(statsEl) {
+    statsEl.innerHTML = `
+      <span class="v-stat">✦ <span>${level1.length}</span> sélection City & Light</span>
+      <span class="v-stat">· <span>${level2.length}</span> boutiques répertoriées</span>
+      <span class="v-stat">· <span>${bouts.length}</span> au total</span>
+    `;
+  }
+
+  let html = '';
+
+  // ── Niveau 1 — City & Light ──
+  if(level1.length > 0) {
+    level1.forEach(b => {
+      const photo = (b.photos||[])[0] || b.main_photo || '';
+      const addr = formatAddr(b.address);
+      html += `
+      <a class="v-bout-card level1" href="boutique.html?id=${b.id}">
+        <div class="badge-cal">✦ City & Light</div>
+        <img class="v-bout-photo" src="${photo}" alt="${b.name}" loading="lazy" onerror="this.style.display='none'">
+        <div class="v-bout-info">
+          <div class="v-bout-cat">${b.category}</div>
+          <div class="v-bout-name">${b.name}</div>
+          <div class="v-bout-addr">${addr}</div>
+        </div>
+      </a>`;
+    });
+  }
+
+  // ── Séparateur ──
+  if(level1.length > 0 && level2.length > 0 && !STATE.calOnly) {
+    html += `
+    <div class="v-level-sep">
+      <div class="v-level-sep-line"></div>
+      <div class="v-level-sep-text">World Boutique Explorer — ${level2.length} boutiques répertoriées</div>
+      <div class="v-level-sep-line"></div>
+    </div>`;
+  }
+
+  // ── Niveau 2 — World Boutique Explorer ──
+  if(!STATE.calOnly && level2.length > 0) {
+    level2.forEach(b => {
+      const addr = formatAddr(b.address);
+      const gmaps = b.googleMapsUrl || ('https://maps.google.com?q=' + encodeURIComponent(b.name + ' ' + addr));
+      html += `
+      <div class="v-bout-card level2">
+        <div class="v-bout-level2-inner">
+          <div class="v-bout-icon">${b.icon || '🏪'}</div>
+          <div class="v-bout-level2-info">
+            <div class="v-bout-level2-cat">${b.category}</div>
+            <div class="v-bout-level2-name">${b.name}</div>
+            <div class="v-bout-level2-addr">${addr}</div>
+            ${b.hours ? `<div class="v-bout-level2-note" style="margin-top:3px;font-size:8px;color:var(--muted2)">⏰ ${b.hours.split('|')[0]}</div>` : ''}
+          </div>
+        </div>
+        <div class="v-bout-level2-foot">
+          <span class="v-bout-level2-badge">Répertoriée</span>
+          <a href="${gmaps}" target="_blank" class="v-bout-gmaps" onclick="event.stopPropagation()">Voir sur Maps →</a>
+        </div>
+      </div>`;
+    });
+  }
+
+  if(bouts.length === 0) {
+    html = '<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--muted);font-size:11px;">Aucune boutique pour ce filtre</div>';
+  }
+
+  grid.innerHTML = html;
+}
+
+function formatAddr(addr) {
+  if(!addr) return '';
+  try {
+    const obj = typeof addr === 'string' ? JSON.parse(addr) : addr;
+    return obj.formatted || obj.streetAddress?.name + ' ' + (obj.streetAddress?.number||'') || addr;
+  } catch(e) {
+    return addr;
+  }
+}
+
+// ── RENDER COMPLET ──
+function render(v, bouts) {
+  ALL_BOUTS = bouts;
+  VILLE_CURRENT = v;
+
+  const published = bouts.filter(b => b.isPublished);
+
+  // Bandeau strip (City & Light uniquement)
+  const stripCards = published.slice(0,12).map(b => {
+    const photo = (b.photos||[])[0] || b.main_photo || '';
+    return `<a class="v-strip-card" href="boutique.html?id=${b.id}"><img src="${photo}" loading="lazy" alt="${b.name}" onerror="this.style.display='none'"><div class="v-strip-name">${b.name}</div><div class="v-strip-cat">${b.category}</div></a>`;
+  }).join('');
+
+  // Catégories uniques pour le filtre
+  const cats = [...new Set(bouts.map(b => {
+    const c = b.category || '';
+    return c.split('/')[0].trim();
+  }))].filter(Boolean).slice(0, 8);
+
+  const catFilters = cats.map(c =>
+    `<button class="cat-filter" onclick="filterCat('${c}', this)">${c}</button>`
+  ).join('');
+
+  const quartiersHtml = (v.quartiers||[]).map(q => `<span class="v-quartier">${q}</span>`).join('');
+  const similarVilles = VILLES.filter(x => x.id !== v.id && x.region === v.region).slice(0,6);
+  const simHtml = similarVilles.map(s =>
+    `<a class="v-sim-card" href="ville.html?id=${s.id}"><img class="v-sim-photo" src="${s.photo}" loading="lazy" alt="${s.name}"><div class="v-sim-info"><div class="v-sim-region">${s.country}</div><div class="v-sim-name">${s.name}</div></div></a>`
+  ).join('');
+
+  document.getElementById('pageContent').innerHTML = `
+    <div class="v-hero">
+      <img class="v-hero-img" src="${v.photo}" alt="${v.name}">
+      <div class="v-hero-overlay"></div>
+      <div class="v-hero-info">
+        <div class="v-breadcrumb"><a href="villes.html">Villes</a> · ${v.country}</div>
+        <div class="v-city-name">${v.name}</div>
+        <div class="v-city-country">${v.country}</div>
+        <div class="v-tags">${(v.quartiers||[]).slice(0,3).map(q=>`<span class="v-tag">${q}</span>`).join('')}</div>
+      </div>
+    </div>
+
+    ${stripCards ? `<div class="v-boutiques-strip"><div class="v-strip-inner">${stripCards}</div></div>` : ''}
+
+    <div class="v-filters">
+      <span class="v-filter-label">Filtrer</span>
+      <label class="cal-toggle" id="calToggle" onclick="toggleCAL()">
+        <div class="cal-toggle-box"></div>
+        <span class="cal-toggle-star">✦</span>
+        <span class="cal-toggle-text">Sélection City & Light</span>
+      </label>
+      <button class="cat-filter on" onclick="filterCat('all', this)">Toutes catégories</button>
+      ${catFilters}
+    </div>
+
+    <div class="v-stats" id="boutiqueStats"></div>
+
+    <div class="v-content">
+      <div class="v-main">
+        <h2 class="v-sec-title">À propos de <em>${v.name}</em></h2>
+        <p class="v-desc">${v.desc}</p>
+        ${quartiersHtml ? `<div class="v-sec-title" style="font-size:14px;margin-bottom:10px;">Quartiers <em>incontournables</em></div><div class="v-quartiers">${quartiersHtml}</div>` : ''}
+      </div>
+      <div class="v-sidebar">
+        <div class="v-info-ttl">Informations</div>
+        <div class="v-row"><span class="v-key">Ville</span><span class="v-val">${v.name}</span></div>
+        <div class="v-row"><span class="v-key">Pays</span><span class="v-val">${v.country}</span></div>
+        <div class="v-row"><span class="v-key">✦ City & Light</span><span class="v-val" style="color:var(--gold)">${published.length} boutiques sélectionnées</span></div>
+        <div class="v-row"><span class="v-key">Répertoriées</span><span class="v-val">${bouts.length - published.length} boutiques</span></div>
+        <div id="v-map"></div>
+        <a href="https://maps.google.com?q=${encodeURIComponent(v.name)}" target="_blank" class="v-btn-g">Voir sur Google Maps</a>
+        <button class="v-btn-o" onclick="location.href='villes.html'">← Toutes les villes</button>
+      </div>
+    </div>
+
+    <div class="v-boutiques-section">
+      <h2 class="v-sec-title">Boutiques à <em>${v.name}</em></h2>
+      <div class="v-boutiques-grid" id="boutiquesGrid"></div>
+    </div>
+
+    ${simHtml ? `<div class="v-similar"><h2 class="v-sec-title">Autres villes <em>${v.region}</em></h2><div class="v-similar-grid">${simHtml}</div></div>` : ''}
+  `;
+
+  // Rendre la grille
+  renderBoutiquesGrid();
+
+  // Carte Leaflet
+  if(v.lat && v.lon){
+    setTimeout(() => {
+      const map = L.map('v-map', {center:[v.lat,v.lon],zoom:13,zoomControl:true,scrollWheelZoom:false});
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OSM'}).addTo(map);
+      published.forEach(b => {
+        if(!b.lat||!b.lon) return;
+        const icon = L.divIcon({className:'',html:'<div style="width:14px;height:14px;border-radius:50% 50% 50% 0;background:#d2af5a;transform:rotate(-45deg);box-shadow:0 2px 6px rgba(210,175,90,.5);"><div style="position:absolute;top:3px;left:3px;width:8px;height:8px;border-radius:50%;background:#080808;"></div></div>',iconSize:[14,14],iconAnchor:[7,14]});
+        L.marker([b.lat,b.lon],{icon}).addTo(map).bindPopup(`<b>${b.name}</b><br><small>${b.category}</small>`);
+      });
+      map.invalidateSize();
+    }, 300);
+  }
+
+  document.title = v.name + ' — City & Light';
+}
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', async () => {
+  const id = getId();
+  const v  = id && VILLES_IDX[id];
+  if(!v) {
+    document.getElementById('pageContent').innerHTML = '<div class="v-error"><p style="font-family:Playfair Display,serif;font-size:20px;color:var(--text)">Ville introuvable</p><a href="villes.html" style="margin-top:16px;padding:12px 24px;background:var(--gold);color:var(--bg);font-size:8px;letter-spacing:2px;text-transform:uppercase;font-family:Montserrat,sans-serif;">Voir toutes les villes</a></div>';
+    return;
+  }
+
+  try {
+    const bouts = await loadBoutiquesByCity(v.name);
+    // Normaliser les photos
+    bouts.forEach(b => {
+      if(!b.photos || b.photos.length === 0) {
+        b.photos = b.main_photo ? [b.main_photo] : [];
+      }
+    });
+    render(v, bouts);
+  } catch(e) {
+    console.error('Erreur chargement boutiques:', e);
+    render(v, []);
+  }
+});
+</script>
+</body>
+</html>
