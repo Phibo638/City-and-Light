@@ -271,12 +271,17 @@ async function loadBoutiquesByCity(city) {
       order:  'status.desc,name.asc',
       limit:  '500'
     });
-    // Fusionner avec les boutiques locales publiées pour cette ville
-    const local = DB.filter(b => b.city === city && b.status === 'published');
-    const supaIds = new Set(data.map(b => b.id));
+    // Boutiques locales City & Light (priorité absolue — avec photos)
+    const localPublished = DB.filter(b => b.city === city && b.status === 'published');
+    const localIds = new Set(localPublished.map(b => b.id));
+
+    // Boutiques Supabase — exclure celles déjà dans le local published
+    const supaFiltered = data.filter(b => !localIds.has(b.id));
+
+    // Ordre : City & Light en premier, puis les répertoriées Supabase
     const merged = [
-      ...data.map(normalise),
-      ...local.filter(b => !supaIds.has(b.id)).map(normalise)
+      ...localPublished.map(normalise),
+      ...supaFiltered.map(normalise)
     ];
     return merged;
   } catch(e) {
@@ -340,3 +345,4 @@ async function loadAllBoutiquesAdmin(page = 0, pageSize = 50, filters = {}) {
     return [];
   }
 }
+
