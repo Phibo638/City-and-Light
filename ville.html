@@ -285,12 +285,12 @@ function renderBoutiquesGrid() {
   // ── Niveau 1 — City & Light ──
   if(level1.length > 0) {
     level1.forEach(b => {
-      const photo = (b.photos||[])[0] || b.main_photo || '';
+      const photo = b.main_photo || (b.photos&&b.photos[0]) || '';
       const addr = formatAddr(b.address);
       html += `
       <a class="v-bout-card level1" href="boutique.html?id=${b.id}">
         <div class="badge-cal">✦ City & Light</div>
-        <img class="v-bout-photo" src="${photo}" alt="${b.name}" loading="lazy" onerror="this.style.display='none'">
+        <img class="v-bout-photo" src="${photo}" alt="${b.name}" onerror="this.style.background='#111'">
         <div class="v-bout-info">
           <div class="v-bout-cat">${b.category}</div>
           <div class="v-bout-name">${b.name}</div>
@@ -360,8 +360,8 @@ function render(v, bouts) {
 
   // Bandeau strip (City & Light uniquement)
   const stripCards = published.slice(0,12).map(b => {
-    const photo = (b.photos||[])[0] || b.main_photo || '';
-    return `<a class="v-strip-card" href="boutique.html?id=${b.id}"><img src="${photo}" loading="lazy" alt="${b.name}" onerror="this.style.display='none'"><div class="v-strip-name">${b.name}</div><div class="v-strip-cat">${b.category}</div></a>`;
+    const photo = b.main_photo || (b.photos&&b.photos[0]) || '';
+    return `<a class="v-strip-card" href="boutique.html?id=${b.id}"><img src="${photo}" alt="${b.name}" onerror="this.style.background='#111'"><div class="v-strip-name">${b.name}</div><div class="v-strip-cat">${b.category}</div></a>`;
   }).join('');
 
   // Catégories uniques pour le filtre
@@ -479,3 +479,4 @@ document.addEventListener('DOMContentLoaded', async () => {
 </script>
 </body>
 </html>
+
